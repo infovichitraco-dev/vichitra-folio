@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vichitra Co. — The Folio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #1a1410;
+  --cream: #f5f0e8;
+  --warm: #e8dcc8;
+  --gold: #c9a96e;
+  --gold-light: #e8c98a;
+  --muted: #8a7a68;
+  --accent: #7c4a2d;
+  --white: #faf8f4;
+  --overlay-bg: rgba(26,20,16,0.96);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html, body {
+  width:100%; height:100%;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  overflow: hidden;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:1000; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 36px;
+  background: linear-gradient(to bottom, rgba(26,20,16,0.95) 0%, transparent 100%);
+}
+
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-logo img { height: 28px; width: auto; opacity: 0.9; }
+.nav-logo-wordmark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px; letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.nav-right {
+  display: flex; align-items: center; gap: 16px;
+}
+
+.breadcrumb {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.14em;
+  color: var(--muted); text-transform: uppercase;
+  display: flex; align-items: center; gap: 6px;
+}
+.breadcrumb .sep { color: var(--gold); opacity: 0.5; }
+
+.back-btn {
+  background: none; border: 1px solid rgba(201,169,110,0.3);
+  color: var(--gold); font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 7px 14px; cursor: pointer;
+  transition: all 0.25s; display: none;
+  border-radius: 2px;
+}
+.back-btn:hover { background: rgba(201,169,110,0.1); border-color: var(--gold); }
+
+/* ── SCREENS ── */
+.screen {
+  position: fixed; inset: 0;
+  overflow-y: auto; overflow-x: hidden;
+  opacity: 0; pointer-events: none;
+  transform: translateY(40px);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+  will-change: transform, opacity;
+}
+.screen.active {
+  opacity: 1; pointer-events: all;
+  transform: translateY(0);
+}
+.screen.exit-up {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.screen.exit-down {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* ── BACKGROUND CANVAS ── */
+#bgCanvas {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none;
+}
+
+/* ── HOME ── */
+#home {
+  z-index: 10;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh;
+}
+.home-inner {
+  position: relative; z-index: 2;
+  padding: 80px 60px 60px;
+  max-width: 680px; width: 100%;
+}
+.home-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px;
+  animation: fadeUp 0.8s 0.2s both;
+}
+.home-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 10vw, 120px);
+  letter-spacing: 0.06em; line-height: 0.9;
+  color: var(--cream);
+  margin-bottom: 48px;
+  animation: fadeUp 0.8s 0.35s both;
+}
+.home-title span { color: var(--gold); }
+
+.menu-list { display: flex; flex-direction: column; gap: 2px; }
+
+.menu-item {
+  border-top: 1px solid rgba(201,169,110,0.15);
+  cursor: pointer;
+  animation: fadeUp 0.7s var(--d, 0.5s) both;
+  transition: background 0.2s;
+}
+.menu-item:last-child { border-bottom: 1px solid rgba(201,169,110,0.15); }
+.menu-item:hover { background: rgba(201,169,110,0.04); }
+
+.menu-item-inner {
+  display: grid;
+  grid-template-columns: 36px 1fr auto 24px;
+  align-items: center; gap: 20px;
+  padding: 20px 12px;
+}
+.menu-item-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.1em;
+  color: var(--gold); opacity: 0.6;
+}
+.menu-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 300;
+  color: var(--cream); letter-spacing: 0.04em;
+}
+.menu-item-desc {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.1em;
+  color: var(--muted); text-transform: uppercase;
+  text-align: right;
+}
+.menu-arrow {
+  color: var(--gold); font-size: 16px;
+  transition: transform 0.2s;
+}
+.menu-item:hover .menu-arrow { transform: translateX(4px); }
+
+/* ── SECTION COMMON ── */
+.section-inner {
+  padding: 100px 60px 80px;
+  max-width: 900px; margin: 0 auto;
+  min-height: 100vh;
+}
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+  animation: fadeUp 0.7s 0.1s both;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 7vw, 80px);
+  letter-spacing: 0.06em; line-height: 1;
+  color: var(--cream); margin-bottom: 48px;
+  animation: fadeUp 0.7s 0.2s both;
+}
+.divider {
+  width: 48px; height: 1px;
+  background: var(--gold); opacity: 0.4;
+  margin-bottom: 40px;
+  animation: scaleX 0.6s 0.3s both;
+  transform-origin: left;
+}
+
+/* ── PRASTAVANA ── */
+#prastavana { z-index: 10; }
+.pras-text {
+  font-size: 17px; font-weight: 300; line-height: 1.9;
+  color: var(--warm); max-width: 640px;
+  animation: fadeUp 0.7s 0.35s both;
+  white-space: pre-wrap;
+}
+.pras-headline {
+  font-size: clamp(28px, 4vw, 42px); font-weight: 300;
+  font-style: italic; color: var(--cream);
+  line-height: 1.3; margin-bottom: 24px;
+  animation: fadeUp 0.7s 0.25s both;
+}
+.pras-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 32px;
+  animation: fadeUp 0.7s 0.3s both;
+}
+.pras-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px; margin-top: 56px;
+}
+.pras-media-item {
+  position: relative; overflow: hidden;
+  border-radius: 2px;
+  animation: fadeUp 0.7s calc(0.4s + var(--i,0) * 0.1s) both;
+}
+.pras-media-item img,
+.pras-media-item video {
+  width: 100%; height: 200px;
+  object-fit: cover; display: block;
+  transition: transform 0.5s ease;
+}
+.pras-media-item:hover img,
+.pras-media-item:hover video { transform: scale(1.04); }
+
+/* ── PROJECT TYPES ── */
+#project-types, #pt-detail { z-index: 10; }
+.pt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.pt-card {
+  background: rgba(245,240,232,0.04);
+  border: 1px solid rgba(201,169,110,0.15);
+  border-radius: 2px; overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s;
+  animation: fadeUp 0.6s calc(0.3s + var(--i,0) * 0.08s) both;
+}
+.pt-card:hover {
+  border-color: rgba(201,169,110,0.4);
+  transform: translateY(-4px);
+}
+.pt-card-cover {
+  width: 100%; height: 180px;
+  object-fit: cover; display: block;
+  background: rgba(201,169,110,0.05);
+}
+.pt-card-cover-placeholder {
+  width: 100%; height: 180px;
+  background: linear-gradient(135deg, rgba(201,169,110,0.08), rgba(124,74,45,0.08));
+  display: flex; align-items: center; justify-content: center;
+}
+.pt-card-body { padding: 20px; }
+.pt-card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.pt-card-name {
+  font-size: 20px; font-weight: 400; color: var(--cream);
+  margin-bottom: 10px; line-height: 1.3;
+}
+.pt-card-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.7;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── PT DETAIL ── */
+.pt-detail-header { margin-bottom: 40px; }
+.pt-detail-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px;
+  animation: fadeUp 0.6s 0.1s both;
+}
+.pt-detail-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 70px); letter-spacing: 0.05em;
+  color: var(--cream); margin-bottom: 20px;
+  animation: fadeUp 0.6s 0.2s both;
+}
+.pt-detail-desc {
+  font-size: 16px; font-weight: 300; line-height: 1.85;
+  color: var(--warm); max-width: 620px;
+  animation: fadeUp 0.6s 0.3s both;
+}
+.pt-links-row {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-top: 28px;
+  animation: fadeUp 0.6s 0.35s both;
+}
+.pt-link-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  border: 1px solid rgba(201,169,110,0.35);
+  color: var(--gold); text-decoration: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  border-radius: 2px;
+  transition: all 0.25s;
+}
+.pt-link-btn:hover { background: rgba(201,169,110,0.1); border-color: var(--gold); }
+.pt-link-btn.pdf { color: var(--accent); border-color: rgba(124,74,45,0.4); }
+.pt-link-btn.pdf:hover { background: rgba(124,74,45,0.1); border-color: var(--accent); }
+
+.pt-detail-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; margin-top: 48px;
+}
+.pt-detail-media-item {
+  overflow: hidden; border-radius: 2px;
+  animation: fadeUp 0.6s calc(0.4s + var(--i,0) * 0.07s) both;
+}
+.pt-detail-media-item img,
+.pt-detail-media-item video {
+  width: 100%; height: 220px;
+  object-fit: cover; display: block;
+  transition: transform 0.5s;
+}
+.pt-detail-media-item:hover img,
+.pt-detail-media-item:hover video { transform: scale(1.03); }
+
+/* ── INDUSTRIES ── */
+#industries { z-index: 10; }
+.industry-list { display: flex; flex-direction: column; gap: 0; }
+
+.industry-item {
+  border-top: 1px solid rgba(201,169,110,0.15);
+  animation: fadeUp 0.6s calc(0.3s + var(--i,0) * 0.07s) both;
+}
+.industry-item:last-child { border-bottom: 1px solid rgba(201,169,110,0.15); }
+
+.industry-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 12px; cursor: pointer;
+  transition: background 0.2s;
+}
+.industry-header:hover { background: rgba(201,169,110,0.04); }
+
+.industry-name {
+  font-size: 20px; font-weight: 300;
+  color: var(--cream); letter-spacing: 0.04em;
+}
+.industry-toggle {
+  width: 24px; height: 24px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 18px;
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.industry-item.open .industry-toggle { transform: rotate(45deg); }
+
+.industry-bullets {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
+  padding: 0 12px;
+}
+.industry-item.open .industry-bullets {
+  max-height: 600px;
+  padding: 0 12px 24px;
+}
+.industry-bullet {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(201,169,110,0.08);
+}
+.industry-bullet:first-child { border-top: none; }
+.industry-bullet-dot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--gold); opacity: 0.6;
+  margin-top: 9px; flex-shrink: 0;
+}
+.industry-bullet-text {
+  font-size: 15px; color: var(--warm); line-height: 1.7;
+}
+
+/* ── INTERIOR PORTFOLIO ── */
+#interior { z-index: 10; }
+.interior-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.interior-card {
+  background: rgba(245,240,232,0.03);
+  border: 1px solid rgba(201,169,110,0.12);
+  border-radius: 2px; overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s;
+  animation: fadeUp 0.6s calc(0.3s + var(--i,0) * 0.08s) both;
+}
+.interior-card:hover {
+  border-color: rgba(201,169,110,0.38);
+  transform: translateY(-4px);
+}
+.interior-card-cover {
+  position: relative; overflow: hidden;
+  height: 200px;
+}
+.interior-card-cover img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.6s ease;
+}
+.interior-card:hover .interior-card-cover img { transform: scale(1.05); }
+.interior-card-cover-placeholder {
+  width: 100%; height: 200px;
+  background: linear-gradient(135deg, rgba(201,169,110,0.07), rgba(26,20,16,0.5));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; opacity: 0.4;
+}
+.interior-card-info { padding: 18px 20px; }
+.interior-card-name {
+  font-size: 18px; font-weight: 400; color: var(--cream);
+  margin-bottom: 6px;
+}
+.interior-card-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.65;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── INTERIOR DETAIL ── */
+#int-detail { z-index: 10; }
+.int-detail-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 72px); letter-spacing: 0.05em;
+  color: var(--cream); margin-bottom: 16px;
+  animation: fadeUp 0.6s 0.15s both;
+}
+.int-detail-desc {
+  font-size: 16px; font-weight: 300; line-height: 1.85;
+  color: var(--warm); max-width: 600px; margin-bottom: 48px;
+  animation: fadeUp 0.6s 0.25s both;
+}
+
+/* ── SCATTERED MEDIA ── */
+.media-scatter {
+  position: relative;
+  min-height: 600px;
+}
+.scatter-item {
+  position: relative;
+  display: inline-block;
+  margin: 0 8px 16px;
+  overflow: hidden;
+  border-radius: 2px;
+  cursor: zoom-in;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: fadeUp 0.6s calc(0.3s + var(--i,0) * 0.07s) both;
+}
+.scatter-item:hover {
+  transform: scale(1.03) rotate(0deg) !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.7);
+  z-index: 10;
+}
+.scatter-item img,
+.scatter-item video {
+  display: block;
+  max-height: 320px;
+  width: auto;
+  max-width: 100%;
+}
+.scatter-caption {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 20px 14px 14px;
+  background: linear-gradient(to top, rgba(26,20,16,0.9) 0%, transparent 100%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.scatter-item:hover .scatter-caption { opacity: 1; }
+.scatter-caption-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 3px;
+}
+.scatter-caption-desc {
+  font-size: 12px; color: var(--warm); line-height: 1.5;
+}
+
+.scatter-wrap {
+  display: flex; flex-wrap: wrap;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+/* ── LIGHTBOX ── */
+#lightbox {
+  position: fixed; inset: 0; z-index: 800;
+  background: rgba(26,20,16,0.97);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+#lightbox.open { opacity: 1; pointer-events: all; }
+#lightbox img, #lightbox video {
+  max-width: 90vw; max-height: 90vh;
+  object-fit: contain; border-radius: 2px;
+}
+.lightbox-close {
+  position: fixed; top: 24px; right: 32px;
+  background: none; border: none; cursor: pointer;
+  color: var(--cream); font-size: 28px; line-height: 1;
+  opacity: 0.7; transition: opacity 0.2s;
+}
+.lightbox-close:hover { opacity: 1; }
+
+/* ── LOADING ── */
+.loading-msg {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); padding: 60px 0;
+  text-align: center;
+}
+.loading-dots::after {
+  content: ''; animation: dots 1.2s infinite;
+}
+@keyframes dots {
+  0% { content: '.'; }
+  33% { content: '..'; }
+  66% { content: '...'; }
+}
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--ink);
+  border: 1px solid rgba(201,169,110,0.3);
+  color: var(--cream); padding: 12px 24px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+  border-radius: 2px; z-index: 900;
+  opacity: 0; transition: all 0.3s;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+#toast.show {
+  opacity: 1; transform: translateX(-50%) translateY(0);
+}
+#toast.error { border-color: rgba(200,80,60,0.4); color: #e07060; }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes scaleX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  padding: 60px 0; text-align: center;
+}
+.empty-state-title {
+  font-size: 20px; font-weight: 300; color: var(--muted);
+  margin-bottom: 8px;
+}
+.empty-state-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 0.14em;
+  color: var(--muted); opacity: 0.6;
+  text-transform: uppercase;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 640px) {
+  nav { padding: 16px 20px; }
+  .home-inner { padding: 80px 24px 60px; }
+  .menu-item-desc { display: none; }
+  .menu-item-inner { grid-template-columns: 30px 1fr 24px; }
+  .section-inner { padding: 90px 24px 60px; }
+  .pt-grid, .interior-grid { grid-template-columns: 1fr; }
+  .pras-media-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="goHome()">
+    <div class="nav-logo-wordmark">VICHITRA</div>
+  </div>
+  <div class="nav-right">
+    <div class="breadcrumb" id="breadcrumb"></div>
+    <button class="back-btn" id="backBtn" onclick="goBack()">&#8592; Back</button>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="screen active" id="home">
+  <div class="home-inner">
+    <div class="home-eyebrow">Selected Works &amp; Services</div>
+    <div class="home-title">The <span>Folio</span></div>
+    <div class="menu-list">
+      <div class="menu-item" style="--d:0.55s" onclick="navigate('prastavana')">
+        <div class="menu-item-inner">
+          <span class="menu-item-num">01</span>
+          <span class="menu-item-name">The Prastavana</span>
+          <span class="menu-item-desc">Who we are &amp; what we stand for</span>
+          <span class="menu-arrow">&#8594;</span>
+        </div>
+      </div>
+      <div class="menu-item" style="--d:0.7s" onclick="navigate('project-types')">
+        <div class="menu-item-inner">
+          <span class="menu-item-num">02</span>
+          <span class="menu-item-name">Type of Projects</span>
+          <span class="menu-item-desc">Unique work across industries</span>
+          <span class="menu-arrow">&#8594;</span>
+        </div>
+      </div>
+      <div class="menu-item" style="--d:0.85s" onclick="navigate('industries')">
+        <div class="menu-item-inner">
+          <span class="menu-item-num">03</span>
+          <span class="menu-item-name">Industries We Serve</span>
+          <span class="menu-item-desc">Sectors &amp; services we cover</span>
+          <span class="menu-arrow">&#8594;</span>
+        </div>
+      </div>
+      <div class="menu-item" style="--d:1.0s" onclick="navigate('interior')">
+        <div class="menu-item-inner">
+          <span class="menu-item-num">04</span>
+          <span class="menu-item-name">Interior Portfolio</span>
+          <span class="menu-item-desc">Spaces crafted with intention</span>
+          <span class="menu-arrow">&#8594;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRASTAVANA -->
+<div class="screen" id="prastavana">
+  <div class="section-inner">
+    <div class="section-eyebrow">01 — The Prastavana</div>
+    <div class="section-title">Who We Are</div>
+    <div class="divider"></div>
+    <div id="prasContent"><div class="loading-msg"><span class="loading-dots">Loading</span></div></div>
+  </div>
+</div>
+
+<!-- PROJECT TYPES -->
+<div class="screen" id="project-types">
+  <div class="section-inner">
+    <div class="section-eyebrow">02 — Type of Projects</div>
+    <div class="section-title">Our Work</div>
+    <div class="divider"></div>
+    <div class="pt-grid" id="ptGrid"><div class="loading-msg"><span class="loading-dots">Loading</span></div></div>
+  </div>
+</div>
+
+<!-- PT DETAIL -->
+<div class="screen" id="pt-detail">
+  <div class="section-inner">
+    <div id="ptDetailContent"></div>
+  </div>
+</div>
+
+<!-- INDUSTRIES -->
+<div class="screen" id="industries">
+  <div class="section-inner">
+    <div class="section-eyebrow">03 — Industries We Serve</div>
+    <div class="section-title">Sectors</div>
+    <div class="divider"></div>
+    <div class="industry-list" id="industryList"><div class="loading-msg"><span class="loading-dots">Loading</span></div></div>
+  </div>
+</div>
+
+<!-- INTERIOR -->
+<div class="screen" id="interior">
+  <div class="section-inner">
+    <div class="section-eyebrow">04 — Interior Portfolio</div>
+    <div class="section-title">Projects</div>
+    <div class="divider"></div>
+    <div class="interior-grid" id="interiorGrid"><div class="loading-msg"><span class="loading-dots">Loading</span></div></div>
+  </div>
+</div>
+
+<!-- INT DETAIL -->
+<div class="screen" id="int-detail">
+  <div class="section-inner">
+    <div id="intDetailContent"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">&#x2715;</button>
+  <div id="lightboxMedia"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CONFIG — paste your Supabase credentials here
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const SUPABASE_URL = 'https://gnkzpoqbikxhutdpnqfm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_goqymDXz0qcXSkQo8F5oYA_r3PQ5I1I';
+
+// ── SUPABASE HELPER ──────────────────────────
+async function sb(path, opts = {}) {
+  try {
+    const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        ...opts.headers
+      },
+      ...opts
+    });
+    if (!res.ok) throw new Error('DB error ' + res.status);
+    const t = await res.text();
+    return t ? JSON.parse(t) : null;
+  } catch (e) {
+    throw e;
+  }
+}
+
+// ── BACKGROUND CANVAS ────────────────────────
+(function() {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let orbs = [];
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  function initOrbs() {
+    orbs = [];
+    const colors = ['#7c4a2d','#c9a96e','#4a3020','#8a6040','#3a2a18'];
+    for (let i = 0; i < 7; i++) {
+      orbs.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: 150 + Math.random() * 300,
+        color: colors[i % colors.length],
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        opacity: 0.04 + Math.random() * 0.07
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#1a1410';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    orbs.forEach(o => {
+      const grd = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+      grd.addColorStop(0, o.color + Math.round(o.opacity * 255).toString(16).padStart(2,'0'));
+      grd.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+      ctx.fillStyle = grd;
+      ctx.fill();
+      o.x += o.vx; o.y += o.vy;
+      if (o.x < -o.r) o.x = canvas.width + o.r;
+      if (o.x > canvas.width + o.r) o.x = -o.r;
+      if (o.y < -o.r) o.y = canvas.height + o.r;
+      if (o.y > canvas.height + o.r) o.y = -o.r;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initOrbs();
+  draw();
+  window.addEventListener('resize', () => { resize(); initOrbs(); });
+})();
+
+// ── NAVIGATION ───────────────────────────────
+const SCREENS = ['home','prastavana','project-types','pt-detail','industries','interior','int-detail'];
+let navHistory = ['home'];
+let cache = {};
+
+const breadcrumbMap = {
+  'home': [],
+  'prastavana': ['The Prastavana'],
+  'project-types': ['Type of Projects'],
+  'pt-detail': ['Type of Projects', ''],
+  'industries': ['Industries We Serve'],
+  'interior': ['Interior Portfolio'],
+  'int-detail': ['Interior Portfolio', '']
+};
+
+function updateNav(screenId, label) {
+  const crumbs = [...(breadcrumbMap[screenId] || [])];
+  if (label && crumbs.length > 0) crumbs[crumbs.length - 1] = label;
+  const bc = document.getElementById('breadcrumb');
+  bc.innerHTML = crumbs.map((c, i) =>
+    (i > 0 ? '<span class="sep">›</span>' : '') + `<span>${c}</span>`
+  ).join('');
+  document.getElementById('backBtn').style.display = navHistory.length > 1 ? 'block' : 'none';
+}
+
+function showScreen(id, dir, label) {
+  const cur = document.querySelector('.screen.active');
+  if (cur) {
+    cur.classList.add(dir === 'forward' ? 'exit-up' : 'exit-down');
+    setTimeout(() => cur.classList.remove('active','exit-up','exit-down'), 500);
+  }
+  const next = document.getElementById(id);
+  if (next) { next.classList.add('active'); next.scrollTop = 0; }
+  updateNav(id, label);
+}
+
+function navigate(screenId, label) {
+  navHistory.push(screenId);
+  showScreen(screenId, 'forward', label);
+  loadScreen(screenId);
+}
+
+function goBack() {
+  if (navHistory.length <= 1) return;
+  navHistory.pop();
+  const prev = navHistory[navHistory.length - 1];
+  showScreen(prev, 'backward');
+  if (prev === 'project-types') renderProjectTypes();
+  if (prev === 'interior') renderInterior();
+}
+
+function goHome() {
+  navHistory = ['home'];
+  showScreen('home', 'backward');
+}
+
+// ── LOAD SCREEN ──────────────────────────────
+async function loadScreen(id) {
+  try {
+    switch(id) {
+      case 'prastavana':
+        if (!cache.overview) {
+          cache.overview = await sb('overview?select=*,overview_media(*)&limit=1');
+        }
+        renderPrastavana();
+        break;
+      case 'project-types':
+        if (!cache.projectTypes) {
+          cache.projectTypes = await sb('project_types?select=*,project_type_media(*),project_type_links(*)&order=sort_order.asc');
+        }
+        renderProjectTypes();
+        break;
+      case 'industries':
+        if (!cache.industries) {
+          cache.industries = await sb('industries?select=*,industry_bullets(*)&order=sort_order.asc');
+        }
+        renderIndustries();
+        break;
+      case 'interior':
+        if (!cache.interior) {
+          cache.interior = await sb('interior_projects?select=*,interior_media(*)&order=created_at.asc');
+        }
+        renderInterior();
+        break;
+    }
+  } catch(e) {
+    console.error(e);
+    showToast('Something went wrong — our chai got too cold ☕', 'error');
+  }
+}
+
+// ── RENDER PRASTAVANA ────────────────────────
+function renderPrastavana() {
+  const el = document.getElementById('prasContent');
+  const d = cache.overview;
+  if (!d || !d.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-title">Coming soon</div><div class="empty-state-sub">Our story is being written</div></div>`;
+    return;
+  }
+  const ov = d[0];
+  const media = (ov.overview_media || []).sort((a,b) => a.sort_order - b.sort_order);
+  el.innerHTML = `
+    ${ov.headline ? `<div class="pras-headline">${ov.headline}</div>` : ''}
+    ${ov.subheadline ? `<div class="pras-sub">${ov.subheadline}</div>` : ''}
+    ${ov.body_text ? `<div class="pras-text">${ov.body_text}</div>` : ''}
+    ${media.length ? `
+      <div class="pras-media-grid">
+        ${media.map((m,i) => `
+          <div class="pras-media-item" style="--i:${i}" onclick="openLightbox('${m.url}','${m.type}')">
+            ${m.type === 'video'
+              ? `<video src="${m.url}" muted loop autoplay playsinline></video>`
+              : `<img src="${m.url}" alt="" loading="lazy"/>`}
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+
+// ── RENDER PROJECT TYPES ─────────────────────
+function renderProjectTypes() {
+  const el = document.getElementById('ptGrid');
+  const items = cache.projectTypes || [];
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-title">Projects coming soon</div><div class="empty-state-sub">Watch this space</div></div>`;
+    return;
+  }
+  el.innerHTML = items.map((p, i) => {
+    const cover = (p.project_type_media || []).find(m => m.sort_order === 0) || p.project_type_media?.[0];
+    return `
+      <div class="pt-card" style="--i:${i}" onclick="openProjectType(${p.id})">
+        ${cover
+          ? `<img class="pt-card-cover" src="${cover.url}" alt="${p.name}" loading="lazy"/>`
+          : `<div class="pt-card-cover-placeholder"></div>`}
+        <div class="pt-card-body">
+          ${p.industry_tag ? `<div class="pt-card-tag">${p.industry_tag}</div>` : ''}
+          <div class="pt-card-name">${p.name}</div>
+          ${p.description ? `<div class="pt-card-desc">${p.description}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openProjectType(id) {
+  const p = (cache.projectTypes || []).find(x => x.id == id);
+  if (!p) return;
+  const media = (p.project_type_media || []).sort((a,b) => a.sort_order - b.sort_order);
+  const links = p.project_type_links || [];
+  const pdfs = links.filter(l => l.type === 'pdf');
+  const hypers = links.filter(l => l.type === 'link');
+
+  document.getElementById('ptDetailContent').innerHTML = `
+    <div class="pt-detail-header">
+      ${p.industry_tag ? `<div class="pt-detail-tag">${p.industry_tag}</div>` : ''}
+      <div class="pt-detail-title">${p.name}</div>
+      ${p.description ? `<div class="pt-detail-desc">${p.description}</div>` : ''}
+      ${(pdfs.length || hypers.length) ? `
+        <div class="pt-links-row">
+          ${pdfs.map(l => `<a class="pt-link-btn pdf" href="${l.url}" target="_blank" rel="noopener">&#128196; ${l.label || 'View PDF'}</a>`).join('')}
+          ${hypers.map(l => `<a class="pt-link-btn" href="${l.url}" target="_blank" rel="noopener">&#8599; ${l.label || 'Visit Link'}</a>`).join('')}
+        </div>
+      ` : ''}
+    </div>
+    ${media.length ? `
+      <div class="pt-detail-media">
+        ${media.map((m,i) => `
+          <div class="pt-detail-media-item" style="--i:${i}" onclick="openLightbox('${m.url}','${m.type}')">
+            ${m.type === 'video'
+              ? `<video src="${m.url}" muted loop autoplay playsinline></video>`
+              : `<img src="${m.url}" alt="" loading="lazy"/>`}
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+  navigate('pt-detail', p.name);
+}
+
+// ── RENDER INDUSTRIES ────────────────────────
+function renderIndustries() {
+  const el = document.getElementById('industryList');
+  const items = cache.industries || [];
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-title">Industries coming soon</div><div class="empty-state-sub">Details being added</div></div>`;
+    return;
+  }
+  el.innerHTML = items.map((ind, i) => {
+    const bullets = (ind.industry_bullets || []).sort((a,b) => a.sort_order - b.sort_order);
+    return `
+      <div class="industry-item" style="--i:${i}" id="ind-${ind.id}">
+        <div class="industry-header" onclick="toggleIndustry('ind-${ind.id}')">
+          <span class="industry-name">${ind.name}</span>
+          <span class="industry-toggle">+</span>
+        </div>
+        <div class="industry-bullets">
+          ${bullets.map(b => `
+            <div class="industry-bullet">
+              <div class="industry-bullet-dot"></div>
+              <div class="industry-bullet-text">${b.text}</div>
+            </div>
+          `).join('')}
+          ${!bullets.length ? '<div class="industry-bullet-text" style="color:var(--muted);font-style:italic;padding:12px 0;">Details coming soon</div>' : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleIndustry(id) {
+  const item = document.getElementById(id);
+  if (!item) return;
+  item.classList.toggle('open');
+}
+
+// ── RENDER INTERIOR ──────────────────────────
+function renderInterior() {
+  const el = document.getElementById('interiorGrid');
+  const items = cache.interior || [];
+  if (!items.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-state-title">Portfolio coming soon</div><div class="empty-state-sub">Projects being added</div></div>`;
+    return;
+  }
+  el.innerHTML = items.map((p, i) => {
+    const cover = (p.interior_media || []).find(m => m.sort_order === 0) || p.interior_media?.[0];
+    return `
+      <div class="interior-card" style="--i:${i}" onclick="openInteriorProject(${p.id})">
+        <div class="interior-card-cover">
+          ${cover && cover.type === 'image'
+            ? `<img src="${cover.url}" alt="${p.name}" loading="lazy"/>`
+            : `<div class="interior-card-cover-placeholder">&#127968;</div>`}
+        </div>
+        <div class="interior-card-info">
+          <div class="interior-card-name">${p.name}</div>
+          ${p.description ? `<div class="interior-card-desc">${p.description}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openInteriorProject(id) {
+  const p = (cache.interior || []).find(x => x.id == id);
+  if (!p) return;
+  const media = (p.interior_media || []).sort((a,b) => a.sort_order - b.sort_order);
+
+  const rotations = [-2.5, 1.8, -1.2, 2.1, -0.8, 1.5, -2.0, 0.9, -1.7];
+
+  document.getElementById('intDetailContent').innerHTML = `
+    <div class="int-detail-title">${p.name}</div>
+    ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
+    ${media.length ? `
+      <div class="scatter-wrap">
+        ${media.map((m, i) => `
+          <div class="scatter-item" style="--i:${i}; transform: rotate(${rotations[i % rotations.length]}deg);"
+               onclick="openLightbox('${m.url}','${m.type}')">
+            ${m.type === 'video'
+              ? `<video src="${m.url}" muted loop autoplay playsinline style="max-height:320px;width:auto;max-width:100%"></video>`
+              : `<img src="${m.url}" alt="${m.title||''}" loading="lazy"/>`}
+            ${(m.title || m.description) ? `
+              <div class="scatter-caption">
+                ${m.title ? `<div class="scatter-caption-title">${m.title}</div>` : ''}
+                ${m.description ? `<div class="scatter-caption-desc">${m.description}</div>` : ''}
+              </div>
+            ` : ''}
+          </div>
+        `).join('')}
+      </div>
+    ` : `<div class="empty-state"><div class="empty-state-title">Media coming soon</div></div>`}
+  `;
+  navigate('int-detail', p.name);
+}
+
+// ── LIGHTBOX ─────────────────────────────────
+function openLightbox(url, type) {
+  const lb = document.getElementById('lightbox');
+  const media = document.getElementById('lightboxMedia');
+  media.innerHTML = type === 'video'
+    ? `<video src="${url}" controls autoplay style="max-width:90vw;max-height:90vh;"></video>`
+    : `<img src="${url}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;"/>`;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightboxMedia').innerHTML = '';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+
+// ── TOAST ────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `${type === 'error' ? 'error' : ''} show`;
+  setTimeout(() => { t.className = ''; }, 3500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vichitra Folio — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ink: #1a1410;
+  --ink2: #241c17;
+  --cream: #f5f0e8;
+  --warm: #e8dcc8;
+  --gold: #c9a96e;
+  --muted: #8a7a68;
+  --accent: #7c4a2d;
+  --danger: #c0402a;
+  --success: #5a8a5a;
+  --border: rgba(201,169,110,0.18);
+  --card: rgba(245,240,232,0.04);
+  --input-bg: rgba(245,240,232,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'Cormorant Garamond',Georgia,serif; }
+
+/* ── LOGIN ── */
+#loginScreen {
+  position:fixed; inset:0; z-index:999;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--ink);
+}
+.login-box {
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  padding: 48px 40px; width: 380px;
+  border-radius: 4px;
+}
+.login-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px; letter-spacing:0.14em;
+  color:var(--gold); margin-bottom:6px;
+}
+.login-sub {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:36px;
+}
+.login-label {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:8px; display:block;
+}
+.login-input {
+  width:100%; padding:12px 14px;
+  background:var(--input-bg); border:1px solid var(--border);
+  color:var(--cream); font-family:'DM Mono',monospace; font-size:13px;
+  border-radius:2px; outline:none; margin-bottom:20px;
+  transition:border-color 0.2s;
+}
+.login-input:focus { border-color:var(--gold); }
+.login-btn {
+  width:100%; padding:13px;
+  background:var(--gold); border:none; cursor:pointer;
+  font-family:'DM Mono',monospace; font-size:11px;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--ink); border-radius:2px; font-weight:700;
+  transition:background 0.2s;
+}
+.login-btn:hover { background:var(--gold-light,#e8c98a); }
+.login-error {
+  font-family:'DM Mono',monospace; font-size:10px;
+  color:#e07060; margin-top:12px; text-align:center; min-height:16px;
+}
+
+/* ── MAIN ADMIN ── */
+#adminMain { display:none; min-height:100vh; }
+
+/* ── NAV ── */
+.admin-nav {
+  position:sticky; top:0; z-index:200;
+  background:rgba(26,20,16,0.97);
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:60px;
+  backdrop-filter:blur(10px);
+}
+.admin-nav-logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px; letter-spacing:0.14em; color:var(--gold);
+}
+.admin-nav-logo span {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted); margin-left:12px;
+}
+
+.tab-row {
+  display:flex; gap:0;
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  background:var(--ink2);
+  overflow-x:auto;
+}
+.tab-btn {
+  padding:14px 24px;
+  background:none; border:none; cursor:pointer;
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); border-bottom:2px solid transparent;
+  transition:color 0.2s, border-color 0.2s;
+  white-space:nowrap;
+}
+.tab-btn:hover { color:var(--cream); }
+.tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+
+.tab-panel { display:none; padding:40px; }
+.tab-panel.active { display:block; }
+
+/* ── PANEL HEADER ── */
+.panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:32px;
+}
+.panel-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:36px; letter-spacing:0.06em; color:var(--cream);
+}
+.panel-sub {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); margin-top:4px;
+}
+
+/* ── BUTTONS ── */
+.btn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:10px 20px; border:none; cursor:pointer;
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.12em; text-transform:uppercase;
+  border-radius:2px; transition:all 0.2s;
+}
+.btn-gold { background:var(--gold); color:var(--ink); font-weight:700; }
+.btn-gold:hover { background:#d4b07a; }
+.btn-outline {
+  background:none; border:1px solid var(--border);
+  color:var(--gold);
+}
+.btn-outline:hover { background:rgba(201,169,110,0.1); border-color:var(--gold); }
+.btn-danger {
+  background:none; border:1px solid rgba(192,64,42,0.3);
+  color:var(--danger);
+}
+.btn-danger:hover { background:rgba(192,64,42,0.1); }
+.btn-sm { padding:7px 14px; font-size:9px; }
+.btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* ── FORM ── */
+.form-group { margin-bottom:20px; }
+.form-label {
+  display:block; margin-bottom:7px;
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted);
+}
+.form-input, .form-textarea, .form-select {
+  width:100%; padding:11px 14px;
+  background:var(--input-bg); border:1px solid var(--border);
+  color:var(--cream); font-family:'Cormorant Garamond',serif;
+  font-size:16px; border-radius:2px; outline:none;
+  transition:border-color 0.2s;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--gold); }
+.form-textarea { min-height:120px; resize:vertical; line-height:1.7; }
+.form-select { cursor:pointer; }
+.form-select option { background:var(--ink); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+/* ── CARD LIST ── */
+.card-list { display:flex; flex-direction:column; gap:16px; }
+.admin-card {
+  background:var(--card); border:1px solid var(--border);
+  border-radius:3px; padding:20px 24px;
+  display:grid; grid-template-columns:1fr auto;
+  gap:16px; align-items:start;
+}
+.admin-card-title {
+  font-size:18px; font-weight:400; color:var(--cream);
+  margin-bottom:4px;
+}
+.admin-card-meta {
+  font-family:'DM Mono',monospace;
+  font-size:9px; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--muted);
+}
+.admin-card-actions { display:flex; gap:8px; flex-shrink:0; }
+
+/* ── MEDIA ROW ── */
+.media-list { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.media-thumb {
+  position:relative; width:100px; height:80px;
+  overflow:hidden; border-radius:2px;
+  border:1px solid var(--border);
+  flex-shrink:0;
+}
+.media-thumb img, .media-thumb video {
+  width:100%; height:100%; object-fit:cover; display:block;
+}
+.media-thumb-del {
+  position:absolute; top:4px; right:4px;
+  background:rgba(26,20,16,0.85); border:none; cursor:pointer;
+  color:#e07060; font-size:14px; line-height:1;
+  width:22px; height:22px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transition:opacity 0.2s;
+}
+.media-thumb:hover .media-thumb-del { opacity:1; }
+
+/* ── UPLOAD ZONE ── */
+.upload-zone {
+  border:2px dashed var(--border); border-radius:3px;
+  padding:32px; text-align:center; cursor:pointer;
+  transition:border-color 0.2s, background 0.2s;
+  margin-top:12px;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color:var(--gold); background:rgba(201,169,110,0.04);
+}
+.upload-zone-text {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted);
+}
+.upload-zone input { display:none; }
+.upload-progress {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.12em; color:var(--gold); margin-top:8px;
+}
+
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:600;
+  background:rgba(26,20,16,0.92); display:none;
+  align-items:center; justify-content:center;
+  padding:20px;
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--ink2); border:1px solid var(--border);
+  border-radius:4px; width:100%; max-width:600px;
+  max-height:90vh; overflow-y:auto;
+  padding:36px 32px;
+  animation:fadeUp 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.modal-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px; letter-spacing:0.06em;
+  color:var(--cream); margin-bottom:4px;
+}
+.modal-sub {
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:28px;
+}
+.modal-footer {
+  display:flex; gap:12px; justify-content:flex-end;
+  margin-top:28px; padding-top:20px;
+  border-top:1px solid var(--border);
+}
+
+/* ── DIVIDER ── */
+.section-divider {
+  border:none; border-top:1px solid var(--border);
+  margin:28px 0;
+}
+
+/* ── BULLET LIST ── */
+.bullet-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.bullet-row {
+  display:flex; gap:8px; align-items:center;
+}
+.bullet-row .form-input { flex:1; }
+
+/* ── LINK LIST ── */
+.link-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+.link-row { display:grid; grid-template-columns:80px 1fr 1fr auto; gap:8px; align-items:center; }
+
+/* ── TOAST ── */
+#toast {
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--ink2); border:1px solid var(--border);
+  color:var(--cream); padding:11px 22px;
+  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;
+  border-radius:2px; z-index:900; opacity:0;
+  transition:all 0.3s; white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+}
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+#toast.error { border-color:rgba(192,64,42,0.4); color:#e07060; }
+#toast.success { border-color:rgba(90,138,90,0.4); color:#90c890; }
+
+/* ── MISC ── */
+.loading-msg {
+  font-family:'DM Mono',monospace; font-size:10px;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--muted); padding:40px 0; text-align:center;
+}
+.empty-state { padding:40px 0; text-align:center; color:var(--muted); }
+.tag-pill {
+  display:inline-block; padding:3px 10px;
+  background:rgba(201,169,110,0.1); border:1px solid var(--border);
+  font-family:'DM Mono',monospace; font-size:9px;
+  letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);
+  border-radius:2px;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@media (max-width:640px) {
+  .tab-panel { padding:24px 16px; }
+  .admin-nav { padding:0 20px; }
+  .form-row { grid-template-columns:1fr; }
+  .link-row { grid-template-columns:1fr 1fr; }
+  .panel-header { flex-direction:column; align-items:flex-start; gap:12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">VICHITRA</div>
+    <div class="login-sub">Folio Admin Panel</div>
+    <label class="login-label">Password</label>
+    <input class="login-input" type="password" id="pwInput" placeholder="Enter password"
+           onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" onclick="doLogin()">Enter</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ── ADMIN MAIN ── -->
+<div id="adminMain">
+  <nav class="admin-nav">
+    <div>
+      <span class="admin-nav-logo">VICHITRA</span>
+      <span>Admin</span>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <a href="index.html" target="_blank" class="btn btn-outline btn-sm">&#8599; View Folio</a>
+      <button class="btn btn-outline btn-sm" onclick="doLogout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('prastavana')">01 Prastavana</button>
+    <button class="tab-btn" onclick="switchTab('project-types')">02 Project Types</button>
+    <button class="tab-btn" onclick="switchTab('industries')">03 Industries</button>
+    <button class="tab-btn" onclick="switchTab('interior')">04 Interior</button>
+  </div>
+
+  <!-- ── TAB: PRASTAVANA ── -->
+  <div class="tab-panel active" id="tab-prastavana">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">The Prastavana</div>
+        <div class="panel-sub">Agency overview — text and media</div>
+      </div>
+      <button class="btn btn-gold" onclick="savePrastavana()">Save Changes</button>
+    </div>
+    <div id="prasForm">
+      <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+
+  <!-- ── TAB: PROJECT TYPES ── -->
+  <div class="tab-panel" id="tab-project-types">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Type of Projects</div>
+        <div class="panel-sub">Cards with media, PDFs and links</div>
+      </div>
+      <button class="btn btn-gold" onclick="openPTModal()">+ Add Project</button>
+    </div>
+    <div class="card-list" id="ptList">
+      <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+
+  <!-- ── TAB: INDUSTRIES ── -->
+  <div class="tab-panel" id="tab-industries">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Industries We Serve</div>
+        <div class="panel-sub">Expandable sectors with bullet points</div>
+      </div>
+      <button class="btn btn-gold" onclick="openIndModal()">+ Add Industry</button>
+    </div>
+    <div class="card-list" id="indList">
+      <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+
+  <!-- ── TAB: INTERIOR ── -->
+  <div class="tab-panel" id="tab-interior">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Interior Portfolio</div>
+        <div class="panel-sub">Project folders with scattered media</div>
+      </div>
+      <button class="btn btn-gold" onclick="openIntModal()">+ Add Project</button>
+    </div>
+    <div class="card-list" id="intList">
+      <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: PROJECT TYPE ── -->
+<div class="modal-overlay" id="ptModal">
+  <div class="modal">
+    <div class="modal-title" id="ptModalTitle">New Project</div>
+    <div class="modal-sub">Fill in details and upload media</div>
+    <input type="hidden" id="ptEditId"/>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Project Name *</label>
+        <input class="form-input" id="ptName" placeholder="e.g. DEM Oak Brochure"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Industry Tag</label>
+        <input class="form-input" id="ptTag" placeholder="e.g. Real Estate"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="ptDesc" placeholder="Brief about this project..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sort Order</label>
+      <input class="form-input" id="ptSort" type="number" value="0" style="max-width:100px"/>
+    </div>
+
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:10px;">Media</div>
+    <div class="media-list" id="ptMediaList"></div>
+    <div class="upload-zone" id="ptUploadZone" onclick="document.getElementById('ptFileInput').click()"
+         ondrop="handleDrop(event,'pt')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+      <div class="upload-zone-text">Click or drag files here<br/><small style="opacity:0.5">Images and videos</small></div>
+      <div class="upload-progress" id="ptUploadProgress"></div>
+      <input type="file" id="ptFileInput" multiple accept="image/*,video/*" onchange="handleFiles(event,'pt')"/>
+    </div>
+
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:10px;">Links &amp; PDFs</div>
+    <div class="link-list" id="ptLinkList"></div>
+    <button class="btn btn-outline btn-sm" onclick="addLinkRow('pt')" style="margin-top:10px;">+ Add Link</button>
+
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePTModal()">Cancel</button>
+      <button class="btn btn-gold" id="ptSaveBtn" onclick="savePT()">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: INDUSTRY ── -->
+<div class="modal-overlay" id="indModal">
+  <div class="modal">
+    <div class="modal-title" id="indModalTitle">New Industry</div>
+    <div class="modal-sub">Add sector and bullet points</div>
+    <input type="hidden" id="indEditId"/>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Industry Name *</label>
+        <input class="form-input" id="indName" placeholder="e.g. Real Estate"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Sort Order</label>
+        <input class="form-input" id="indSort" type="number" value="0" style="max-width:100px"/>
+      </div>
+    </div>
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:10px;">Bullet Points</div>
+    <div class="bullet-list" id="indBulletList"></div>
+    <button class="btn btn-outline btn-sm" onclick="addBulletRow()" style="margin-top:10px;">+ Add Point</button>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeIndModal()">Cancel</button>
+      <button class="btn btn-gold" id="indSaveBtn" onclick="saveInd()">Save Industry</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: INTERIOR ── -->
+<div class="modal-overlay" id="intModal">
+  <div class="modal">
+    <div class="modal-title" id="intModalTitle">New Interior Project</div>
+    <div class="modal-sub">Add project and upload media</div>
+    <input type="hidden" id="intEditId"/>
+    <div class="form-group">
+      <label class="form-label">Project Name *</label>
+      <input class="form-input" id="intName" placeholder="e.g. Kandivali 2BHK"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Description</label>
+      <textarea class="form-textarea" id="intDesc" placeholder="About this project..."></textarea>
+    </div>
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:10px;">Media (images and videos)</div>
+    <div class="media-list" id="intMediaList"></div>
+    <div class="upload-zone" id="intUploadZone" onclick="document.getElementById('intFileInput').click()"
+         ondrop="handleDrop(event,'int')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+      <div class="upload-zone-text">Click or drag files here</div>
+      <div class="upload-progress" id="intUploadProgress"></div>
+      <input type="file" id="intFileInput" multiple accept="image/*,video/*" onchange="handleFiles(event,'int')"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeIntModal()">Cancel</button>
+      <button class="btn btn-gold" id="intSaveBtn" onclick="saveInt()">Save Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast"></div>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CONFIG
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const SUPABASE_URL = 'https://gnkzpoqbikxhutdpnqfm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_goqymDXz0qcXSkQo8F5oYA_r3PQ5I1I';
+const CLOUDINARY_CLOUD = 'dhbfcwtgh';
+const CLOUDINARY_PRESET = 'vichitra';
+const ADMIN_PASSWORD = 'FolioVichitra3009';
+
+// ── LOGIN ──────────────────────────────────────
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    sessionStorage.setItem('vf_admin', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminMain').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('loginError').textContent = 'Wrong password — try again';
+    setTimeout(() => document.getElementById('loginError').textContent = '', 2500);
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem('vf_admin');
+  location.reload();
+}
+if (sessionStorage.getItem('vf_admin') === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminMain').style.display = 'block';
+}
+
+// ── SUPABASE ───────────────────────────────────
+async function db(path, opts = {}) {
+  const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation',
+      ...opts.headers
+    },
+    ...opts
+  });
+  if (!res.ok) {
+    const e = await res.text();
+    throw new Error(e || 'DB error ' + res.status);
+  }
+  const t = await res.text();
+  return t ? JSON.parse(t) : null;
+}
+
+// ── CLOUDINARY UPLOAD ──────────────────────────
+async function uploadFile(file, onProgress) {
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_PRESET);
+  const type = file.type.startsWith('video') ? 'video' : 'image';
+  const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/${type}/upload`;
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.upload.onprogress = e => {
+      if (e.lengthComputable && onProgress) onProgress(Math.round(e.loaded/e.total*100));
+    };
+    xhr.onload = () => {
+      try {
+        const r = JSON.parse(xhr.responseText);
+        if (r.secure_url) resolve({ url: r.secure_url, type });
+        else reject(new Error('Upload failed'));
+      } catch { reject(new Error('Parse error')); }
+    };
+    xhr.onerror = () => reject(new Error('Network error'));
+    xhr.send(fd);
+  });
+}
+
+// ── TABS ───────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const idx = ['prastavana','project-types','industries','interior'].indexOf(name);
+  if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── INIT ───────────────────────────────────────
+function initAdmin() {
+  loadPrastavana();
+  loadPTList();
+  loadIndList();
+  loadIntList();
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// PRASTAVANA
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let prasId = null;
+let prasMedia = [];
+
+async function loadPrastavana() {
+  try {
+    const data = await db('overview?select=*,overview_media(*)&limit=1');
+    const el = document.getElementById('prasForm');
+    const ov = data && data[0] ? data[0] : {};
+    prasId = ov.id || null;
+    prasMedia = (ov.overview_media || []).sort((a,b) => a.sort_order - b.sort_order);
+    renderPrasForm(ov);
+  } catch(e) {
+    document.getElementById('prasForm').innerHTML = `<div class="loading-msg">Error loading — ${e.message}</div>`;
+  }
+}
+
+function renderPrasForm(ov) {
+  document.getElementById('prasForm').innerHTML = `
+    <div class="form-group">
+      <label class="form-label">Headline</label>
+      <input class="form-input" id="prasHeadline" value="${ov.headline || ''}" placeholder="e.g. We make brands feel real"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Subheadline</label>
+      <input class="form-input" id="prasSub" value="${ov.subheadline || ''}" placeholder="e.g. Mumbai based creative studio"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Body Text</label>
+      <textarea class="form-textarea" id="prasBody" style="min-height:180px;" placeholder="Agency story, values, team intro...">${ov.body_text || ''}</textarea>
+    </div>
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:10px;">Media</div>
+    <div class="media-list" id="prasMediaList"></div>
+    <div class="upload-zone" onclick="document.getElementById('prasFileInput').click()"
+         ondrop="handleDrop(event,'pras')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+      <div class="upload-zone-text">Click or drag files here</div>
+      <div class="upload-progress" id="prasUploadProgress"></div>
+      <input type="file" id="prasFileInput" multiple accept="image/*,video/*" onchange="handleFiles(event,'pras')"/>
+    </div>
+  `;
+  renderPrasMediaList();
+}
+
+function renderPrasMediaList() {
+  const el = document.getElementById('prasMediaList');
+  if (!el) return;
+  el.innerHTML = prasMedia.map((m,i) => `
+    <div class="media-thumb">
+      ${m.type === 'video'
+        ? `<video src="${m.url}" muted></video>`
+        : `<img src="${m.url}" alt=""/>`}
+      <button class="media-thumb-del" onclick="deletePrasMedia('${m.id}')">&#x2715;</button>
+    </div>
+  `).join('');
+}
+
+async function deletePrasMedia(id) {
+  try {
+    await db(`overview_media?id=eq.${id}`, { method:'DELETE' });
+    prasMedia = prasMedia.filter(m => m.id !== id);
+    renderPrasMediaList();
+    toast('Media removed', 'success');
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function savePrastavana() {
+  const payload = {
+    headline: document.getElementById('prasHeadline')?.value || '',
+    subheadline: document.getElementById('prasSub')?.value || '',
+    body_text: document.getElementById('prasBody')?.value || '',
+    updated_at: new Date().toISOString()
+  };
+  try {
+    if (prasId) {
+      await db(`overview?id=eq.${prasId}`, { method:'PATCH', body:JSON.stringify(payload) });
+    } else {
+      const r = await db('overview', { method:'POST', body:JSON.stringify(payload) });
+      prasId = r[0].id;
+    }
+    toast('Prastavana saved!', 'success');
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// PROJECT TYPES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let ptItems = [];
+let ptEditMedia = [];
+let ptEditLinks = [];
+
+async function loadPTList() {
+  try {
+    ptItems = await db('project_types?select=*,project_type_media(*),project_type_links(*)&order=sort_order.asc') || [];
+    renderPTList();
+  } catch(e) {
+    document.getElementById('ptList').innerHTML = `<div class="loading-msg">Error: ${e.message}</div>`;
+  }
+}
+
+function renderPTList() {
+  const el = document.getElementById('ptList');
+  if (!ptItems.length) { el.innerHTML = `<div class="empty-state">No projects yet. Add one above.</div>`; return; }
+  el.innerHTML = ptItems.map(p => `
+    <div class="admin-card">
+      <div>
+        <div class="admin-card-title">${p.name}</div>
+        <div class="admin-card-meta">
+          ${p.industry_tag ? `<span class="tag-pill">${p.industry_tag}</span>&nbsp;` : ''}
+          ${(p.project_type_media||[]).length} media &nbsp;|&nbsp; ${(p.project_type_links||[]).length} links
+        </div>
+      </div>
+      <div class="admin-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="editPT('${p.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePT('${p.id}','${p.name}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openPTModal(id) {
+  ptEditMedia = []; ptEditLinks = [];
+  document.getElementById('ptEditId').value = '';
+  document.getElementById('ptModalTitle').textContent = 'New Project';
+  document.getElementById('ptName').value = '';
+  document.getElementById('ptTag').value = '';
+  document.getElementById('ptDesc').value = '';
+  document.getElementById('ptSort').value = ptItems.length;
+  document.getElementById('ptMediaList').innerHTML = '';
+  document.getElementById('ptLinkList').innerHTML = '';
+  document.getElementById('ptUploadProgress').textContent = '';
+  document.getElementById('ptModal').classList.add('open');
+}
+
+function editPT(id) {
+  const p = ptItems.find(x => x.id == id);
+  if (!p) return;
+  ptEditMedia = (p.project_type_media || []).map(m => ({...m}));
+  ptEditLinks = (p.project_type_links || []).map(l => ({...l}));
+  document.getElementById('ptEditId').value = p.id;
+  document.getElementById('ptModalTitle').textContent = 'Edit Project';
+  document.getElementById('ptName').value = p.name || '';
+  document.getElementById('ptTag').value = p.industry_tag || '';
+  document.getElementById('ptDesc').value = p.description || '';
+  document.getElementById('ptSort').value = p.sort_order || 0;
+  document.getElementById('ptUploadProgress').textContent = '';
+  renderPTModalMedia();
+  renderPTModalLinks();
+  document.getElementById('ptModal').classList.add('open');
+}
+
+function closePTModal() { document.getElementById('ptModal').classList.remove('open'); }
+
+function renderPTModalMedia() {
+  document.getElementById('ptMediaList').innerHTML = ptEditMedia.map((m,i) => `
+    <div class="media-thumb">
+      ${m.type === 'video' ? `<video src="${m.url}" muted></video>` : `<img src="${m.url}" alt=""/>`}
+      <button class="media-thumb-del" onclick="removePTMedia(${i})">&#x2715;</button>
+    </div>
+  `).join('');
+}
+function removePTMedia(i) { ptEditMedia.splice(i,1); renderPTModalMedia(); }
+
+function renderPTModalLinks() {
+  document.getElementById('ptLinkList').innerHTML = ptEditLinks.map((l,i) => `
+    <div class="link-row">
+      <select class="form-select" onchange="ptEditLinks[${i}].type=this.value">
+        <option value="link" ${l.type==='link'?'selected':''}>Link</option>
+        <option value="pdf" ${l.type==='pdf'?'selected':''}>PDF</option>
+      </select>
+      <input class="form-input" value="${l.label||''}" placeholder="Label" oninput="ptEditLinks[${i}].label=this.value"/>
+      <input class="form-input" value="${l.url||''}" placeholder="URL" oninput="ptEditLinks[${i}].url=this.value"/>
+      <button class="btn btn-danger btn-sm" onclick="removePTLink(${i})">&#x2715;</button>
+    </div>
+  `).join('');
+}
+function addLinkRow(prefix) {
+  if (prefix === 'pt') {
+    ptEditLinks.push({ type:'link', label:'', url:'' });
+    renderPTModalLinks();
+  }
+}
+function removePTLink(i) { ptEditLinks.splice(i,1); renderPTModalLinks(); }
+
+async function savePT() {
+  const name = document.getElementById('ptName').value.trim();
+  if (!name) { toast('Project name is required', 'error'); return; }
+  const editId = document.getElementById('ptEditId').value;
+  const btn = document.getElementById('ptSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const payload = {
+      name,
+      industry_tag: document.getElementById('ptTag').value.trim() || null,
+      description: document.getElementById('ptDesc').value.trim() || null,
+      sort_order: parseInt(document.getElementById('ptSort').value) || 0
+    };
+    let projectId;
+    if (editId) {
+      await db(`project_types?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+      projectId = editId;
+      // Clear old media and links, re-insert
+      await db(`project_type_media?project_type_id=eq.${projectId}`, { method:'DELETE' });
+      await db(`project_type_links?project_type_id=eq.${projectId}`, { method:'DELETE' });
+    } else {
+      const r = await db('project_types', { method:'POST', body:JSON.stringify(payload) });
+      projectId = r[0].id;
+    }
+    // Insert media
+    if (ptEditMedia.length) {
+      const mediaPayload = ptEditMedia.map((m,i) => ({
+        project_type_id: projectId,
+        type: m.type, url: m.url, sort_order: i
+      }));
+      await db('project_type_media', { method:'POST', body:JSON.stringify(mediaPayload) });
+    }
+    // Insert links
+    if (ptEditLinks.length) {
+      const validLinks = ptEditLinks.filter(l => l.url.trim());
+      if (validLinks.length) {
+        await db('project_type_links', { method:'POST', body:JSON.stringify(
+          validLinks.map(l => ({ project_type_id: projectId, type: l.type, label: l.label, url: l.url }))
+        )});
+      }
+    }
+    toast(editId ? 'Project updated!' : 'Project added!', 'success');
+    closePTModal();
+    await loadPTList();
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Project';
+  }
+}
+
+async function deletePT(id, name) {
+  if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+  try {
+    await db(`project_types?id=eq.${id}`, { method:'DELETE' });
+    toast('Deleted', 'success');
+    await loadPTList();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// INDUSTRIES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let indItems = [];
+let indEditBullets = [];
+
+async function loadIndList() {
+  try {
+    indItems = await db('industries?select=*,industry_bullets(*)&order=sort_order.asc') || [];
+    renderIndList();
+  } catch(e) {
+    document.getElementById('indList').innerHTML = `<div class="loading-msg">Error: ${e.message}</div>`;
+  }
+}
+
+function renderIndList() {
+  const el = document.getElementById('indList');
+  if (!indItems.length) { el.innerHTML = `<div class="empty-state">No industries yet.</div>`; return; }
+  el.innerHTML = indItems.map(ind => `
+    <div class="admin-card">
+      <div>
+        <div class="admin-card-title">${ind.name}</div>
+        <div class="admin-card-meta">${(ind.industry_bullets||[]).length} bullet points</div>
+      </div>
+      <div class="admin-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="editInd('${ind.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteInd('${ind.id}','${ind.name}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openIndModal() {
+  indEditBullets = [];
+  document.getElementById('indEditId').value = '';
+  document.getElementById('indModalTitle').textContent = 'New Industry';
+  document.getElementById('indName').value = '';
+  document.getElementById('indSort').value = indItems.length;
+  document.getElementById('indBulletList').innerHTML = '';
+  document.getElementById('indModal').classList.add('open');
+}
+
+function editInd(id) {
+  const ind = indItems.find(x => x.id == id);
+  if (!ind) return;
+  indEditBullets = (ind.industry_bullets || []).sort((a,b) => a.sort_order - b.sort_order).map(b => ({...b}));
+  document.getElementById('indEditId').value = ind.id;
+  document.getElementById('indModalTitle').textContent = 'Edit Industry';
+  document.getElementById('indName').value = ind.name || '';
+  document.getElementById('indSort').value = ind.sort_order || 0;
+  renderIndBullets();
+  document.getElementById('indModal').classList.add('open');
+}
+
+function closeIndModal() { document.getElementById('indModal').classList.remove('open'); }
+
+function renderIndBullets() {
+  document.getElementById('indBulletList').innerHTML = indEditBullets.map((b,i) => `
+    <div class="bullet-row">
+      <input class="form-input" value="${b.text||''}" placeholder="Bullet point text..." oninput="indEditBullets[${i}].text=this.value"/>
+      <button class="btn btn-danger btn-sm" onclick="removeIndBullet(${i})">&#x2715;</button>
+    </div>
+  `).join('');
+}
+function addBulletRow() { indEditBullets.push({ text:'' }); renderIndBullets(); }
+function removeIndBullet(i) { indEditBullets.splice(i,1); renderIndBullets(); }
+
+async function saveInd() {
+  const name = document.getElementById('indName').value.trim();
+  if (!name) { toast('Industry name is required', 'error'); return; }
+  const editId = document.getElementById('indEditId').value;
+  const btn = document.getElementById('indSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const payload = { name, sort_order: parseInt(document.getElementById('indSort').value) || 0 };
+    let indId;
+    if (editId) {
+      await db(`industries?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+      indId = editId;
+      await db(`industry_bullets?industry_id=eq.${indId}`, { method:'DELETE' });
+    } else {
+      const r = await db('industries', { method:'POST', body:JSON.stringify(payload) });
+      indId = r[0].id;
+    }
+    const bullets = indEditBullets.filter(b => b.text.trim()).map((b,i) => ({
+      industry_id: indId, text: b.text.trim(), sort_order: i
+    }));
+    if (bullets.length) {
+      await db('industry_bullets', { method:'POST', body:JSON.stringify(bullets) });
+    }
+    toast(editId ? 'Industry updated!' : 'Industry added!', 'success');
+    closeIndModal();
+    await loadIndList();
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Industry';
+  }
+}
+
+async function deleteInd(id, name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  try {
+    await db(`industries?id=eq.${id}`, { method:'DELETE' });
+    toast('Deleted', 'success');
+    await loadIndList();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// INTERIOR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let intItems = [];
+let intEditMedia = [];
+
+async function loadIntList() {
+  try {
+    intItems = await db('interior_projects?select=*,interior_media(*)&order=created_at.asc') || [];
+    renderIntList();
+  } catch(e) {
+    document.getElementById('intList').innerHTML = `<div class="loading-msg">Error: ${e.message}</div>`;
+  }
+}
+
+function renderIntList() {
+  const el = document.getElementById('intList');
+  if (!intItems.length) { el.innerHTML = `<div class="empty-state">No interior projects yet.</div>`; return; }
+  el.innerHTML = intItems.map(p => `
+    <div class="admin-card">
+      <div>
+        <div class="admin-card-title">${p.name}</div>
+        <div class="admin-card-meta">${(p.interior_media||[]).length} media files</div>
+      </div>
+      <div class="admin-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="editInt('${p.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteInt('${p.id}','${p.name}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openIntModal() {
+  intEditMedia = [];
+  document.getElementById('intEditId').value = '';
+  document.getElementById('intModalTitle').textContent = 'New Interior Project';
+  document.getElementById('intName').value = '';
+  document.getElementById('intDesc').value = '';
+  document.getElementById('intMediaList').innerHTML = '';
+  document.getElementById('intUploadProgress').textContent = '';
+  document.getElementById('intModal').classList.add('open');
+}
+
+function editInt(id) {
+  const p = intItems.find(x => x.id == id);
+  if (!p) return;
+  intEditMedia = (p.interior_media || []).sort((a,b) => a.sort_order - b.sort_order).map(m => ({...m}));
+  document.getElementById('intEditId').value = p.id;
+  document.getElementById('intModalTitle').textContent = 'Edit Project';
+  document.getElementById('intName').value = p.name || '';
+  document.getElementById('intDesc').value = p.description || '';
+  document.getElementById('intUploadProgress').textContent = '';
+  renderIntModalMedia();
+  document.getElementById('intModal').classList.add('open');
+}
+
+function closeIntModal() { document.getElementById('intModal').classList.remove('open'); }
+
+function renderIntModalMedia() {
+  document.getElementById('intMediaList').innerHTML = intEditMedia.map((m,i) => `
+    <div class="media-thumb">
+      ${m.type === 'video' ? `<video src="${m.url}" muted></video>` : `<img src="${m.url}" alt=""/>`}
+      <button class="media-thumb-del" onclick="removeIntMedia(${i})">&#x2715;</button>
+    </div>
+  `).join('');
+}
+function removeIntMedia(i) { intEditMedia.splice(i,1); renderIntModalMedia(); }
+
+async function saveInt() {
+  const name = document.getElementById('intName').value.trim();
+  if (!name) { toast('Project name is required', 'error'); return; }
+  const editId = document.getElementById('intEditId').value;
+  const btn = document.getElementById('intSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const payload = {
+      name,
+      description: document.getElementById('intDesc').value.trim() || null
+    };
+    let projId;
+    if (editId) {
+      await db(`interior_projects?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+      projId = editId;
+      await db(`interior_media?project_id=eq.${projId}`, { method:'DELETE' });
+    } else {
+      const r = await db('interior_projects', { method:'POST', body:JSON.stringify(payload) });
+      projId = r[0].id;
+    }
+    if (intEditMedia.length) {
+      await db('interior_media', { method:'POST', body:JSON.stringify(
+        intEditMedia.map((m,i) => ({ project_id: projId, type: m.type, url: m.url, sort_order: i }))
+      )});
+    }
+    toast(editId ? 'Project updated!' : 'Project added!', 'success');
+    closeIntModal();
+    await loadIntList();
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Project';
+  }
+}
+
+async function deleteInt(id, name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  try {
+    await db(`interior_projects?id=eq.${id}`, { method:'DELETE' });
+    toast('Deleted', 'success');
+    await loadIntList();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FILE UPLOADS (shared)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function handleFiles(event, prefix) {
+  const files = Array.from(event.target.files);
+  if (!files.length) return;
+  await uploadFilesForPrefix(prefix, files);
+  event.target.value = '';
+}
+
+function handleDrop(event, prefix) {
+  event.preventDefault();
+  event.currentTarget.classList.remove('dragover');
+  const files = Array.from(event.dataTransfer.files);
+  if (!files.length) return;
+  uploadFilesForPrefix(prefix, files);
+}
+function handleDragOver(event) {
+  event.preventDefault();
+  event.currentTarget.classList.add('dragover');
+}
+function handleDragLeave(event) {
+  event.currentTarget.classList.remove('dragover');
+}
+
+async function uploadFilesForPrefix(prefix, files) {
+  const progEl = document.getElementById(`${prefix}UploadProgress`);
+  if (progEl) progEl.textContent = `Uploading 0/${files.length}...`;
+  let done = 0;
+  for (const file of files) {
+    try {
+      const result = await uploadFile(file, pct => {
+        if (progEl) progEl.textContent = `Uploading ${done+1}/${files.length} — ${pct}%`;
+      });
+      done++;
+      if (prefix === 'pras') {
+        // Save directly to DB (prastavana media needs prasId)
+        if (prasId) {
+          const r = await db('overview_media', { method:'POST', body:JSON.stringify({
+            overview_id: prasId, type: result.type, url: result.url, sort_order: prasMedia.length
+          })});
+          prasMedia.push(r[0]);
+          renderPrasMediaList();
+        } else {
+          toast('Save Prastavana text first before uploading media', 'error');
+        }
+      } else if (prefix === 'pt') {
+        ptEditMedia.push(result);
+        renderPTModalMedia();
+      } else if (prefix === 'int') {
+        intEditMedia.push(result);
+        renderIntModalMedia();
+      }
+      if (progEl) progEl.textContent = done < files.length ? `Uploaded ${done}/${files.length}` : '';
+    } catch(e) {
+      toast('Upload failed: ' + e.message, 'error');
+    }
+  }
+  if (progEl) progEl.textContent = '';
+}
+
+// ── TOAST ──────────────────────────────────────
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `${type} show`;
+  setTimeout(() => { el.className = ''; }, 3200);
+}
+
+// ── CLOSE MODALS ON ESC ────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closePTModal();
+    closeIndModal();
+    closeIntModal();
+  }
+});
+
+// ── CLICK OUTSIDE TO CLOSE ─────────────────────
+['ptModal','indModal','intModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('open');
+    }
+  });
+});
+
+// ── AUTO LOGIN IF SESSION EXISTS ───────────────
+if (sessionStorage.getItem('vf_admin') === '1') {
+  initAdmin();
+}
+</script>
+</body>
+</html>
