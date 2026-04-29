@@ -5,148 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Vichitra Folio — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  @font-face {
+    font-family: 'MazzardH';
+    src: url('https://fonts.cdnfonts.com/s/68038/MazzardH-Bold.woff') format('woff');
+    font-weight: 700; font-display: swap;
+  }
+  @font-face {
+    font-family: 'CaslonAntique';
+    src: url('https://fonts.cdnfonts.com/s/29488/CaslonAntique.woff') format('woff');
+    font-weight: 400; font-display: swap;
+  }
+</style>
 <style>
 :root {
-  --ink: #1a1410;
-  --ink2: #241c17;
-  --cream: #f5f0e8;
-  --warm: #e8dcc8;
-  --gold: #c9a96e;
-  --muted: #8a7a68;
-  --accent: #7c4a2d;
+  --ink: #16091f;
+  --ink2: #1e0f2e;
+  --cream: #f5f0f8;
+  --warm: #e8d8f0;
+  --gold: #d4a8e8;
+  --gold-light: #e8c8f8;
+  --muted: #9a7ab8;
+  --accent: #f72585;
+  --purple: #7209b7;
+  --magenta: #b5179e;
   --danger: #c0402a;
   --success: #5a8a5a;
-  --border: rgba(201,169,110,0.18);
-  --card: rgba(245,240,232,0.04);
-  --input-bg: rgba(245,240,232,0.06);
+  --border: rgba(247,37,133,0.18);
+  --card: rgba(247,37,133,0.04);
+  --input-bg: rgba(245,240,248,0.06);
 }
+
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'Cormorant Garamond',Georgia,serif; }
+html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'CaslonAntique',Georgia,serif; }
+
+/* ── ANIMATED GRADIENT BG ── */
+#gradientBg {
+  position: fixed; inset: 0; z-index: 0;
+  background: #16091f; overflow: hidden; pointer-events:none;
+}
+#gradientBg::before {
+  content:''; position:absolute; border-radius:50%;
+  width:70vw; height:70vw; top:-20%; left:-15%;
+  background:radial-gradient(circle,#7209b7 0%,#b5179e 50%,transparent 75%);
+  filter:blur(80px); opacity:0.45;
+  animation:driftA 18s ease-in-out infinite alternate;
+}
+#gradientBg::after {
+  content:''; position:absolute; border-radius:50%;
+  width:55vw; height:55vw; bottom:-10%; right:-10%;
+  background:radial-gradient(circle,#f72585 0%,#7209b7 60%,transparent 80%);
+  filter:blur(80px); opacity:0.38;
+  animation:driftB 22s ease-in-out infinite alternate;
+}
+#gradientBg .orb1 {
+  display:block; position:absolute; border-radius:50%;
+  width:40vw; height:40vw; top:30%; left:40%;
+  background:radial-gradient(circle,#b5179e 0%,transparent 70%);
+  filter:blur(100px); opacity:0.25;
+  animation:driftC 26s ease-in-out infinite alternate;
+}
+#gradientBg .orb2 {
+  display:block; position:absolute; border-radius:50%;
+  width:30vw; height:30vw; top:5%; right:20%;
+  background:radial-gradient(circle,#f72585 0%,transparent 70%);
+  filter:blur(60px); opacity:0.2;
+  animation:driftD 20s ease-in-out infinite alternate;
+}
+@keyframes driftA { from{transform:translate(0,0) scale(1)} to{transform:translate(6vw,8vh) scale(1.12)} }
+@keyframes driftB { from{transform:translate(0,0) scale(1)} to{transform:translate(-8vw,-5vh) scale(1.08)} }
+@keyframes driftC { from{transform:translate(0,0) scale(1)} to{transform:translate(5vw,-10vh) scale(1.15)} }
+@keyframes driftD { from{transform:translate(0,0) scale(1)} to{transform:translate(-4vw,6vh) scale(0.9)} }
+
+/* ── GRAIN ── */
+body::before {
+  content:''; position:fixed; inset:0; z-index:1000; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.35;
+}
 
 /* ── LOGIN ── */
 #loginScreen {
   position:fixed; inset:0; z-index:999;
   display:flex; align-items:center; justify-content:center;
-  background: var(--ink);
 }
 .login-box {
-  background: var(--ink2);
-  border: 1px solid var(--border);
-  padding: 48px 40px; width: 380px;
-  border-radius: 4px;
+  position:relative; z-index:1;
+  background:rgba(30,15,46,0.85);
+  border:1px solid var(--border);
+  padding:52px 44px; width:400px;
+  border-radius:6px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 24px 80px rgba(0,0,0,0.6);
 }
 .login-logo {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px; letter-spacing:0.14em;
-  color:var(--gold); margin-bottom:6px;
+  font-family:'MazzardH','Outfit',sans-serif;
+  font-weight:700; font-size:32px; letter-spacing:0.1em;
+  color:var(--cream); margin-bottom:4px;
+  text-shadow:0 0 30px rgba(247,37,133,0.4);
 }
 .login-sub {
-  font-family:'DM Mono',monospace;
-  font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
-  color:var(--muted); margin-bottom:36px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--muted); margin-bottom:40px;
 }
 .login-label {
-  font-family:'DM Mono',monospace;
-  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
   color:var(--muted); margin-bottom:8px; display:block;
 }
 .login-input {
-  width:100%; padding:12px 14px;
+  width:100%; padding:13px 16px;
   background:var(--input-bg); border:1px solid var(--border);
-  color:var(--cream); font-family:'DM Mono',monospace; font-size:13px;
-  border-radius:2px; outline:none; margin-bottom:20px;
-  transition:border-color 0.2s;
+  color:var(--cream); font-family:'Outfit',sans-serif; font-size:15px;
+  border-radius:3px; outline:none; margin-bottom:20px;
+  transition:border-color 0.25s;
 }
-.login-input:focus { border-color:var(--gold); }
+.login-input:focus { border-color:var(--accent); }
 .login-btn {
-  width:100%; padding:13px;
-  background:var(--gold); border:none; cursor:pointer;
-  font-family:'DM Mono',monospace; font-size:11px;
-  letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--ink); border-radius:2px; font-weight:700;
-  transition:background 0.2s;
+  width:100%; padding:14px;
+  background:var(--accent); border:none; cursor:pointer;
+  font-family:'Outfit',sans-serif; font-size:11px;
+  letter-spacing:0.16em; text-transform:uppercase;
+  color:#fff; border-radius:3px; font-weight:600;
+  transition:all 0.25s;
+  box-shadow:0 4px 20px rgba(247,37,133,0.35);
 }
-.login-btn:hover { background:var(--gold-light,#e8c98a); }
+.login-btn:hover { background:#e0106e; box-shadow:0 4px 28px rgba(247,37,133,0.5); }
 .login-error {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Outfit',sans-serif; font-size:10px;
   color:#e07060; margin-top:12px; text-align:center; min-height:16px;
 }
 
 /* ── MAIN ADMIN ── */
-#adminMain { display:none; min-height:100vh; }
+#adminMain { display:none; min-height:100vh; position:relative; z-index:1; }
 
 /* ── NAV ── */
 .admin-nav {
   position:sticky; top:0; z-index:200;
-  background:rgba(26,20,16,0.97);
+  background:rgba(22,9,31,0.85);
   border-bottom:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-between;
-  padding:0 40px; height:60px;
-  backdrop-filter:blur(10px);
+  padding:0 40px; height:64px;
+  backdrop-filter:blur(16px);
 }
 .admin-nav-logo {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:20px; letter-spacing:0.14em; color:var(--gold);
+  display:flex; align-items:center; gap:12px;
 }
-.admin-nav-logo span {
-  font-family:'DM Mono',monospace;
+.admin-nav-logo img { height:32px; width:32px; object-fit:contain; border-radius:5px; opacity:0.9; }
+.admin-nav-wordmark {
+  font-family:'MazzardH','Outfit',sans-serif;
+  font-weight:700; font-size:17px; letter-spacing:0.12em;
+  color:var(--cream);
+  text-shadow:0 0 16px rgba(247,37,133,0.35);
+}
+.admin-nav-tag {
+  font-family:'Outfit',sans-serif;
   font-size:9px; letter-spacing:0.18em; text-transform:uppercase;
-  color:var(--muted); margin-left:12px;
+  color:var(--muted); margin-left:10px;
 }
 
+/* ── TABS ── */
 .tab-row {
   display:flex; gap:0;
   border-bottom:1px solid var(--border);
   padding:0 40px;
-  background:var(--ink2);
+  background:rgba(22,9,31,0.6);
+  backdrop-filter:blur(10px);
   overflow-x:auto;
 }
 .tab-btn {
-  padding:14px 24px;
+  padding:16px 26px;
   background:none; border:none; cursor:pointer;
-  font-family:'DM Mono',monospace; font-size:10px;
-  letter-spacing:0.14em; text-transform:uppercase;
+  font-family:'Outfit',sans-serif; font-size:10px;
+  letter-spacing:0.16em; text-transform:uppercase;
   color:var(--muted); border-bottom:2px solid transparent;
-  transition:color 0.2s, border-color 0.2s;
+  transition:color 0.25s, border-color 0.25s;
   white-space:nowrap;
 }
 .tab-btn:hover { color:var(--cream); }
-.tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+.tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
 
-.tab-panel { display:none; padding:40px; }
+.tab-panel { display:none; padding:44px 40px; }
 .tab-panel.active { display:block; }
 
 /* ── PANEL HEADER ── */
 .panel-header {
   display:flex; align-items:center; justify-content:space-between;
-  margin-bottom:32px;
+  margin-bottom:36px;
 }
 .panel-title {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:36px; letter-spacing:0.06em; color:var(--cream);
+  font-family:'MazzardH','Outfit',sans-serif;
+  font-weight:700; font-size:42px; letter-spacing:0.04em; color:var(--cream);
 }
 .panel-sub {
-  font-family:'DM Mono',monospace;
-  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--muted); margin-top:4px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--muted); margin-top:5px;
 }
 
 /* ── BUTTONS ── */
 .btn {
   display:inline-flex; align-items:center; gap:6px;
-  padding:10px 20px; border:none; cursor:pointer;
-  font-family:'DM Mono',monospace; font-size:10px;
-  letter-spacing:0.12em; text-transform:uppercase;
-  border-radius:2px; transition:all 0.2s;
+  padding:10px 22px; border:none; cursor:pointer;
+  font-family:'Outfit',sans-serif; font-size:10px;
+  letter-spacing:0.14em; text-transform:uppercase;
+  border-radius:3px; transition:all 0.25s;
 }
-.btn-gold { background:var(--gold); color:var(--ink); font-weight:700; }
-.btn-gold:hover { background:#d4b07a; }
+.btn-gold { background:var(--accent); color:#fff; font-weight:600; box-shadow:0 2px 12px rgba(247,37,133,0.3); }
+.btn-gold:hover { background:#e0106e; box-shadow:0 2px 20px rgba(247,37,133,0.5); }
 .btn-outline {
   background:none; border:1px solid var(--border);
-  color:var(--gold);
+  color:var(--accent);
 }
-.btn-outline:hover { background:rgba(201,169,110,0.1); border-color:var(--gold); }
+.btn-outline:hover { background:rgba(247,37,133,0.08); border-color:var(--accent); }
 .btn-danger {
   background:none; border:1px solid rgba(192,64,42,0.3);
   color:var(--danger);
@@ -156,21 +229,21 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 .btn:disabled { opacity:0.4; cursor:not-allowed; }
 
 /* ── FORM ── */
-.form-group { margin-bottom:20px; }
+.form-group { margin-bottom:22px; }
 .form-label {
-  display:block; margin-bottom:7px;
-  font-family:'DM Mono',monospace;
-  font-size:9px; letter-spacing:0.14em; text-transform:uppercase;
+  display:block; margin-bottom:8px;
+  font-family:'Outfit',sans-serif;
+  font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
   color:var(--muted);
 }
 .form-input, .form-textarea, .form-select {
-  width:100%; padding:11px 14px;
+  width:100%; padding:12px 16px;
   background:var(--input-bg); border:1px solid var(--border);
-  color:var(--cream); font-family:'Cormorant Garamond',serif;
-  font-size:16px; border-radius:2px; outline:none;
-  transition:border-color 0.2s;
+  color:var(--cream); font-family:'CaslonAntique',Georgia,serif;
+  font-size:16px; border-radius:3px; outline:none;
+  transition:border-color 0.25s;
 }
-.form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--gold); }
+.form-input:focus, .form-textarea:focus, .form-select:focus { border-color:var(--accent); }
 .form-textarea { min-height:120px; resize:vertical; line-height:1.7; }
 .form-select { cursor:pointer; }
 .form-select option { background:var(--ink); }
@@ -180,17 +253,19 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 .card-list { display:flex; flex-direction:column; gap:16px; }
 .admin-card {
   background:var(--card); border:1px solid var(--border);
-  border-radius:3px; padding:20px 24px;
+  border-radius:4px; padding:22px 26px;
   display:grid; grid-template-columns:1fr auto;
-  gap:16px; align-items:start;
+  gap:16px; align-items:center;
+  transition:border-color 0.25s;
 }
+.admin-card:hover { border-color:rgba(247,37,133,0.35); }
 .admin-card-title {
-  font-size:18px; font-weight:400; color:var(--cream);
-  margin-bottom:4px;
+  font-family:'Outfit',sans-serif; font-weight:500;
+  font-size:19px; color:var(--cream); margin-bottom:5px;
 }
 .admin-card-meta {
-  font-family:'DM Mono',monospace;
-  font-size:9px; letter-spacing:0.12em; text-transform:uppercase;
+  font-family:'Outfit',sans-serif;
+  font-size:10px; letter-spacing:0.12em; text-transform:uppercase;
   color:var(--muted);
 }
 .admin-card-actions { display:flex; gap:8px; flex-shrink:0; }
@@ -199,16 +274,13 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 .media-list { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
 .media-thumb {
   position:relative; width:100px; height:80px;
-  overflow:hidden; border-radius:2px;
-  border:1px solid var(--border);
-  flex-shrink:0;
+  overflow:hidden; border-radius:3px;
+  border:1px solid var(--border); flex-shrink:0;
 }
-.media-thumb img, .media-thumb video {
-  width:100%; height:100%; object-fit:cover; display:block;
-}
+.media-thumb img, .media-thumb video { width:100%; height:100%; object-fit:cover; display:block; }
 .media-thumb-del {
   position:absolute; top:4px; right:4px;
-  background:rgba(26,20,16,0.85); border:none; cursor:pointer;
+  background:rgba(22,9,31,0.85); border:none; cursor:pointer;
   color:#e07060; font-size:14px; line-height:1;
   width:22px; height:22px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
@@ -218,123 +290,131 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 
 /* ── UPLOAD ZONE ── */
 .upload-zone {
-  border:2px dashed var(--border); border-radius:3px;
+  border:2px dashed var(--border); border-radius:4px;
   padding:32px; text-align:center; cursor:pointer;
-  transition:border-color 0.2s, background 0.2s;
-  margin-top:12px;
+  transition:border-color 0.25s, background 0.25s; margin-top:12px;
 }
 .upload-zone:hover, .upload-zone.dragover {
-  border-color:var(--gold); background:rgba(201,169,110,0.04);
+  border-color:var(--accent); background:rgba(247,37,133,0.05);
 }
 .upload-zone-text {
-  font-family:'DM Mono',monospace; font-size:10px;
-  letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--muted);
+  font-family:'Outfit',sans-serif; font-size:10px;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);
 }
 .upload-zone input { display:none; }
 .upload-progress {
-  font-family:'DM Mono',monospace; font-size:10px;
-  letter-spacing:0.12em; color:var(--gold); margin-top:8px;
+  font-family:'Outfit',sans-serif; font-size:10px;
+  letter-spacing:0.12em; color:var(--accent); margin-top:8px;
 }
 
 /* ── MODAL ── */
 .modal-overlay {
   position:fixed; inset:0; z-index:600;
-  background:rgba(26,20,16,0.92); display:none;
-  align-items:center; justify-content:center;
-  padding:20px;
+  background:rgba(22,9,31,0.88); display:none;
+  align-items:center; justify-content:center; padding:20px;
+  backdrop-filter:blur(8px);
 }
 .modal-overlay.open { display:flex; }
 .modal {
-  background:var(--ink2); border:1px solid var(--border);
-  border-radius:4px; width:100%; max-width:600px;
-  max-height:90vh; overflow-y:auto;
-  padding:36px 32px;
-  animation:fadeUp 0.35s cubic-bezier(0.16,1,0.3,1);
+  background:rgba(30,15,46,0.97); border:1px solid var(--border);
+  border-radius:6px; width:100%; max-width:620px;
+  max-height:90vh; overflow-y:auto; padding:40px 36px;
+  animation:fadeUp 0.4s cubic-bezier(0.16,1,0.3,1);
+  box-shadow:0 32px 80px rgba(0,0,0,0.7);
 }
 .modal-title {
-  font-family:'Bebas Neue',sans-serif;
-  font-size:28px; letter-spacing:0.06em;
+  font-family:'MazzardH','Outfit',sans-serif;
+  font-weight:700; font-size:32px; letter-spacing:0.04em;
   color:var(--cream); margin-bottom:4px;
 }
 .modal-sub {
-  font-family:'DM Mono',monospace; font-size:9px;
+  font-family:'Outfit',sans-serif; font-size:9px;
   letter-spacing:0.14em; text-transform:uppercase;
-  color:var(--muted); margin-bottom:28px;
+  color:var(--muted); margin-bottom:30px;
 }
 .modal-footer {
   display:flex; gap:12px; justify-content:flex-end;
-  margin-top:28px; padding-top:20px;
+  margin-top:30px; padding-top:22px;
   border-top:1px solid var(--border);
 }
 
 /* ── DIVIDER ── */
-.section-divider {
-  border:none; border-top:1px solid var(--border);
-  margin:28px 0;
-}
+.section-divider { border:none; border-top:1px solid var(--border); margin:28px 0; }
 
 /* ── BULLET LIST ── */
 .bullet-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.bullet-row {
-  display:flex; gap:8px; align-items:center;
-}
+.bullet-row { display:flex; gap:8px; align-items:center; }
 .bullet-row .form-input { flex:1; }
 
 /* ── LINK LIST ── */
 .link-list { display:flex; flex-direction:column; gap:8px; margin-top:12px; }
-.link-row { display:grid; grid-template-columns:80px 1fr 1fr auto; gap:8px; align-items:center; }
+.link-row { display:grid; grid-template-columns:1fr 1fr auto; gap:8px; align-items:center; }
 
 /* ── TOAST ── */
 #toast {
   position:fixed; bottom:28px; left:50%;
   transform:translateX(-50%) translateY(12px);
-  background:var(--ink2); border:1px solid var(--border);
-  color:var(--cream); padding:11px 22px;
-  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;
-  border-radius:2px; z-index:900; opacity:0;
-  transition:all 0.3s; white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,0.5);
+  background:rgba(30,15,46,0.97); border:1px solid var(--border);
+  color:var(--cream); padding:12px 24px;
+  font-family:'Outfit',sans-serif; font-size:10px; letter-spacing:0.12em;
+  border-radius:3px; z-index:900; opacity:0;
+  transition:all 0.35s; white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,0.6);
 }
 #toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
-#toast.error { border-color:rgba(192,64,42,0.4); color:#e07060; }
-#toast.success { border-color:rgba(90,138,90,0.4); color:#90c890; }
+#toast.error { border-color:rgba(192,64,42,0.5); color:#e07060; }
+#toast.success { border-color:rgba(90,180,90,0.4); color:#90d890; }
 
 /* ── MISC ── */
 .loading-msg {
-  font-family:'DM Mono',monospace; font-size:10px;
+  font-family:'Outfit',sans-serif; font-size:10px;
   letter-spacing:0.2em; text-transform:uppercase;
-  color:var(--muted); padding:40px 0; text-align:center;
+  color:var(--muted); padding:48px 0; text-align:center;
 }
-.empty-state { padding:40px 0; text-align:center; color:var(--muted); }
+.empty-state { padding:48px 0; text-align:center; color:var(--muted); }
 .tag-pill {
   display:inline-block; padding:3px 10px;
-  background:rgba(201,169,110,0.1); border:1px solid var(--border);
-  font-family:'DM Mono',monospace; font-size:9px;
-  letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);
+  background:rgba(247,37,133,0.1); border:1px solid var(--border);
+  font-family:'Outfit',sans-serif; font-size:9px;
+  letter-spacing:0.1em; text-transform:uppercase; color:var(--accent);
   border-radius:2px;
 }
 
+/* ── RANGE INPUTS ── */
+input[type=range] {
+  -webkit-appearance:none; height:3px;
+  background:var(--border); border-radius:2px; outline:none;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:14px; height:14px;
+  border-radius:50%; background:var(--accent); cursor:pointer;
+  box-shadow:0 0 6px rgba(247,37,133,0.5);
+}
+
 @keyframes fadeUp {
-  from { opacity:0; transform:translateY(20px); }
+  from { opacity:0; transform:translateY(24px); }
   to { opacity:1; transform:translateY(0); }
 }
 @media (max-width:640px) {
-  .tab-panel { padding:24px 16px; }
+  .tab-panel { padding:28px 20px; }
   .admin-nav { padding:0 20px; }
   .form-row { grid-template-columns:1fr; }
-  .link-row { grid-template-columns:1fr 1fr; }
+  .link-row { grid-template-columns:1fr; }
   .panel-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .panel-title { font-size:32px; }
 }
 </style>
 </head>
 <body>
 
+<!-- ── GRADIENT BG ── -->
+<div id="gradientBg"><div class="orb1"></div><div class="orb2"></div></div>
+
 <!-- ── LOGIN ── -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">VICHITRA</div>
-    <div class="login-sub">Folio Admin Panel</div>
+    <div class="login-sub">Folio — Admin Panel</div>
     <label class="login-label">Password</label>
     <input class="login-input" type="password" id="pwInput" placeholder="Enter password"
            onkeydown="if(event.key==='Enter')doLogin()"/>
@@ -346,9 +426,10 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 <!-- ── ADMIN MAIN ── -->
 <div id="adminMain">
   <nav class="admin-nav">
-    <div>
-      <span class="admin-nav-logo">VICHITRA</span>
-      <span>Admin</span>
+    <div class="admin-nav-logo">
+      <img src="vichitra-logo.png" alt="Vichitra Co."/>
+      <span class="admin-nav-wordmark">VICHITRA</span>
+      <span class="admin-nav-tag">Admin</span>
     </div>
     <div style="display:flex;gap:12px;align-items:center;">
       <a href="index.html" target="_blank" class="btn btn-outline btn-sm">&#8599; View Folio</a>
@@ -496,28 +577,64 @@ html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cre
 
 <!-- ── MODAL: INTERIOR ── -->
 <div class="modal-overlay" id="intModal">
-  <div class="modal">
+  <div class="modal" style="max-width:700px;">
     <div class="modal-title" id="intModalTitle">New Interior Project</div>
-    <div class="modal-sub">Add project and upload media</div>
+    <div class="modal-sub">Details auto-saved as you type</div>
     <input type="hidden" id="intEditId"/>
+
     <div class="form-group">
       <label class="form-label">Project Name *</label>
-      <input class="form-input" id="intName" placeholder="e.g. Kandivali 2BHK"/>
+      <input class="form-input" id="intName" placeholder="e.g. Kandivali 2BHK" oninput="autoSaveInt()"/>
     </div>
     <div class="form-group">
       <label class="form-label">Description</label>
-      <textarea class="form-textarea" id="intDesc" placeholder="About this project..."></textarea>
+      <textarea class="form-textarea" id="intDesc" placeholder="About this project..." oninput="autoSaveInt()"></textarea>
     </div>
+
     <hr class="section-divider"/>
-    <div class="form-label" style="margin-bottom:10px;">Media (images and videos)</div>
-    <div class="media-list" id="intMediaList"></div>
-    <div class="upload-zone" id="intUploadZone" onclick="document.getElementById('intFileInput').click()"
-         ondrop="handleDrop(event,'int')" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
-      <div class="upload-zone-text">Click or drag files here</div>
-      <div class="upload-progress" id="intUploadProgress"></div>
-      <input type="file" id="intFileInput" multiple accept="image/*,video/*" onchange="handleFiles(event,'int')"/>
+    <div class="form-label" style="margin-bottom:6px;">Cover Image</div>
+    <div class="form-group" style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
+      <input class="form-input" id="intCoverUrl" placeholder="Paste image URL here..." style="flex:1;min-width:200px;"
+             oninput="autoSaveInt()" onblur="loadCoverPreview()"/>
+      <button class="btn btn-outline btn-sm" onclick="loadCoverPreview()">Load</button>
     </div>
+
+    <!-- CROP + ADJUST TOOL -->
+    <div id="intCropWrap" style="display:none;margin-bottom:20px;">
+      <div style="position:relative;display:inline-block;width:100%;overflow:hidden;border:1px solid var(--border);border-radius:3px;background:#111;">
+        <canvas id="intCropCanvas" style="display:block;max-width:100%;cursor:crosshair;touch-action:none;"></canvas>
+        <div id="intCropRect" style="position:absolute;border:2px solid #f72585;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);pointer-events:none;display:none;"></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;min-width:160px;">
+          <div class="form-label" style="margin-bottom:4px;">Brightness</div>
+          <input type="range" id="intBrightness" min="-100" max="100" value="0" style="width:100%;" oninput="renderCoverPreview()"/>
+        </div>
+        <div style="flex:1;min-width:160px;">
+          <div class="form-label" style="margin-bottom:4px;">Contrast</div>
+          <input type="range" id="intContrast" min="-100" max="100" value="0" style="width:100%;" oninput="renderCoverPreview()"/>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-outline btn-sm" onclick="resetCrop()">Reset</button>
+          <button class="btn btn-gold btn-sm" onclick="applyCrop()">Apply Crop</button>
+        </div>
+      </div>
+      <div id="intCoverFinal" style="margin-top:14px;display:none;">
+        <div class="form-label" style="margin-bottom:6px;">Cover Preview</div>
+        <img id="intCoverFinalImg" style="max-height:140px;border-radius:3px;border:1px solid var(--border);"/>
+      </div>
+    </div>
+
+    <hr class="section-divider"/>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="form-label" style="margin:0;">Google Drive Folders</div>
+      <button class="btn btn-outline btn-sm" onclick="addFolderRow()">+ Add Folder</button>
+    </div>
+    <div class="form-label" style="margin-bottom:10px;font-size:8px;opacity:0.6;">Paste the full Google Drive folder URL — each folder should contain media directly (no subfolders)</div>
+    <div id="intFolderList" style="display:flex;flex-direction:column;gap:8px;"></div>
+
     <div class="modal-footer">
+      <div id="intAutoSaveStatus" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);align-self:center;margin-right:auto;"></div>
       <button class="btn btn-outline" onclick="closeIntModal()">Cancel</button>
       <button class="btn btn-gold" id="intSaveBtn" onclick="saveInt()">Save Project</button>
     </div>
@@ -789,19 +906,15 @@ function removePTMedia(i) { ptEditMedia.splice(i,1); renderPTModalMedia(); }
 function renderPTModalLinks() {
   document.getElementById('ptLinkList').innerHTML = ptEditLinks.map((l,i) => `
     <div class="link-row">
-      <select class="form-select" onchange="ptEditLinks[${i}].type=this.value">
-        <option value="link" ${l.type==='link'?'selected':''}>Link</option>
-        <option value="pdf" ${l.type==='pdf'?'selected':''}>PDF</option>
-      </select>
-      <input class="form-input" value="${l.label||''}" placeholder="Label" oninput="ptEditLinks[${i}].label=this.value"/>
-      <input class="form-input" value="${l.url||''}" placeholder="URL" oninput="ptEditLinks[${i}].url=this.value"/>
+      <input class="form-input" value="${l.url||''}" placeholder="https://..." oninput="ptEditLinks[${i}].url=this.value"/>
+      <input class="form-input" value="${l.title||''}" placeholder="Link label..." oninput="ptEditLinks[${i}].title=this.value"/>
       <button class="btn btn-danger btn-sm" onclick="removePTLink(${i})">&#x2715;</button>
     </div>
   `).join('');
 }
 function addLinkRow(prefix) {
   if (prefix === 'pt') {
-    ptEditLinks.push({ type:'link', label:'', url:'' });
+    ptEditLinks.push({ url:'', title:'' });
     renderPTModalLinks();
   }
 }
@@ -979,12 +1092,195 @@ async function deleteInd(id, name) {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // INTERIOR
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const WORKER_URL = 'https://media.vichitraco.com';
+const INT_DRAFT_KEY = 'vf_int_draft';
 let intItems = [];
-let intEditMedia = [];
+let intEditFolders = [];
+let intCoverImg = null;
+let intCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false, applied:false };
+let intCroppedDataUrl = null;
 
+function extractFolderId(url) {
+  const m = url.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : url.trim();
+}
+
+// ── AUTOSAVE ──
+function autoSaveInt() {
+  const draft = {
+    id: document.getElementById('intEditId').value,
+    name: document.getElementById('intName').value,
+    desc: document.getElementById('intDesc').value,
+    coverUrl: document.getElementById('intCoverUrl').value,
+    folders: intEditFolders
+  };
+  localStorage.setItem(INT_DRAFT_KEY, JSON.stringify(draft));
+  const el = document.getElementById('intAutoSaveStatus');
+  if (el) { el.textContent = 'Draft saved'; setTimeout(() => { if(el) el.textContent=''; }, 2000); }
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(INT_DRAFT_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch { return null; }
+}
+
+function clearDraft() { localStorage.removeItem(INT_DRAFT_KEY); }
+
+// ── FOLDER ROWS ──
+function renderFolderList() {
+  document.getElementById('intFolderList').innerHTML = intEditFolders.map((f,i) => `
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input class="form-input" style="flex:1;" value="${f.url||''}" placeholder="https://drive.google.com/drive/folders/..."
+             oninput="intEditFolders[${i}].url=this.value;autoSaveInt()"/>
+      <input class="form-input" style="width:130px;" value="${f.name||''}" placeholder="Label (optional)"
+             oninput="intEditFolders[${i}].name=this.value;autoSaveInt()"/>
+      <button class="btn btn-danger btn-sm" onclick="removeFolderRow(${i})">&#x2715;</button>
+    </div>
+  `).join('');
+}
+
+function addFolderRow() {
+  intEditFolders.push({ url:'', name:'' });
+  renderFolderList();
+}
+
+function removeFolderRow(i) {
+  intEditFolders.splice(i,1);
+  renderFolderList();
+  autoSaveInt();
+}
+
+// ── COVER IMAGE ──
+function loadCoverPreview() {
+  const url = document.getElementById('intCoverUrl').value.trim();
+  if (!url) return;
+  const wrap = document.getElementById('intCropWrap');
+  const canvas = document.getElementById('intCropCanvas');
+  const ctx = canvas.getContext('2d');
+  intCoverImg = new Image();
+  intCoverImg.crossOrigin = 'anonymous';
+  intCoverImg.onload = () => {
+    const maxW = 620;
+    const scale = Math.min(1, maxW / intCoverImg.naturalWidth);
+    canvas.width = intCoverImg.naturalWidth * scale;
+    canvas.height = intCoverImg.naturalHeight * scale;
+    intCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false, applied:false };
+    intCroppedDataUrl = null;
+    document.getElementById('intCropRect').style.display = 'none';
+    document.getElementById('intCoverFinal').style.display = 'none';
+    document.getElementById('intBrightness').value = 0;
+    document.getElementById('intContrast').value = 0;
+    renderCoverPreview();
+    wrap.style.display = 'block';
+    setupCropListeners(canvas);
+  };
+  intCoverImg.onerror = () => toast('Could not load image — check URL and make sure it is public', 'error');
+  intCoverImg.src = url;
+}
+
+function renderCoverPreview() {
+  if (!intCoverImg) return;
+  const canvas = document.getElementById('intCropCanvas');
+  const ctx = canvas.getContext('2d');
+  const brightness = parseInt(document.getElementById('intBrightness').value) || 0;
+  const contrast = parseInt(document.getElementById('intContrast').value) || 0;
+  ctx.filter = `brightness(${100 + brightness}%) contrast(${100 + contrast}%)`;
+  ctx.drawImage(intCoverImg, 0, 0, canvas.width, canvas.height);
+  ctx.filter = 'none';
+}
+
+function setupCropListeners(canvas) {
+  canvas.onmousedown = e => {
+    const r = canvas.getBoundingClientRect();
+    intCropState.startX = e.clientX - r.left;
+    intCropState.startY = e.clientY - r.top;
+    intCropState.dragging = true;
+  };
+  canvas.onmousemove = e => {
+    if (!intCropState.dragging) return;
+    const r = canvas.getBoundingClientRect();
+    intCropState.endX = e.clientX - r.left;
+    intCropState.endY = e.clientY - r.top;
+    updateCropRect(canvas);
+  };
+  canvas.onmouseup = () => { intCropState.dragging = false; };
+  // Touch
+  canvas.ontouchstart = e => {
+    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
+    intCropState.startX = t.clientX - r.left;
+    intCropState.startY = t.clientY - r.top;
+    intCropState.dragging = true;
+  };
+  canvas.ontouchmove = e => {
+    e.preventDefault();
+    if (!intCropState.dragging) return;
+    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
+    intCropState.endX = t.clientX - r.left;
+    intCropState.endY = t.clientY - r.top;
+    updateCropRect(canvas);
+  };
+  canvas.ontouchend = () => { intCropState.dragging = false; };
+}
+
+function updateCropRect(canvas) {
+  const r = canvas.getBoundingClientRect();
+  const scaleX = r.width / canvas.width;
+  const scaleY = r.height / canvas.height;
+  const x = Math.min(intCropState.startX, intCropState.endX) * scaleX;
+  const y = Math.min(intCropState.startY, intCropState.endY) * scaleY;
+  const w = Math.abs(intCropState.endX - intCropState.startX) * scaleX;
+  const h = Math.abs(intCropState.endY - intCropState.startY) * scaleY;
+  const rect = document.getElementById('intCropRect');
+  rect.style.display = 'block';
+  rect.style.left = x + 'px';
+  rect.style.top = y + 'px';
+  rect.style.width = w + 'px';
+  rect.style.height = h + 'px';
+}
+
+function applyCrop() {
+  const canvas = document.getElementById('intCropCanvas');
+  const r = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / r.width;
+  const scaleY = canvas.height / r.height;
+  const x = Math.min(intCropState.startX, intCropState.endX) * scaleX;
+  const y = Math.min(intCropState.startY, intCropState.endY) * scaleY;
+  const w = Math.abs(intCropState.endX - intCropState.startX) * scaleX;
+  const h = Math.abs(intCropState.endY - intCropState.startY) * scaleY;
+  if (w < 10 || h < 10) { toast('Draw a crop area first', 'error'); return; }
+  const brightness = parseInt(document.getElementById('intBrightness').value) || 0;
+  const contrast = parseInt(document.getElementById('intContrast').value) || 0;
+  const out = document.createElement('canvas');
+  out.width = w; out.height = h;
+  const octx = out.getContext('2d');
+  octx.filter = `brightness(${100+brightness}%) contrast(${100+contrast}%)`;
+  octx.drawImage(intCoverImg, x/canvas.width*intCoverImg.naturalWidth, y/canvas.height*intCoverImg.naturalHeight,
+    w/canvas.width*intCoverImg.naturalWidth, h/canvas.height*intCoverImg.naturalHeight, 0, 0, w, h);
+  octx.filter = 'none';
+  intCroppedDataUrl = out.toDataURL('image/jpeg', 0.92);
+  document.getElementById('intCoverFinalImg').src = intCroppedDataUrl;
+  document.getElementById('intCoverFinal').style.display = 'block';
+  document.getElementById('intCropRect').style.display = 'none';
+  toast('Crop applied!', 'success');
+}
+
+function resetCrop() {
+  intCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false, applied:false };
+  intCroppedDataUrl = null;
+  document.getElementById('intCropRect').style.display = 'none';
+  document.getElementById('intCoverFinal').style.display = 'none';
+  document.getElementById('intBrightness').value = 0;
+  document.getElementById('intContrast').value = 0;
+  renderCoverPreview();
+}
+
+// ── LIST ──
 async function loadIntList() {
   try {
-    intItems = await db('interior_projects?select=*,interior_media(*)&order=created_at.asc') || [];
+    intItems = await db('interior_projects?select=*,interior_folders(*)&order=created_at.asc') || [];
     renderIntList();
   } catch(e) {
     document.getElementById('intList').innerHTML = `<div class="loading-msg">Error: ${e.message}</div>`;
@@ -996,54 +1292,71 @@ function renderIntList() {
   if (!intItems.length) { el.innerHTML = `<div class="empty-state">No interior projects yet.</div>`; return; }
   el.innerHTML = intItems.map(p => `
     <div class="admin-card">
-      <div>
-        <div class="admin-card-title">${p.name}</div>
-        <div class="admin-card-meta">${(p.interior_media||[]).length} media files</div>
+      <div style="display:flex;gap:16px;align-items:center;">
+        ${p.cover_url ? `<img src="${p.cover_url}" style="width:64px;height:48px;object-fit:cover;border-radius:2px;border:1px solid var(--border);flex-shrink:0;"/>` : ''}
+        <div>
+          <div class="admin-card-title">${p.name}</div>
+          <div class="admin-card-meta">${(p.interior_folders||[]).length} folder(s) linked</div>
+        </div>
       </div>
       <div class="admin-card-actions">
         <button class="btn btn-outline btn-sm" onclick="editInt('${p.id}')">Edit</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteInt('${p.id}','${p.name}')">Delete</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteInt('${p.id}','${p.name.replace(/'/g,"\\'")}')">Delete</button>
       </div>
     </div>
   `).join('');
 }
 
+// ── OPEN/EDIT/CLOSE ──
 function openIntModal() {
-  intEditMedia = [];
+  intEditFolders = [{ url:'', name:'' }];
+  intCoverImg = null; intCroppedDataUrl = null;
   document.getElementById('intEditId').value = '';
   document.getElementById('intModalTitle').textContent = 'New Interior Project';
   document.getElementById('intName').value = '';
   document.getElementById('intDesc').value = '';
-  document.getElementById('intMediaList').innerHTML = '';
-  document.getElementById('intUploadProgress').textContent = '';
+  document.getElementById('intCoverUrl').value = '';
+  document.getElementById('intCropWrap').style.display = 'none';
+  document.getElementById('intCoverFinal').style.display = 'none';
+  // Restore draft if exists
+  const draft = loadDraft();
+  if (draft && !draft.id) {
+    document.getElementById('intName').value = draft.name || '';
+    document.getElementById('intDesc').value = draft.desc || '';
+    document.getElementById('intCoverUrl').value = draft.coverUrl || '';
+    intEditFolders = draft.folders && draft.folders.length ? draft.folders : [{ url:'', name:'' }];
+    if (draft.coverUrl) loadCoverPreview();
+  }
+  renderFolderList();
   document.getElementById('intModal').classList.add('open');
 }
 
 function editInt(id) {
   const p = intItems.find(x => x.id == id);
   if (!p) return;
-  intEditMedia = (p.interior_media || []).sort((a,b) => a.sort_order - b.sort_order).map(m => ({...m}));
+  intEditFolders = (p.interior_folders || []).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0)).map(f => ({
+    id: f.id, url: f.folder_url || '', name: f.folder_name || ''
+  }));
+  if (!intEditFolders.length) intEditFolders.push({ url:'', name:'' });
+  intCoverImg = null; intCroppedDataUrl = null;
   document.getElementById('intEditId').value = p.id;
   document.getElementById('intModalTitle').textContent = 'Edit Project';
   document.getElementById('intName').value = p.name || '';
   document.getElementById('intDesc').value = p.description || '';
-  document.getElementById('intUploadProgress').textContent = '';
-  renderIntModalMedia();
+  document.getElementById('intCoverUrl').value = p.cover_url || '';
+  document.getElementById('intCropWrap').style.display = 'none';
+  document.getElementById('intCoverFinal').style.display = 'none';
+  if (p.cover_url) loadCoverPreview();
+  renderFolderList();
+  clearDraft();
   document.getElementById('intModal').classList.add('open');
 }
 
-function closeIntModal() { document.getElementById('intModal').classList.remove('open'); }
-
-function renderIntModalMedia() {
-  document.getElementById('intMediaList').innerHTML = intEditMedia.map((m,i) => `
-    <div class="media-thumb">
-      ${m.type === 'video' ? `<video src="${m.url}" muted></video>` : `<img src="${m.url}" alt=""/>`}
-      <button class="media-thumb-del" onclick="removeIntMedia(${i})">&#x2715;</button>
-    </div>
-  `).join('');
+function closeIntModal() {
+  document.getElementById('intModal').classList.remove('open');
 }
-function removeIntMedia(i) { intEditMedia.splice(i,1); renderIntModalMedia(); }
 
+// ── SAVE ──
 async function saveInt() {
   const name = document.getElementById('intName').value.trim();
   if (!name) { toast('Project name is required', 'error'); return; }
@@ -1051,24 +1364,43 @@ async function saveInt() {
   const btn = document.getElementById('intSaveBtn');
   btn.disabled = true; btn.textContent = 'Saving...';
   try {
+    // Handle cover — if cropped use dataUrl, else use raw URL
+    let coverUrl = document.getElementById('intCoverUrl').value.trim() || null;
+    if (intCroppedDataUrl) {
+      // Upload cropped image to Cloudinary
+      btn.textContent = 'Uploading cover...';
+      const blob = await (await fetch(intCroppedDataUrl)).blob();
+      const file = new File([blob], 'cover.jpg', { type:'image/jpeg' });
+      const result = await uploadFile(file, () => {});
+      coverUrl = result.url;
+    }
     const payload = {
       name,
-      description: document.getElementById('intDesc').value.trim() || null
+      description: document.getElementById('intDesc').value.trim() || null,
+      cover_url: coverUrl
     };
     let projId;
     if (editId) {
       await db(`interior_projects?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
       projId = editId;
-      await db(`interior_media?project_id=eq.${projId}`, { method:'DELETE' });
+      await db(`interior_folders?interior_id=eq.${projId}`, { method:'DELETE' });
     } else {
       const r = await db('interior_projects', { method:'POST', body:JSON.stringify(payload) });
       projId = r[0].id;
     }
-    if (intEditMedia.length) {
-      await db('interior_media', { method:'POST', body:JSON.stringify(
-        intEditMedia.map((m,i) => ({ project_id: projId, type: m.type, url: m.url, sort_order: i }))
-      )});
+    const folders = intEditFolders
+      .filter(f => f.url.trim())
+      .map((f, i) => ({
+        interior_id: projId,
+        folder_id: extractFolderId(f.url),
+        folder_url: f.url.trim(),
+        folder_name: f.name.trim() || null,
+        sort_order: i
+      }));
+    if (folders.length) {
+      await db('interior_folders', { method:'POST', body:JSON.stringify(folders) });
     }
+    clearDraft();
     toast(editId ? 'Project updated!' : 'Project added!', 'success');
     closeIntModal();
     await loadIntList();
@@ -1137,9 +1469,6 @@ async function uploadFilesForPrefix(prefix, files) {
       } else if (prefix === 'pt') {
         ptEditMedia.push(result);
         renderPTModalMedia();
-      } else if (prefix === 'int') {
-        intEditMedia.push(result);
-        renderIntModalMedia();
       }
       if (progEl) progEl.textContent = done < files.length ? `Uploaded ${done}/${files.length}` : '';
     } catch(e) {
