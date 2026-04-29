@@ -551,24 +551,16 @@ nav {
   overflow: hidden;
 }
 
-/* ── INTERIOR DETAIL ── */
-#int-detail { z-index: 10; }
-.int-detail-title {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
-  font-weight: 700;
-  font-size: clamp(50px, 7.5vw, 90px); letter-spacing: 0.03em;
-  color: var(--cream); margin-bottom: 20px;
-  animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+/* ── INTERIOR DETAIL — CINEMA STRIP (FULL-WIDTH) ── */
+#int-detail .section-inner {
+  max-width: none;
+  padding: 100px 0 80px;
 }
-.int-detail-desc {
-  font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 20px; line-height: 1.85;
-  color: var(--warm); max-width: 660px; margin-bottom: 56px;
-  animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
+#int-detail .int-detail-title,
+#int-detail .int-detail-desc,
+#int-detail .cinema-scroll-hint {
+  padding-left: 60px; padding-right: 60px;
 }
-
-/* ── INTERIOR DETAIL — CINEMA STRIP ── */
-#int-detail { z-index: 10; }
 .int-detail-title {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
@@ -583,18 +575,22 @@ nav {
   animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
 }
 
-/* ── CINEMA STRIP (horizontal desktop, vertical mobile) ── */
+/* ── CINEMA STRIP ── */
+.cinema-wrap {
+  position: relative;
+  animation: fadeUp 0.8s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
 .cinema-strip {
   display: flex;
-  gap: 16px;
-  padding: 12px 0 32px;
+  gap: 18px;
+  padding: 12px 60px 32px;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   cursor: grab;
-  animation: fadeUp 0.8s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+  scroll-snap-type: x proximity;
 }
 .cinema-strip::-webkit-scrollbar { display: none; }
 .cinema-strip.grabbing { cursor: grabbing; }
@@ -604,26 +600,36 @@ nav {
   position: relative;
   overflow: hidden;
   border-radius: 4px;
-  cursor: zoom-in;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
-  height: 70vh;
-  max-height: 600px;
+  cursor: pointer;
+  background: rgba(247,37,133,0.05);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.55);
+  transition: box-shadow 0.4s ease;
+  height: 70vh; max-height: 620px;
+  scroll-snap-align: start;
+  user-select: none;
 }
 .cinema-item:hover {
-  transform: scale(1.02);
   box-shadow: 0 16px 60px rgba(247,37,133,0.25), 0 8px 32px rgba(0,0,0,0.7);
 }
-.cinema-item img {
-  height: 100%; width: auto;
-  display: block; object-fit: cover;
-  pointer-events: none;
-}
+.cinema-item img,
 .cinema-item video {
   height: 100%; width: auto;
   display: block; object-fit: cover;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
+.cinema-item-skeleton {
+  width: 360px; height: 100%;
+  background: linear-gradient(90deg, rgba(247,37,133,0.06), rgba(114,9,183,0.08), rgba(247,37,133,0.06));
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 .cinema-item-label {
   position: absolute; bottom: 0; left: 0; right: 0;
   padding: 32px 16px 16px;
@@ -632,52 +638,109 @@ nav {
   font-family: 'Outfit', sans-serif;
   font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--cream);
+  pointer-events: none;
 }
 .cinema-item:hover .cinema-item-label { opacity: 1; }
 
-/* video badge */
 .cinema-video-badge {
   position: absolute; top: 12px; left: 12px;
-  background: rgba(247,37,133,0.85);
+  background: rgba(247,37,133,0.92);
   color: #fff; font-family: 'Outfit', sans-serif;
-  font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
-  padding: 4px 8px; border-radius: 2px;
+  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+  font-weight: 600;
+  padding: 5px 10px; border-radius: 2px;
+  pointer-events: none;
+  display: flex; align-items: center; gap: 4px;
+}
+.cinema-play-overlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  background: rgba(0,0,0,0.15);
+  transition: background 0.3s;
+}
+.cinema-item:hover .cinema-play-overlay { background: rgba(0,0,0,0); }
+.cinema-play-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(247,37,133,0.9);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 22px;
+  box-shadow: 0 8px 32px rgba(247,37,133,0.5);
+  transition: transform 0.3s;
+}
+.cinema-item:hover .cinema-play-icon { transform: scale(1.1); }
+
+/* ── ARROW BUTTONS ── */
+.cinema-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(22,9,31,0.85);
+  border: 1px solid rgba(247,37,133,0.4);
+  color: var(--accent);
+  font-size: 20px; font-family: 'Outfit', sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 50;
+  transition: all 0.3s;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.cinema-arrow:hover {
+  background: var(--accent); color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 32px rgba(247,37,133,0.55);
+}
+.cinema-arrow.prev { left: 24px; }
+.cinema-arrow.next { right: 24px; }
+.cinema-arrow:disabled { opacity: 0.3; cursor: default; }
+.cinema-arrow:disabled:hover {
+  background: rgba(22,9,31,0.85); color: var(--accent);
+  border-color: rgba(247,37,133,0.4);
 }
 
-/* scroll hint */
 .cinema-scroll-hint {
   font-family: 'Outfit', sans-serif;
   font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
-  animation: fadeUp 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+  color: var(--muted); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
 }
 .cinema-scroll-hint::after {
   content: ''; display: block; height: 1px;
-  width: 40px; background: var(--muted); opacity: 0.4;
+  width: 50px; background: var(--muted); opacity: 0.4;
 }
 
-/* ── MOBILE: vertical stack ── */
+/* ── MOBILE ── */
 @media (max-width: 768px) {
+  #int-detail .section-inner {
+    padding: 90px 0 60px;
+  }
+  #int-detail .int-detail-title,
+  #int-detail .int-detail-desc,
+  #int-detail .cinema-scroll-hint {
+    padding-left: 24px; padding-right: 24px;
+  }
   .cinema-strip {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: visible;
     height: auto;
     cursor: default;
+    padding: 12px 24px 32px;
+    gap: 14px;
+    scroll-snap-type: none;
   }
   .cinema-item {
-    height: auto;
-    max-height: none;
+    height: auto; max-height: none;
     width: 100%;
+    aspect-ratio: 4/5;
   }
   .cinema-item img,
   .cinema-item video {
-    height: auto;
-    width: 100%;
-    max-height: 80vw;
+    height: 100%; width: 100%;
     object-fit: cover;
   }
+  .cinema-arrow { display: none; }
   .cinema-scroll-hint { display: none; }
 }
 
@@ -1180,7 +1243,7 @@ async function openInteriorProject(id) {
   document.getElementById('intDetailContent').innerHTML = `
     <div class="int-detail-title">${p.name}</div>
     ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
-    <div class="loading-msg">Loading media<span class="loading-dots"></span></div>
+    <div class="loading-msg" style="padding-left:60px;">Loading media<span class="loading-dots"></span></div>
   `;
   navigate('int-detail', p.name);
 
@@ -1206,7 +1269,6 @@ async function openInteriorProject(id) {
       )
     );
     allFiles = results.flat();
-    // Videos first, then images, filter out subfolders
     allFiles = allFiles
       .filter(f => f.isVideo || f.isImage)
       .sort((a,b) => (b.isVideo ? 1 : 0) - (a.isVideo ? 1 : 0));
@@ -1218,25 +1280,39 @@ async function openInteriorProject(id) {
     <div class="int-detail-title">${p.name}</div>
     ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
     ${allFiles.length ? `
-      <div class="cinema-scroll-hint">Scroll to explore &nbsp;&#8594;</div>
-      <div class="cinema-strip" id="cinemaStrip-${id}">
-        ${allFiles.map((f, i) => `
-          <div class="cinema-item" data-embed="${f.embedUrl}" data-direct="${f.mediaUrl}" data-type="${f.isVideo ? 'video' : 'image'}">
-            ${f.isVideo
-              ? `<video src="${f.mediaUrl}" muted loop autoplay playsinline preload="metadata"></video>
-                 <div class="cinema-video-badge">&#9654; Video</div>`
-              : `<img src="${f.mediaUrl}" alt="" loading="lazy"/>`}
-            <div class="cinema-item-label">${(f.name||'').replace(/\.[^.]+$/, '')}</div>
-          </div>
-        `).join('')}
+      <div class="cinema-scroll-hint">Scroll or use arrows &nbsp;&#8594;</div>
+      <div class="cinema-wrap">
+        <button class="cinema-arrow prev" id="cinemaPrev-${id}" aria-label="Previous">&#8592;</button>
+        <button class="cinema-arrow next" id="cinemaNext-${id}" aria-label="Next">&#8594;</button>
+        <div class="cinema-strip" id="cinemaStrip-${id}">
+          ${allFiles.map((f, i) => {
+            // Use thumbnail for fast loading on both videos and images
+            const thumb = f.thumbUrl;
+            // Calculate width based on aspect ratio (default 360 for portrait, 480 for landscape)
+            const ratio = f.width && f.height ? f.width / f.height : 0.75;
+            const itemWidth = ratio > 1 ? 'auto' : 'auto';
+            return `
+              <div class="cinema-item" data-embed="${f.embedUrl}" data-direct="${f.mediaUrl}" data-type="${f.isVideo ? 'video' : 'image'}" data-name="${(f.name||'').replace(/"/g,'&quot;')}">
+                <img src="${thumb}" alt="" loading="lazy" decoding="async"/>
+                ${f.isVideo ? `
+                  <div class="cinema-video-badge">&#9654; Play</div>
+                  <div class="cinema-play-overlay"><div class="cinema-play-icon">&#9654;</div></div>
+                ` : ''}
+                <div class="cinema-item-label">${(f.name||'').replace(/\.[^.]+$/, '')}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
       </div>
     ` : `<div class="empty-state"><div class="empty-state-title">Media coming soon</div></div>`}
   `;
 
-  // Setup cinema strip interactions and click handlers
+  // Setup interactions
   const strip = document.getElementById(`cinemaStrip-${id}`);
+  const prev = document.getElementById(`cinemaPrev-${id}`);
+  const next = document.getElementById(`cinemaNext-${id}`);
   if (strip) {
-    setupCinemaStrip(strip);
+    setupCinemaStrip(strip, prev, next);
     strip.querySelectorAll('.cinema-item').forEach(item => {
       item.addEventListener('click', () => {
         openLightbox(item.dataset.embed, item.dataset.type, item.dataset.direct);
@@ -1245,29 +1321,74 @@ async function openInteriorProject(id) {
   }
 }
 
-function setupCinemaStrip(strip) {
-  // Mouse wheel → horizontal scroll on desktop
+function setupCinemaStrip(strip, prevBtn, nextBtn) {
+  const isMobile = () => window.innerWidth <= 768;
+
+  // Smooth scroll helper using rAF for buttery feel
+  let scrollTimer = null;
+  function scrollByAmount(amount) {
+    if (isMobile()) return;
+    strip.scrollTo({ left: strip.scrollLeft + amount, behavior: 'smooth' });
+  }
+
+  // Arrow buttons
+  if (prevBtn) prevBtn.addEventListener('click', () => scrollByAmount(-strip.clientWidth * 0.7));
+  if (nextBtn) nextBtn.addEventListener('click', () => scrollByAmount(strip.clientWidth * 0.7));
+
+  // Mouse wheel → smooth horizontal (handles trackpad two-finger naturally)
   strip.addEventListener('wheel', e => {
-    if (window.innerWidth <= 768) return;
+    if (isMobile()) return;
+    // Trackpad two-finger swipe gives deltaX directly — use that
+    // Mouse wheel gives deltaY — use that for horizontal scroll
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (delta === 0) return;
     e.preventDefault();
-    strip.scrollLeft += e.deltaY * 1.5;
+    strip.scrollLeft += delta;
+    updateArrowState();
   }, { passive: false });
 
-  // Click and drag to scroll
-  let isDown = false, startX, scrollLeft;
+  // Drag to scroll (desktop)
+  let isDown = false, startX, scrollLeft, hasMoved = false;
   strip.addEventListener('mousedown', e => {
-    isDown = true;
+    if (isMobile()) return;
+    isDown = true; hasMoved = false;
     strip.classList.add('grabbing');
     startX = e.pageX - strip.offsetLeft;
     scrollLeft = strip.scrollLeft;
   });
   strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
-  strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mouseup', () => {
+    setTimeout(() => { isDown = false; strip.classList.remove('grabbing'); }, 0);
+  });
   strip.addEventListener('mousemove', e => {
     if (!isDown) return;
     e.preventDefault();
     const x = e.pageX - strip.offsetLeft;
-    strip.scrollLeft = scrollLeft - (x - startX) * 1.2;
+    const walk = (x - startX) * 1.2;
+    if (Math.abs(walk) > 5) hasMoved = true;
+    strip.scrollLeft = scrollLeft - walk;
+  });
+  // Prevent click after drag
+  strip.querySelectorAll('.cinema-item').forEach(item => {
+    item.addEventListener('click', e => {
+      if (hasMoved) { e.stopPropagation(); e.preventDefault(); hasMoved = false; }
+    }, true);
+  });
+
+  // Update arrow disabled state
+  function updateArrowState() {
+    if (!prevBtn || !nextBtn) return;
+    prevBtn.disabled = strip.scrollLeft <= 5;
+    nextBtn.disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 5;
+  }
+  strip.addEventListener('scroll', updateArrowState, { passive: true });
+  setTimeout(updateArrowState, 100);
+
+  // Keyboard arrows when focused
+  strip.tabIndex = 0;
+  strip.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollByAmount(-strip.clientWidth * 0.5); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollByAmount(strip.clientWidth * 0.5); }
   });
 }
 

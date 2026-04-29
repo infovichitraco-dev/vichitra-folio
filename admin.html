@@ -1212,39 +1212,61 @@ function renderCoverPreview() {
 }
 
 function setupCropListeners(canvas) {
-  canvas.onmousedown = e => {
+  function getCanvasCoords(clientX, clientY) {
     const r = canvas.getBoundingClientRect();
-    intCropState.startX = e.clientX - r.left;
-    intCropState.startY = e.clientY - r.top;
+    // Convert client coords to canvas pixel coords
+    const scaleX = canvas.width / r.width;
+    const scaleY = canvas.height / r.height;
+    let x = (clientX - r.left) * scaleX;
+    let y = (clientY - r.top) * scaleY;
+    // Clamp to canvas bounds
+    x = Math.max(0, Math.min(canvas.width, x));
+    y = Math.max(0, Math.min(canvas.height, y));
+    return { x, y };
+  }
+
+  canvas.onmousedown = e => {
+    const c = getCanvasCoords(e.clientX, e.clientY);
+    intCropState.startX = c.x;
+    intCropState.startY = c.y;
+    intCropState.endX = c.x;
+    intCropState.endY = c.y;
     intCropState.dragging = true;
   };
   canvas.onmousemove = e => {
     if (!intCropState.dragging) return;
-    const r = canvas.getBoundingClientRect();
-    intCropState.endX = e.clientX - r.left;
-    intCropState.endY = e.clientY - r.top;
+    const c = getCanvasCoords(e.clientX, e.clientY);
+    intCropState.endX = c.x;
+    intCropState.endY = c.y;
     updateCropRect(canvas);
   };
   canvas.onmouseup = () => { intCropState.dragging = false; };
+  canvas.onmouseleave = () => { intCropState.dragging = false; };
+
   // Touch
   canvas.ontouchstart = e => {
-    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
-    intCropState.startX = t.clientX - r.left;
-    intCropState.startY = t.clientY - r.top;
+    const t = e.touches[0];
+    const c = getCanvasCoords(t.clientX, t.clientY);
+    intCropState.startX = c.x;
+    intCropState.startY = c.y;
+    intCropState.endX = c.x;
+    intCropState.endY = c.y;
     intCropState.dragging = true;
   };
   canvas.ontouchmove = e => {
     e.preventDefault();
     if (!intCropState.dragging) return;
-    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
-    intCropState.endX = t.clientX - r.left;
-    intCropState.endY = t.clientY - r.top;
+    const t = e.touches[0];
+    const c = getCanvasCoords(t.clientX, t.clientY);
+    intCropState.endX = c.x;
+    intCropState.endY = c.y;
     updateCropRect(canvas);
   };
   canvas.ontouchend = () => { intCropState.dragging = false; };
 }
 
 function updateCropRect(canvas) {
+  // Convert canvas pixel coords back to display coords for the overlay rect
   const r = canvas.getBoundingClientRect();
   const scaleX = r.width / canvas.width;
   const scaleY = r.height / canvas.height;
@@ -1262,22 +1284,25 @@ function updateCropRect(canvas) {
 
 function applyCrop() {
   const canvas = document.getElementById('intCropCanvas');
-  const r = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / r.width;
-  const scaleY = canvas.height / r.height;
-  const x = Math.min(intCropState.startX, intCropState.endX) * scaleX;
-  const y = Math.min(intCropState.startY, intCropState.endY) * scaleY;
-  const w = Math.abs(intCropState.endX - intCropState.startX) * scaleX;
-  const h = Math.abs(intCropState.endY - intCropState.startY) * scaleY;
+  // Coords are already in canvas pixel space
+  const x = Math.min(intCropState.startX, intCropState.endX);
+  const y = Math.min(intCropState.startY, intCropState.endY);
+  const w = Math.abs(intCropState.endX - intCropState.startX);
+  const h = Math.abs(intCropState.endY - intCropState.startY);
   if (w < 10 || h < 10) { toast('Draw a crop area first', 'error'); return; }
   const brightness = parseInt(document.getElementById('intBrightness').value) || 0;
   const contrast = parseInt(document.getElementById('intContrast').value) || 0;
+  // Map canvas coords to source image coords
+  const srcX = (x / canvas.width) * intCoverImg.naturalWidth;
+  const srcY = (y / canvas.height) * intCoverImg.naturalHeight;
+  const srcW = (w / canvas.width) * intCoverImg.naturalWidth;
+  const srcH = (h / canvas.height) * intCoverImg.naturalHeight;
+  // Render at full source resolution for quality
   const out = document.createElement('canvas');
-  out.width = w; out.height = h;
+  out.width = srcW; out.height = srcH;
   const octx = out.getContext('2d');
   octx.filter = `brightness(${100+brightness}%) contrast(${100+contrast}%)`;
-  octx.drawImage(intCoverImg, x/canvas.width*intCoverImg.naturalWidth, y/canvas.height*intCoverImg.naturalHeight,
-    w/canvas.width*intCoverImg.naturalWidth, h/canvas.height*intCoverImg.naturalHeight, 0, 0, w, h);
+  octx.drawImage(intCoverImg, srcX, srcY, srcW, srcH, 0, 0, srcW, srcH);
   octx.filter = 'none';
   intCroppedDataUrl = out.toDataURL('image/jpeg', 0.92);
   document.getElementById('intCoverFinalImg').src = intCroppedDataUrl;
