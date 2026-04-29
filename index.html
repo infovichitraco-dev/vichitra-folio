@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vichitra Co. — The Folio</title>
+<title>Vichitra Co. — Vichitra Folio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
@@ -175,8 +175,8 @@ nav {
   position: fixed; inset: 0;
   overflow-y: auto; overflow-x: hidden;
   opacity: 0; pointer-events: none;
-  transform: translateY(40px);
-  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1), transform 0.55s cubic-bezier(0.16,1,0.3,1);
+  transform: translateY(50px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
   will-change: transform, opacity;
 }
 .screen.active {
@@ -185,13 +185,13 @@ nav {
 }
 .screen.exit-up {
   opacity: 0;
-  transform: translateY(-40px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(-50px);
+  transition: opacity 0.5s cubic-bezier(0.4,0,0.6,1), transform 0.5s cubic-bezier(0.4,0,0.6,1);
 }
 .screen.exit-down {
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(50px);
+  transition: opacity 0.5s cubic-bezier(0.4,0,0.6,1), transform 0.5s cubic-bezier(0.4,0,0.6,1);
 }
 
 /* ── BACKGROUND CANVAS ── */
@@ -213,19 +213,19 @@ nav {
 }
 .home-eyebrow {
   font-family: 'Outfit', sans-serif;
-  font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 16px;
-  animation: fadeUp 0.8s 0.2s both;
+  font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+  animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .home-title {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(72px, 10vw, 120px);
+  font-size: clamp(90px, 12vw, 150px);
   letter-spacing: 0.04em; line-height: 0.9;
   color: var(--cream);
-  margin-bottom: 48px;
-  animation: fadeUp 0.8s 0.35s both;
-  text-shadow: 0 0 60px rgba(181,23,158,0.35);
+  margin-bottom: 60px;
+  animation: fadeUp 1.1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+  text-shadow: 0 0 80px rgba(181,23,158,0.4);
 }
 .home-title span { color: var(--accent); }
 
@@ -242,32 +242,32 @@ nav {
 
 .menu-item-inner {
   display: grid;
-  grid-template-columns: 36px 1fr auto 24px;
-  align-items: center; gap: 20px;
-  padding: 20px 12px;
+  grid-template-columns: 44px 1fr auto 28px;
+  align-items: center; gap: 24px;
+  padding: 25px 14px;
 }
 .menu-item-num {
   font-family: 'Outfit', sans-serif;
-  font-size: 10px; letter-spacing: 0.1em;
+  font-size: 12px; letter-spacing: 0.1em;
   color: var(--accent); opacity: 0.7;
 }
 .menu-item-name {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 25px;
   color: var(--cream); letter-spacing: 0.04em;
 }
 .menu-item-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 11px; letter-spacing: 0.06em;
+  font-size: 14px; letter-spacing: 0.06em;
   color: var(--muted);
   text-align: right;
 }
 .menu-arrow {
-  color: var(--accent); font-size: 16px;
-  transition: transform 0.2s;
+  color: var(--accent); font-size: 20px;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
 }
-.menu-item:hover .menu-arrow { transform: translateX(4px); }
+.menu-item:hover .menu-arrow { transform: translateX(6px); }
 
 /* ── SECTION COMMON ── */
 .section-inner {
@@ -277,23 +277,23 @@ nav {
 }
 .section-eyebrow {
   font-family: 'Outfit', sans-serif;
-  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 12px;
-  animation: fadeUp 0.7s 0.1s both;
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 15px;
+  animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .section-title {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(48px, 7vw, 80px);
+  font-size: clamp(60px, 8.5vw, 100px);
   letter-spacing: 0.04em; line-height: 1;
-  color: var(--cream); margin-bottom: 48px;
-  animation: fadeUp 0.7s 0.2s both;
+  color: var(--cream); margin-bottom: 56px;
+  animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .divider {
-  width: 48px; height: 1px;
+  width: 56px; height: 1px;
   background: var(--accent); opacity: 0.4;
-  margin-bottom: 40px;
-  animation: scaleX 0.6s 0.3s both;
+  margin-bottom: 48px;
+  animation: growX 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
   transform-origin: left;
 }
 
@@ -301,24 +301,24 @@ nav {
 #prastavana { z-index: 10; }
 .pras-text {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 17px; font-weight: 400; line-height: 1.9;
-  color: var(--warm); max-width: 640px;
-  animation: fadeUp 0.7s 0.35s both;
+  font-size: 21px; font-weight: 400; line-height: 1.9;
+  color: var(--warm); max-width: 680px;
+  animation: fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
   white-space: pre-wrap;
 }
 .pras-headline {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(34px, 5vw, 52px);
   color: var(--cream);
-  line-height: 1.3; margin-bottom: 24px;
-  animation: fadeUp 0.7s 0.25s both;
+  line-height: 1.3; margin-bottom: 28px;
+  animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pras-sub {
   font-family: 'Outfit', sans-serif;
-  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 32px;
-  animation: fadeUp 0.7s 0.3s both;
+  font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 36px;
+  animation: fadeUp 0.9s 0.3s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pras-media-grid {
   display: grid;
@@ -371,18 +371,18 @@ nav {
 .pt-card-body { padding: 20px; }
 .pt-card-tag {
   font-family: 'Outfit', sans-serif;
-  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 8px;
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
 }
 .pt-card-name {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
-  font-size: 20px; color: var(--cream);
-  margin-bottom: 10px; line-height: 1.3;
+  font-size: 25px; color: var(--cream);
+  margin-bottom: 12px; line-height: 1.3;
 }
 .pt-card-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 13px; color: var(--muted); line-height: 1.7;
+  font-size: 16px; color: var(--muted); line-height: 1.7;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -391,22 +391,22 @@ nav {
 .pt-detail-header { margin-bottom: 40px; }
 .pt-detail-tag {
   font-family: 'Outfit', sans-serif;
-  font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 12px;
-  animation: fadeUp 0.6s 0.1s both;
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 15px;
+  animation: fadeUp 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-title {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(40px, 6vw, 70px); letter-spacing: 0.03em;
-  color: var(--cream); margin-bottom: 20px;
-  animation: fadeUp 0.6s 0.2s both;
+  font-size: clamp(50px, 7.5vw, 88px); letter-spacing: 0.03em;
+  color: var(--cream); margin-bottom: 24px;
+  animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 16px; line-height: 1.85;
-  color: var(--warm); max-width: 620px;
-  animation: fadeUp 0.6s 0.3s both;
+  font-size: 20px; line-height: 1.85;
+  color: var(--warm); max-width: 680px;
+  animation: fadeUp 0.9s 0.3s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-links-row {
   display: flex; flex-wrap: wrap; gap: 12px;
@@ -465,41 +465,41 @@ nav {
 .industry-name {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 25px;
   color: var(--cream); letter-spacing: 0.03em;
 }
 .industry-toggle {
-  width: 24px; height: 24px;
+  width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--accent); font-size: 18px;
-  transition: transform 0.3s;
+  color: var(--accent); font-size: 22px;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
   flex-shrink: 0;
 }
 .industry-item.open .industry-toggle { transform: rotate(45deg); }
 
 .industry-bullets {
   max-height: 0; overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.3s;
-  padding: 0 12px;
+  transition: max-height 0.6s cubic-bezier(0.16,1,0.3,1), padding 0.4s cubic-bezier(0.16,1,0.3,1);
+  padding: 0 14px;
 }
 .industry-item.open .industry-bullets {
-  max-height: 600px;
-  padding: 0 12px 24px;
+  max-height: 800px;
+  padding: 0 14px 28px;
 }
 .industry-bullet {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 10px 0;
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 0;
   border-top: 1px solid rgba(247,37,133,0.08);
 }
 .industry-bullet:first-child { border-top: none; }
 .industry-bullet-dot {
-  width: 4px; height: 4px; border-radius: 50%;
+  width: 5px; height: 5px; border-radius: 50%;
   background: var(--accent); opacity: 0.6;
-  margin-top: 9px; flex-shrink: 0;
+  margin-top: 10px; flex-shrink: 0;
 }
 .industry-bullet-text {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 15px; color: var(--warm); line-height: 1.7;
+  font-size: 18px; color: var(--warm); line-height: 1.7;
 }
 
 /* ── INTERIOR PORTFOLIO ── */
@@ -541,12 +541,12 @@ nav {
 .interior-card-name {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
-  font-size: 18px; color: var(--cream);
-  margin-bottom: 6px;
+  font-size: 22px; color: var(--cream);
+  margin-bottom: 8px;
 }
 .interior-card-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 13px; color: var(--muted); line-height: 1.65;
+  font-size: 16px; color: var(--muted); line-height: 1.65;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -556,66 +556,129 @@ nav {
 .int-detail-title {
   font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: clamp(40px, 6vw, 72px); letter-spacing: 0.03em;
-  color: var(--cream); margin-bottom: 16px;
-  animation: fadeUp 0.6s 0.15s both;
+  font-size: clamp(50px, 7.5vw, 90px); letter-spacing: 0.03em;
+  color: var(--cream); margin-bottom: 20px;
+  animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
 }
 .int-detail-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 16px; line-height: 1.85;
-  color: var(--warm); max-width: 600px; margin-bottom: 48px;
-  animation: fadeUp 0.6s 0.25s both;
+  font-size: 20px; line-height: 1.85;
+  color: var(--warm); max-width: 660px; margin-bottom: 56px;
+  animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
 }
 
-/* ── SCATTERED MEDIA ── */
-.media-scatter {
-  position: relative;
-  min-height: 600px;
+/* ── INTERIOR DETAIL — CINEMA STRIP ── */
+#int-detail { z-index: 10; }
+.int-detail-title {
+  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: clamp(50px, 7.5vw, 90px); letter-spacing: 0.03em;
+  color: var(--cream); margin-bottom: 20px;
+  animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
 }
-.scatter-item {
-  position: relative;
-  display: inline-block;
-  margin: 0 8px 16px;
-  overflow: hidden;
-  border-radius: 2px;
-  cursor: zoom-in;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: fadeUp 0.6s calc(0.3s + var(--i,0) * 0.07s) both;
-}
-.scatter-item:hover {
-  transform: scale(1.03) rotate(0deg) !important;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.7);
-  z-index: 10;
-}
-.scatter-item img,
-.scatter-item video {
-  display: block;
-  max-height: 320px;
-  width: auto;
-  max-width: 100%;
-}
-.scatter-caption {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 20px 14px 14px;
-  background: linear-gradient(to top, rgba(26,20,16,0.9) 0%, transparent 100%);
-  opacity: 0; transition: opacity 0.3s;
-}
-.scatter-item:hover .scatter-caption { opacity: 1; }
-.scatter-caption-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 3px;
-}
-.scatter-caption-desc {
+.int-detail-desc {
   font-family: 'CaslonAntique', Georgia, serif;
-  font-size: 12px; color: var(--warm); line-height: 1.5;
+  font-size: 20px; line-height: 1.85;
+  color: var(--warm); max-width: 660px; margin-bottom: 48px;
+  animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
 }
 
-.scatter-wrap {
-  display: flex; flex-wrap: wrap;
-  gap: 12px;
-  padding: 8px 0;
+/* ── CINEMA STRIP (horizontal desktop, vertical mobile) ── */
+.cinema-strip {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0 32px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  animation: fadeUp 0.8s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+}
+.cinema-strip::-webkit-scrollbar { display: none; }
+.cinema-strip.grabbing { cursor: grabbing; }
+
+.cinema-item {
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  cursor: zoom-in;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+  height: 70vh;
+  max-height: 600px;
+}
+.cinema-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 16px 60px rgba(247,37,133,0.25), 0 8px 32px rgba(0,0,0,0.7);
+}
+.cinema-item img {
+  height: 100%; width: auto;
+  display: block; object-fit: cover;
+  pointer-events: none;
+}
+.cinema-item video {
+  height: 100%; width: auto;
+  display: block; object-fit: cover;
+  pointer-events: none;
+}
+.cinema-item-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 32px 16px 16px;
+  background: linear-gradient(to top, rgba(22,9,31,0.92) 0%, transparent 100%);
+  opacity: 0; transition: opacity 0.35s;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--cream);
+}
+.cinema-item:hover .cinema-item-label { opacity: 1; }
+
+/* video badge */
+.cinema-video-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(247,37,133,0.85);
+  color: #fff; font-family: 'Outfit', sans-serif;
+  font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 4px 8px; border-radius: 2px;
+}
+
+/* scroll hint */
+.cinema-scroll-hint {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 8px;
+  animation: fadeUp 0.8s 0.3s cubic-bezier(0.16,1,0.3,1) both;
+}
+.cinema-scroll-hint::after {
+  content: ''; display: block; height: 1px;
+  width: 40px; background: var(--muted); opacity: 0.4;
+}
+
+/* ── MOBILE: vertical stack ── */
+@media (max-width: 768px) {
+  .cinema-strip {
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: visible;
+    height: auto;
+    cursor: default;
+  }
+  .cinema-item {
+    height: auto;
+    max-height: none;
+    width: 100%;
+  }
+  .cinema-item img,
+  .cinema-item video {
+    height: auto;
+    width: 100%;
+    max-height: 80vw;
+    object-fit: cover;
+  }
+  .cinema-scroll-hint { display: none; }
 }
 
 /* ── LIGHTBOX ── */
@@ -676,12 +739,12 @@ nav {
 
 /* ── KEYFRAMES ── */
 @keyframes fadeUp {
-  from { opacity:0; transform: translateY(24px); }
+  from { opacity:0; transform: translateY(40px); }
   to { opacity:1; transform: translateY(0); }
 }
-@keyframes scaleX {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+@keyframes growX {
+  from { transform: scaleX(0); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
 }
 
 /* ── EMPTY STATE ── */
@@ -732,7 +795,7 @@ nav {
 <div class="screen active" id="home">
   <div class="home-inner">
     <div class="home-eyebrow">Selected Works &amp; Services</div>
-    <div class="home-title">The <span>Folio</span></div>
+    <div class="home-title">Vichitra <span>Folio</span></div>
     <div class="menu-list">
       <div class="menu-item" style="--d:0.55s" onclick="navigate('prastavana')">
         <div class="menu-item-inner">
@@ -922,13 +985,13 @@ async function loadScreen(id) {
     switch(id) {
       case 'prastavana':
         if (!cache.overview) {
-          cache.overview = await sb('overview?select=*,overview_media(*)&limit=1');
+          cache.overview = await sb('overview?select=*,overview_media(id,url,type,title,description,sort_order,overview_id)&limit=1');
         }
         renderPrastavana();
         break;
       case 'project-types':
         if (!cache.projectTypes) {
-          cache.projectTypes = await sb('project_types?select=*,project_type_media(*),project_type_links(*)&order=sort_order.asc');
+          cache.projectTypes = await sb('project_types?select=*,project_type_media(*),project_type_links(id,url,title,sort_order)&order=sort_order.asc');
         }
         renderProjectTypes();
         break;
@@ -940,7 +1003,7 @@ async function loadScreen(id) {
         break;
       case 'interior':
         if (!cache.interior) {
-          cache.interior = await sb('interior_projects?select=*,interior_media(*)&order=created_at.asc');
+          cache.interior = await sb('interior_projects?select=*,interior_folders(id,folder_id,folder_name,folder_url,sort_order)&order=created_at.asc');
         }
         renderInterior();
         break;
@@ -990,37 +1053,42 @@ function renderProjectTypes() {
   el.innerHTML = items.map((p, i) => {
     const cover = (p.project_type_media || []).find(m => m.sort_order === 0) || p.project_type_media?.[0];
     return `
-      <div class="pt-card" style="--i:${i}" onclick="openProjectType(${p.id})">
+      <div class="pt-card" style="--i:${i}" data-pt-id="${p.id}">
         ${cover
-          ? `<img class="pt-card-cover" src="${cover.url}" alt="${p.name}" loading="lazy"/>`
+          ? `<img class="pt-card-cover" src="${cover.url}" alt="${(p.name||'').replace(/"/g,'&quot;')}" loading="lazy"/>`
           : `<div class="pt-card-cover-placeholder"></div>`}
         <div class="pt-card-body">
           ${p.industry_tag ? `<div class="pt-card-tag">${p.industry_tag}</div>` : ''}
-          <div class="pt-card-name">${p.name}</div>
+          <div class="pt-card-name">${p.name||''}</div>
           ${p.description ? `<div class="pt-card-desc">${p.description}</div>` : ''}
         </div>
       </div>
     `;
   }).join('');
+  el.querySelectorAll('.pt-card').forEach(card => {
+    card.addEventListener('click', () => openProjectType(card.dataset.ptId));
+  });
 }
 
 function openProjectType(id) {
   const p = (cache.projectTypes || []).find(x => x.id == id);
   if (!p) return;
   const media = (p.project_type_media || []).sort((a,b) => a.sort_order - b.sort_order);
-  const links = p.project_type_links || [];
-  const pdfs = links.filter(l => l.type === 'pdf');
-  const hypers = links.filter(l => l.type === 'link');
+  const links = (p.project_type_links || []).sort((a,b) => (a.sort_order||0) - (b.sort_order||0));
 
   document.getElementById('ptDetailContent').innerHTML = `
     <div class="pt-detail-header">
       ${p.industry_tag ? `<div class="pt-detail-tag">${p.industry_tag}</div>` : ''}
       <div class="pt-detail-title">${p.name}</div>
       ${p.description ? `<div class="pt-detail-desc">${p.description}</div>` : ''}
-      ${(pdfs.length || hypers.length) ? `
+      ${links.length ? `
         <div class="pt-links-row">
-          ${pdfs.map(l => `<a class="pt-link-btn pdf" href="${l.url}" target="_blank" rel="noopener">&#128196; ${l.label || 'View PDF'}</a>`).join('')}
-          ${hypers.map(l => `<a class="pt-link-btn" href="${l.url}" target="_blank" rel="noopener">&#8599; ${l.label || 'Visit Link'}</a>`).join('')}
+          ${links.map(l => {
+            const isPdf = l.url && l.url.toLowerCase().includes('.pdf');
+            return `<a class="pt-link-btn ${isPdf ? 'pdf' : ''}" href="${l.url}" target="_blank" rel="noopener">
+              ${isPdf ? '&#128196;' : '&#8599;'} ${l.title || (isPdf ? 'View PDF' : 'Visit Link')}
+            </a>`;
+          }).join('')}
         </div>
       ` : ''}
     </div>
@@ -1076,6 +1144,8 @@ function toggleIndustry(id) {
 }
 
 // ── RENDER INTERIOR ──────────────────────────
+const WORKER = 'https://media.vichitraco.com';
+
 function renderInterior() {
   const el = document.getElementById('interiorGrid');
   const items = cache.interior || [];
@@ -1083,70 +1153,139 @@ function renderInterior() {
     el.innerHTML = `<div class="empty-state"><div class="empty-state-title">Portfolio coming soon</div><div class="empty-state-sub">Projects being added</div></div>`;
     return;
   }
-  el.innerHTML = items.map((p, i) => {
-    const cover = (p.interior_media || []).find(m => m.sort_order === 0) || p.interior_media?.[0];
-    return `
-      <div class="interior-card" style="--i:${i}" onclick="openInteriorProject(${p.id})">
-        <div class="interior-card-cover">
-          ${cover && cover.type === 'image'
-            ? `<img src="${cover.url}" alt="${p.name}" loading="lazy"/>`
-            : `<div class="interior-card-cover-placeholder">&#127968;</div>`}
-        </div>
-        <div class="interior-card-info">
-          <div class="interior-card-name">${p.name}</div>
-          ${p.description ? `<div class="interior-card-desc">${p.description}</div>` : ''}
-        </div>
+  el.innerHTML = items.map((p, i) => `
+    <div class="interior-card" style="--i:${i}" data-int-id="${p.id}">
+      <div class="interior-card-cover">
+        ${p.cover_url
+          ? `<img src="${p.cover_url}" alt="${(p.name||'').replace(/"/g,'&quot;')}" loading="lazy"/>`
+          : `<div class="interior-card-cover-placeholder">&#127968;</div>`}
       </div>
-    `;
-  }).join('');
+      <div class="interior-card-info">
+        <div class="interior-card-name">${p.name||''}</div>
+        ${p.description ? `<div class="interior-card-desc">${p.description}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+  // Attach click handlers via JS to avoid quoting issues with UUIDs
+  el.querySelectorAll('.interior-card').forEach(card => {
+    card.addEventListener('click', () => openInteriorProject(card.dataset.intId));
+  });
 }
 
-function openInteriorProject(id) {
+async function openInteriorProject(id) {
   const p = (cache.interior || []).find(x => x.id == id);
   if (!p) return;
-  const media = (p.interior_media || []).sort((a,b) => a.sort_order - b.sort_order);
 
-  const rotations = [-2.5, 1.8, -1.2, 2.1, -0.8, 1.5, -2.0, 0.9, -1.7];
+  // Show loading state first, navigate immediately
+  document.getElementById('intDetailContent').innerHTML = `
+    <div class="int-detail-title">${p.name}</div>
+    ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
+    <div class="loading-msg">Loading media<span class="loading-dots"></span></div>
+  `;
+  navigate('int-detail', p.name);
+
+  const folders = (p.interior_folders || []).sort((a,b) => (a.sort_order||0) - (b.sort_order||0));
+  if (!folders.length) {
+    document.getElementById('intDetailContent').innerHTML = `
+      <div class="int-detail-title">${p.name}</div>
+      ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
+      <div class="empty-state"><div class="empty-state-title">No folders linked yet</div></div>
+    `;
+    return;
+  }
+
+  // Fetch all folders in parallel
+  let allFiles = [];
+  try {
+    const results = await Promise.all(
+      folders.map(f =>
+        fetch(`${WORKER}/folder?id=${f.folder_id}`)
+          .then(r => r.json())
+          .then(d => d.files || [])
+          .catch(() => [])
+      )
+    );
+    allFiles = results.flat();
+    // Videos first, then images, filter out subfolders
+    allFiles = allFiles
+      .filter(f => f.isVideo || f.isImage)
+      .sort((a,b) => (b.isVideo ? 1 : 0) - (a.isVideo ? 1 : 0));
+  } catch(e) {
+    allFiles = [];
+  }
 
   document.getElementById('intDetailContent').innerHTML = `
     <div class="int-detail-title">${p.name}</div>
     ${p.description ? `<div class="int-detail-desc">${p.description}</div>` : ''}
-    ${media.length ? `
-      <div class="scatter-wrap">
-        ${media.map((m, i) => `
-          <div class="scatter-item" style="--i:${i}; transform: rotate(${rotations[i % rotations.length]}deg);"
-               onclick="openLightbox('${m.url}','${m.type}')">
-            ${m.type === 'video'
-              ? `<video src="${m.url}" muted loop autoplay playsinline style="max-height:320px;width:auto;max-width:100%"></video>`
-              : `<img src="${m.url}" alt="${m.title||''}" loading="lazy"/>`}
-            ${(m.title || m.description) ? `
-              <div class="scatter-caption">
-                ${m.title ? `<div class="scatter-caption-title">${m.title}</div>` : ''}
-                ${m.description ? `<div class="scatter-caption-desc">${m.description}</div>` : ''}
-              </div>
-            ` : ''}
+    ${allFiles.length ? `
+      <div class="cinema-scroll-hint">Scroll to explore &nbsp;&#8594;</div>
+      <div class="cinema-strip" id="cinemaStrip-${id}">
+        ${allFiles.map((f, i) => `
+          <div class="cinema-item" data-embed="${f.embedUrl}" data-direct="${f.mediaUrl}" data-type="${f.isVideo ? 'video' : 'image'}">
+            ${f.isVideo
+              ? `<video src="${f.mediaUrl}" muted loop autoplay playsinline preload="metadata"></video>
+                 <div class="cinema-video-badge">&#9654; Video</div>`
+              : `<img src="${f.mediaUrl}" alt="" loading="lazy"/>`}
+            <div class="cinema-item-label">${(f.name||'').replace(/\.[^.]+$/, '')}</div>
           </div>
         `).join('')}
       </div>
     ` : `<div class="empty-state"><div class="empty-state-title">Media coming soon</div></div>`}
   `;
-  navigate('int-detail', p.name);
+
+  // Setup cinema strip interactions and click handlers
+  const strip = document.getElementById(`cinemaStrip-${id}`);
+  if (strip) {
+    setupCinemaStrip(strip);
+    strip.querySelectorAll('.cinema-item').forEach(item => {
+      item.addEventListener('click', () => {
+        openLightbox(item.dataset.embed, item.dataset.type, item.dataset.direct);
+      });
+    });
+  }
+}
+
+function setupCinemaStrip(strip) {
+  // Mouse wheel → horizontal scroll on desktop
+  strip.addEventListener('wheel', e => {
+    if (window.innerWidth <= 768) return;
+    e.preventDefault();
+    strip.scrollLeft += e.deltaY * 1.5;
+  }, { passive: false });
+
+  // Click and drag to scroll
+  let isDown = false, startX, scrollLeft;
+  strip.addEventListener('mousedown', e => {
+    isDown = true;
+    strip.classList.add('grabbing');
+    startX = e.pageX - strip.offsetLeft;
+    scrollLeft = strip.scrollLeft;
+  });
+  strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - strip.offsetLeft;
+    strip.scrollLeft = scrollLeft - (x - startX) * 1.2;
+  });
 }
 
 // ── LIGHTBOX ─────────────────────────────────
-function openLightbox(url, type) {
+function openLightbox(embedUrl, type, directUrl) {
   const lb = document.getElementById('lightbox');
   const media = document.getElementById('lightboxMedia');
-  media.innerHTML = type === 'video'
-    ? `<video src="${url}" controls autoplay style="max-width:90vw;max-height:90vh;"></video>`
-    : `<img src="${url}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;"/>`;
+  if (type === 'video') {
+    // Use iframe embed for Drive videos
+    media.innerHTML = `<iframe src="${embedUrl}" style="width:90vw;max-width:1100px;height:70vh;border:none;border-radius:4px;" allowfullscreen></iframe>`;
+  } else {
+    media.innerHTML = `<img src="${directUrl || embedUrl}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:3px;"/>`;
+  }
   lb.classList.add('open');
-  document.body.style.overflow = 'hidden';
 }
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
   document.getElementById('lightboxMedia').innerHTML = '';
-  document.body.style.overflow = '';
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
 

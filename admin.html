@@ -593,10 +593,11 @@ input[type=range]::-webkit-slider-thumb {
 
     <hr class="section-divider"/>
     <div class="form-label" style="margin-bottom:6px;">Cover Image</div>
-    <div class="form-group" style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;">
-      <input class="form-input" id="intCoverUrl" placeholder="Paste image URL here..." style="flex:1;min-width:200px;"
-             oninput="autoSaveInt()" onblur="loadCoverPreview()"/>
-      <button class="btn btn-outline btn-sm" onclick="loadCoverPreview()">Load</button>
+    <div class="form-group" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <input type="file" id="intCoverFile" accept="image/*" style="display:none" onchange="handleCoverFile(event)"/>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('intCoverFile').click()">Choose Image</button>
+      <span id="intCoverFilename" style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);">No image selected</span>
+      <input type="hidden" id="intCoverUrl"/>
     </div>
 
     <!-- CROP + ADJUST TOOL -->
@@ -1154,6 +1155,24 @@ function removeFolderRow(i) {
 }
 
 // ── COVER IMAGE ──
+async function handleCoverFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById('intCoverFilename').textContent = `Uploading ${file.name}...`;
+  try {
+    const result = await uploadFile(file, pct => {
+      document.getElementById('intCoverFilename').textContent = `Uploading... ${pct}%`;
+    });
+    document.getElementById('intCoverUrl').value = result.url;
+    document.getElementById('intCoverFilename').textContent = file.name + ' ✓';
+    autoSaveInt();
+    loadCoverPreview();
+  } catch(e) {
+    document.getElementById('intCoverFilename').textContent = 'Upload failed';
+    toast('Upload failed: ' + e.message, 'error');
+  }
+}
+
 function loadCoverPreview() {
   const url = document.getElementById('intCoverUrl').value.trim();
   if (!url) return;
@@ -1316,6 +1335,7 @@ function openIntModal() {
   document.getElementById('intName').value = '';
   document.getElementById('intDesc').value = '';
   document.getElementById('intCoverUrl').value = '';
+  document.getElementById('intCoverFilename').textContent = 'No image selected';
   document.getElementById('intCropWrap').style.display = 'none';
   document.getElementById('intCoverFinal').style.display = 'none';
   // Restore draft if exists
@@ -1323,9 +1343,12 @@ function openIntModal() {
   if (draft && !draft.id) {
     document.getElementById('intName').value = draft.name || '';
     document.getElementById('intDesc').value = draft.desc || '';
-    document.getElementById('intCoverUrl').value = draft.coverUrl || '';
+    if (draft.coverUrl) {
+      document.getElementById('intCoverUrl').value = draft.coverUrl;
+      document.getElementById('intCoverFilename').textContent = 'Cover image (from draft) ✓';
+      loadCoverPreview();
+    }
     intEditFolders = draft.folders && draft.folders.length ? draft.folders : [{ url:'', name:'' }];
-    if (draft.coverUrl) loadCoverPreview();
   }
   renderFolderList();
   document.getElementById('intModal').classList.add('open');
@@ -1344,6 +1367,7 @@ function editInt(id) {
   document.getElementById('intName').value = p.name || '';
   document.getElementById('intDesc').value = p.description || '';
   document.getElementById('intCoverUrl').value = p.cover_url || '';
+  document.getElementById('intCoverFilename').textContent = p.cover_url ? 'Existing cover ✓' : 'No image selected';
   document.getElementById('intCropWrap').style.display = 'none';
   document.getElementById('intCoverFinal').style.display = 'none';
   if (p.cover_url) loadCoverPreview();
