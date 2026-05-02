@@ -5,19 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Vichitra Co. — Vichitra Folio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
-<style>
-  @font-face {
-    font-family: 'MazzardH';
-    src: url('https://fonts.cdnfonts.com/s/68038/MazzardH-Bold.woff') format('woff');
-    font-weight: 700; font-display: swap;
-  }
-  @font-face {
-    font-family: 'CaslonAntique';
-    src: url('https://fonts.cdnfonts.com/s/29488/CaslonAntique.woff') format('woff');
-    font-weight: 400; font-display: swap;
-  }
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
   --ink: #2a0845;
@@ -38,7 +27,7 @@ html, body {
   width:100%; height:100%;
   background: var(--ink);
   color: #ffffff;
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   overflow: hidden;
 }
 
@@ -167,7 +156,7 @@ nav {
 }
 .nav-logo img { height: 32px; width: 32px; object-fit: contain; border-radius: 8px; opacity: 0.95; }
 .nav-logo-wordmark {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700; font-size: 15px; letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #ffffff;
@@ -257,7 +246,7 @@ nav {
   animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .home-title {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(80px, 11vw, 180px);
   letter-spacing: 0.02em; line-height: 0.88;
@@ -268,7 +257,7 @@ nav {
 }
 .home-title span { color: rgba(255,220,240,0.95); display: block; }
 .home-tagline {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 19px; line-height: 1.7;
   color: rgba(255,255,255,0.65);
   margin-top: 32px;
@@ -304,7 +293,7 @@ nav {
   color: rgba(255,255,255,0.32); opacity: 1;
 }
 .menu-item-name {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: 24px;
   color: #ffffff; letter-spacing: 0.02em;
@@ -344,7 +333,7 @@ nav {
   animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .section-title {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(60px, 8.5vw, 100px);
   letter-spacing: 0.04em; line-height: 1;
@@ -362,14 +351,14 @@ nav {
 /* ── PRASTAVANA ── */
 #prastavana { z-index: 10; }
 .pras-text {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 21px; font-weight: 400; line-height: 1.9;
   color: rgba(255,255,255,0.72); max-width: 680px;
   animation: fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
   white-space: pre-wrap;
 }
 .pras-headline {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(34px, 5vw, 52px);
   color: #ffffff;
@@ -445,7 +434,7 @@ nav {
   margin-bottom: 12px; line-height: 1.3;
 }
 .pt-card-desc {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden;
@@ -460,14 +449,14 @@ nav {
   animation: fadeUp 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-title {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(50px, 7.5vw, 88px); letter-spacing: 0.03em;
   color: #ffffff; margin-bottom: 24px;
   animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-desc {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 20px; line-height: 1.85;
   color: rgba(255,255,255,0.72); max-width: 680px;
   animation: fadeUp 0.9s 0.3s cubic-bezier(0.16,1,0.3,1) both;
@@ -562,7 +551,7 @@ nav {
   margin-top: 10px; flex-shrink: 0;
 }
 .industry-bullet-text {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 18px; color: rgba(255,255,255,0.7); line-height: 1.7;
 }
 
@@ -611,7 +600,7 @@ nav {
   margin-bottom: 8px;
 }
 .interior-card-desc {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 16px; color: #e0b8cc; line-height: 1.65;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
@@ -628,14 +617,14 @@ nav {
   padding-left: 60px; padding-right: 60px;
 }
 .int-detail-title {
-  font-family: 'MazzardH', 'Outfit', sans-serif;
+  font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   font-size: clamp(50px, 7.5vw, 90px); letter-spacing: 0.03em;
   color: #ffffff; margin-bottom: 20px;
   animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
 }
 .int-detail-desc {
-  font-family: 'CaslonAntique', Georgia, serif;
+  font-family: 'Lora', Georgia, serif;
   font-size: 20px; line-height: 1.85;
   color: #f0d4e2; max-width: 660px; margin-bottom: 48px;
   animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
@@ -1130,7 +1119,7 @@ async function loadScreen(id) {
     switch(id) {
       case 'prastavana':
         if (!cache.overview) {
-          cache.overview = await sb('overview?select=*,overview_media(id,url,type,title,description,sort_order,overview_id)&limit=1');
+          cache.overview = await sb('overview?select=*,overview_media(id,url,type,title,description,sort_order)&limit=1');
         }
         renderPrastavana();
         break;

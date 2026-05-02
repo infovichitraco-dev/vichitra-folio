@@ -5,19 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Vichitra Folio — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<style>
-  @font-face {
-    font-family: 'MazzardH';
-    src: url('https://fonts.cdnfonts.com/s/68038/MazzardH-Bold.woff') format('woff');
-    font-weight: 700; font-display: swap;
-  }
-  @font-face {
-    font-family: 'CaslonAntique';
-    src: url('https://fonts.cdnfonts.com/s/29488/CaslonAntique.woff') format('woff');
-    font-weight: 400; font-display: swap;
-  }
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
   --ink: #3a0f28;
@@ -38,7 +27,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'CaslonAntique',Georgia,serif; }
+html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'Lora', Georgia, serif; }
 
 /* ── ANIMATED GRADIENT BG ── */
 #gradientBg {
@@ -128,7 +117,7 @@ body::before {
   box-shadow:0 24px 80px rgba(0,0,0,0.6);
 }
 .login-logo {
-  font-family:'MazzardH','Outfit',sans-serif;
+  font-family:'Playfair Display', Georgia, serif;
   font-weight:700; font-size:32px; letter-spacing:0.1em;
   color:var(--cream); margin-bottom:4px;
   text-shadow:0 0 30px rgba(247,37,133,0.4);
@@ -183,7 +172,7 @@ body::before {
 }
 .admin-nav-logo img { height:32px; width:32px; object-fit:contain; border-radius:5px; opacity:0.9; }
 .admin-nav-wordmark {
-  font-family:'MazzardH','Outfit',sans-serif;
+  font-family:'Playfair Display', Georgia, serif;
   font-weight:700; font-size:17px; letter-spacing:0.12em;
   color:var(--cream);
   text-shadow:0 0 16px rgba(247,37,133,0.35);
@@ -224,7 +213,7 @@ body::before {
   margin-bottom:36px;
 }
 .panel-title {
-  font-family:'MazzardH','Outfit',sans-serif;
+  font-family:'Playfair Display', Georgia, serif;
   font-weight:700; font-size:42px; letter-spacing:0.04em; color:var(--cream);
 }
 .panel-sub {
@@ -267,7 +256,7 @@ body::before {
 .form-input, .form-textarea, .form-select {
   width:100%; padding:12px 16px;
   background:var(--input-bg); border:1px solid var(--border);
-  color:var(--cream); font-family:'CaslonAntique',Georgia,serif;
+  color:var(--cream); font-family:'Lora', Georgia, serif;
   font-size:16px; border-radius:3px; outline:none;
   transition:border-color 0.25s;
 }
@@ -351,7 +340,7 @@ body::before {
   box-shadow:0 32px 80px rgba(0,0,0,0.7);
 }
 .modal-title {
-  font-family:'MazzardH','Outfit',sans-serif;
+  font-family:'Playfair Display', Georgia, serif;
   font-weight:700; font-size:32px; letter-spacing:0.04em;
   color:var(--cream); margin-bottom:4px;
 }
