@@ -1186,7 +1186,7 @@ async function loadScreen(id) {
           const ovRows = await sb('overview?select=*&limit=1');
           if (ovRows && ovRows.length) {
             const ov = ovRows[0];
-            const media = await sb(`overview_media?select=*&overview_id=eq.${ov.id}&order=sort_order.asc`).catch(() => []);
+            const media = await sb(`overview_media?select=*&order=sort_order.asc`).catch(() => []);
             ov.overview_media = media || [];
             cache.overview = [ov];
           } else {
@@ -1569,10 +1569,18 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
 
+// ── TOAST ────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `${type === 'error' ? 'error' : ''} show`;
+  setTimeout(() => { t.className = ''; }, 3500);
+}
+
 // ── BRANDS MARQUEE ───────────────────────────
 async function loadBrands() {
   try {
-    const brands = await sb('brands?select=*&active=eq.true&order=sort_order.asc');
+    const brands = await sb('brands?select=*&order=sort_order.asc');
     if (!brands || !brands.length) {
       document.getElementById('marqueeTrack').innerHTML = '';
       return;
