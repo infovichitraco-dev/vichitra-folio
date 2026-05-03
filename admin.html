@@ -6,7 +6,15 @@
 <title>Vichitra Folio — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+@font-face {
+  font-family: 'MazzardH';
+  src: url('https://db.onlinewebfonts.com/t/eb5b5ee332420add9a40ee988cb6ac37.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/eb5b5ee332420add9a40ee988cb6ac37.woff') format('woff');
+  font-weight: 700; font-display: swap;
+}
+</style>
 <style>
 :root {
   --ink: #3a0f28;
@@ -27,7 +35,7 @@
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
-html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'Lora', Georgia, serif; }
+html, body { width:100%; min-height:100%; background:var(--ink); color:var(--cream); font-family:'Outfit', sans-serif; }
 
 /* ── ANIMATED GRADIENT BG ── */
 #gradientBg {
@@ -117,7 +125,7 @@ body::before {
   box-shadow:0 24px 80px rgba(0,0,0,0.6);
 }
 .login-logo {
-  font-family:'Playfair Display', Georgia, serif;
+  font-family:'MazzardH', 'Outfit', sans-serif;
   font-weight:700; font-size:32px; letter-spacing:0.1em;
   color:var(--cream); margin-bottom:4px;
   text-shadow:0 0 30px rgba(247,37,133,0.4);
@@ -172,7 +180,7 @@ body::before {
 }
 .admin-nav-logo img { height:32px; width:32px; object-fit:contain; border-radius:5px; opacity:0.9; }
 .admin-nav-wordmark {
-  font-family:'Playfair Display', Georgia, serif;
+  font-family:'MazzardH', 'Outfit', sans-serif;
   font-weight:700; font-size:17px; letter-spacing:0.12em;
   color:var(--cream);
   text-shadow:0 0 16px rgba(247,37,133,0.35);
@@ -213,7 +221,7 @@ body::before {
   margin-bottom:36px;
 }
 .panel-title {
-  font-family:'Playfair Display', Georgia, serif;
+  font-family:'MazzardH', 'Outfit', sans-serif;
   font-weight:700; font-size:42px; letter-spacing:0.04em; color:var(--cream);
 }
 .panel-sub {
@@ -256,7 +264,7 @@ body::before {
 .form-input, .form-textarea, .form-select {
   width:100%; padding:12px 16px;
   background:var(--input-bg); border:1px solid var(--border);
-  color:var(--cream); font-family:'Lora', Georgia, serif;
+  color:var(--cream); font-family:'Outfit', sans-serif;
   font-size:16px; border-radius:3px; outline:none;
   transition:border-color 0.25s;
 }
@@ -340,7 +348,7 @@ body::before {
   box-shadow:0 32px 80px rgba(0,0,0,0.7);
 }
 .modal-title {
-  font-family:'Playfair Display', Georgia, serif;
+  font-family:'MazzardH', 'Outfit', sans-serif;
   font-weight:700; font-size:32px; letter-spacing:0.04em;
   color:var(--cream); margin-bottom:4px;
 }
@@ -459,6 +467,7 @@ input[type=range]::-webkit-slider-thumb {
     <button class="tab-btn" onclick="switchTab('project-types')">02 Project Types</button>
     <button class="tab-btn" onclick="switchTab('industries')">03 Industries</button>
     <button class="tab-btn" onclick="switchTab('interior')">04 Interior</button>
+    <button class="tab-btn" onclick="switchTab('brands')">05 Brands</button>
   </div>
 
   <!-- ── TAB: PRASTAVANA ── -->
@@ -514,6 +523,77 @@ input[type=range]::-webkit-slider-thumb {
     </div>
     <div class="card-list" id="intList">
       <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+
+  <!-- ── BRANDS TAB ── -->
+  <div class="tab-panel" id="tab-brands">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Brands</div>
+        <div class="panel-sub">Brands displayed in the home marquee</div>
+      </div>
+      <button class="btn btn-gold" onclick="openBrandModal()">+ Add Brand</button>
+    </div>
+    <div class="card-list" id="brandList">
+      <div class="loading-msg">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: BRAND ── -->
+<div class="modal-overlay" id="brandModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-title" id="brandModalTitle">New Brand</div>
+    <div class="modal-sub">Appears in the home page marquee</div>
+    <input type="hidden" id="brandEditId"/>
+    <div class="form-group">
+      <label class="form-label">Brand Name *</label>
+      <input class="form-input" id="brandName" placeholder="e.g. Rekonnekt"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sort Order</label>
+      <input class="form-input" id="brandOrder" type="number" placeholder="0" style="width:120px;"/>
+    </div>
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:6px;">Brand Logo</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+      <input type="file" id="brandLogoFile" accept="image/*" style="display:none" onchange="handleBrandLogoFile(event)"/>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('brandLogoFile').click()">Choose Logo</button>
+      <span id="brandLogoFilename" style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);">No logo selected</span>
+      <input type="hidden" id="brandLogoUrl"/>
+    </div>
+    <!-- Crop tool -->
+    <div id="brandCropWrap" style="display:none;margin-bottom:20px;">
+      <div style="position:relative;display:inline-block;width:100%;overflow:hidden;border:1px solid var(--border);border-radius:3px;background:#111;">
+        <canvas id="brandCropCanvas" style="display:block;max-width:100%;cursor:crosshair;touch-action:none;"></canvas>
+        <div id="brandCropRect" style="position:absolute;border:2px solid #f72585;box-shadow:0 0 0 9999px rgba(0,0,0,0.5);pointer-events:none;display:none;border-radius:50%;"></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap;align-items:center;">
+        <div style="flex:1;min-width:160px;">
+          <div class="form-label" style="margin-bottom:4px;">Brightness</div>
+          <input type="range" id="brandBrightness" min="-100" max="100" value="0" style="width:100%;" oninput="renderBrandCropPreview()"/>
+        </div>
+        <div style="flex:1;min-width:160px;">
+          <div class="form-label" style="margin-bottom:4px;">Contrast</div>
+          <input type="range" id="brandContrast" min="-100" max="100" value="0" style="width:100%;" oninput="renderBrandCropPreview()"/>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-outline btn-sm" onclick="resetBrandCrop()">Reset</button>
+          <button class="btn btn-gold btn-sm" onclick="applyBrandCrop()">Apply Crop</button>
+        </div>
+      </div>
+      <!-- Circle preview -->
+      <div id="brandCropFinal" style="margin-top:14px;display:none;display:flex;align-items:center;gap:16px;">
+        <div style="width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid var(--border);flex-shrink:0;">
+          <img id="brandCropFinalImg" style="width:100%;height:100%;object-fit:cover;"/>
+        </div>
+        <span style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);">This is how it appears in the marquee</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeBrandModal()">Cancel</button>
+      <button class="btn btn-gold" id="brandSaveBtn" onclick="saveBrand()">Save Brand</button>
     </div>
   </div>
 </div>
@@ -743,7 +823,7 @@ async function uploadFile(file, onProgress) {
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const idx = ['prastavana','project-types','industries','interior'].indexOf(name);
+  const idx = ['prastavana','project-types','industries','interior','brands'].indexOf(name);
   if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
 }
@@ -754,6 +834,7 @@ function initAdmin() {
   loadPTList();
   loadIndList();
   loadIntList();
+  loadBrandList();
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1105,6 +1186,217 @@ async function deleteInd(id, name) {
     toast('Deleted', 'success');
     await loadIndList();
   } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// BRANDS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let brandItems = [];
+let brandCoverImg = null;
+let brandCroppedDataUrl = null;
+let brandCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false };
+
+async function loadBrandList() {
+  try {
+    brandItems = await db('brands?select=*&order=sort_order.asc') || [];
+    renderBrandList();
+  } catch(e) {
+    document.getElementById('brandList').innerHTML = `<div class="empty-state">Error loading brands</div>`;
+  }
+}
+
+function renderBrandList() {
+  const el = document.getElementById('brandList');
+  if (!brandItems.length) { el.innerHTML = `<div class="empty-state">No brands yet.</div>`; return; }
+  el.innerHTML = brandItems.map(b => `
+    <div class="admin-card">
+      <div style="display:flex;gap:16px;align-items:center;">
+        <div style="width:48px;height:48px;border-radius:50%;overflow:hidden;border:1px solid var(--border);flex-shrink:0;background:var(--card);display:flex;align-items:center;justify-content:center;">
+          ${b.logo_url ? `<img src="${b.logo_url}" style="width:100%;height:100%;object-fit:cover;"/>` : `<span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:var(--muted);">${b.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</span>`}
+        </div>
+        <div>
+          <div class="admin-card-title">${b.name}</div>
+          <div class="admin-card-meta">Sort: ${b.sort_order}</div>
+        </div>
+      </div>
+      <div class="admin-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="editBrand('${b.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteBrand('${b.id}','${b.name.replace(/'/g,"\\'")}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openBrandModal() {
+  brandCoverImg = null; brandCroppedDataUrl = null;
+  document.getElementById('brandEditId').value = '';
+  document.getElementById('brandModalTitle').textContent = 'New Brand';
+  document.getElementById('brandName').value = '';
+  document.getElementById('brandOrder').value = '0';
+  document.getElementById('brandLogoUrl').value = '';
+  document.getElementById('brandLogoFilename').textContent = 'No logo selected';
+  document.getElementById('brandCropWrap').style.display = 'none';
+  document.getElementById('brandCropFinal').style.display = 'none';
+  document.getElementById('brandModal').classList.add('open');
+}
+
+function editBrand(id) {
+  const b = brandItems.find(x => x.id == id);
+  if (!b) return;
+  brandCoverImg = null; brandCroppedDataUrl = null;
+  document.getElementById('brandEditId').value = b.id;
+  document.getElementById('brandModalTitle').textContent = 'Edit Brand';
+  document.getElementById('brandName').value = b.name || '';
+  document.getElementById('brandOrder').value = b.sort_order || 0;
+  document.getElementById('brandLogoUrl').value = b.logo_url || '';
+  document.getElementById('brandLogoFilename').textContent = b.logo_url ? 'Existing logo ✓' : 'No logo selected';
+  document.getElementById('brandCropWrap').style.display = 'none';
+  document.getElementById('brandCropFinal').style.display = 'none';
+  if (b.logo_url) loadBrandCropPreview(b.logo_url);
+  document.getElementById('brandModal').classList.add('open');
+}
+
+function closeBrandModal() { document.getElementById('brandModal').classList.remove('open'); }
+
+async function handleBrandLogoFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById('brandLogoFilename').textContent = `Uploading ${file.name}...`;
+  try {
+    const result = await uploadFile(file, pct => { document.getElementById('brandLogoFilename').textContent = `Uploading... ${pct}%`; });
+    document.getElementById('brandLogoUrl').value = result.url;
+    document.getElementById('brandLogoFilename').textContent = file.name + ' ✓';
+    loadBrandCropPreview(result.url);
+  } catch(e) {
+    document.getElementById('brandLogoFilename').textContent = 'Upload failed';
+    toast('Upload failed: ' + e.message, 'error');
+  }
+}
+
+function loadBrandCropPreview(url) {
+  const canvas = document.getElementById('brandCropCanvas');
+  brandCoverImg = new Image();
+  brandCoverImg.crossOrigin = 'anonymous';
+  brandCoverImg.onload = () => {
+    const maxW = 520;
+    const scale = Math.min(1, maxW / brandCoverImg.naturalWidth);
+    canvas.width = brandCoverImg.naturalWidth * scale;
+    canvas.height = brandCoverImg.naturalHeight * scale;
+    brandCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false };
+    brandCroppedDataUrl = null;
+    document.getElementById('brandCropRect').style.display = 'none';
+    document.getElementById('brandBrightness').value = 0;
+    document.getElementById('brandContrast').value = 0;
+    renderBrandCropPreview();
+    document.getElementById('brandCropWrap').style.display = 'block';
+    setupBrandCropListeners(canvas);
+  };
+  brandCoverImg.src = url;
+}
+
+function renderBrandCropPreview() {
+  if (!brandCoverImg) return;
+  const canvas = document.getElementById('brandCropCanvas');
+  const ctx = canvas.getContext('2d');
+  const b = parseInt(document.getElementById('brandBrightness').value)||0;
+  const c = parseInt(document.getElementById('brandContrast').value)||0;
+  ctx.filter = `brightness(${100+b}%) contrast(${100+c}%)`;
+  ctx.drawImage(brandCoverImg, 0, 0, canvas.width, canvas.height);
+  ctx.filter = 'none';
+}
+
+function setupBrandCropListeners(canvas) {
+  function getCoords(cx,cy) {
+    const r = canvas.getBoundingClientRect();
+    return { x: Math.max(0,Math.min(canvas.width,(cx-r.left)*canvas.width/r.width)), y: Math.max(0,Math.min(canvas.height,(cy-r.top)*canvas.height/r.height)) };
+  }
+  canvas.onmousedown = e => { const c=getCoords(e.clientX,e.clientY); brandCropState={...brandCropState,startX:c.x,startY:c.y,endX:c.x,endY:c.y,dragging:true}; };
+  canvas.onmousemove = e => { if(!brandCropState.dragging)return; const c=getCoords(e.clientX,e.clientY); brandCropState.endX=c.x; brandCropState.endY=c.y; updateBrandCropRect(canvas); };
+  canvas.onmouseup = canvas.onmouseleave = () => { brandCropState.dragging=false; };
+}
+
+function updateBrandCropRect(canvas) {
+  const r = canvas.getBoundingClientRect();
+  const scaleX = r.width/canvas.width, scaleY = r.height/canvas.height;
+  const size = Math.min(Math.abs(brandCropState.endX-brandCropState.startX), Math.abs(brandCropState.endY-brandCropState.startY));
+  const x = Math.min(brandCropState.startX,brandCropState.endX)*scaleX;
+  const y = Math.min(brandCropState.startY,brandCropState.endY)*scaleY;
+  const rect = document.getElementById('brandCropRect');
+  rect.style.display='block'; rect.style.left=x+'px'; rect.style.top=y+'px';
+  rect.style.width=(size*scaleX)+'px'; rect.style.height=(size*scaleY)+'px';
+}
+
+function applyBrandCrop() {
+  const canvas = document.getElementById('brandCropCanvas');
+  const size = Math.min(Math.abs(brandCropState.endX-brandCropState.startX), Math.abs(brandCropState.endY-brandCropState.startY));
+  if (size < 10) { toast('Draw a crop area first', 'error'); return; }
+  const x = Math.min(brandCropState.startX,brandCropState.endX);
+  const y = Math.min(brandCropState.startY,brandCropState.endY);
+  const b = parseInt(document.getElementById('brandBrightness').value)||0;
+  const c = parseInt(document.getElementById('brandContrast').value)||0;
+  const srcX=(x/canvas.width)*brandCoverImg.naturalWidth, srcY=(y/canvas.height)*brandCoverImg.naturalHeight;
+  const srcSize=(size/canvas.width)*brandCoverImg.naturalWidth;
+  const out = document.createElement('canvas');
+  out.width=srcSize; out.height=srcSize;
+  const octx = out.getContext('2d');
+  octx.beginPath(); octx.arc(srcSize/2,srcSize/2,srcSize/2,0,Math.PI*2); octx.clip();
+  octx.filter=`brightness(${100+b}%) contrast(${100+c}%)`;
+  octx.drawImage(brandCoverImg,srcX,srcY,srcSize,srcSize,0,0,srcSize,srcSize);
+  brandCroppedDataUrl = out.toDataURL('image/png',0.95);
+  document.getElementById('brandCropFinalImg').src = brandCroppedDataUrl;
+  document.getElementById('brandCropFinal').style.display = 'flex';
+  document.getElementById('brandCropRect').style.display = 'none';
+  toast('Crop applied!', 'success');
+}
+
+function resetBrandCrop() {
+  brandCroppedDataUrl = null;
+  brandCropState = { startX:0, startY:0, endX:0, endY:0, dragging:false };
+  document.getElementById('brandCropRect').style.display='none';
+  document.getElementById('brandCropFinal').style.display='none';
+  document.getElementById('brandBrightness').value=0;
+  document.getElementById('brandContrast').value=0;
+  renderBrandCropPreview();
+}
+
+async function saveBrand() {
+  const name = document.getElementById('brandName').value.trim();
+  if (!name) { toast('Brand name is required', 'error'); return; }
+  const editId = document.getElementById('brandEditId').value;
+  const btn = document.getElementById('brandSaveBtn');
+  btn.disabled=true; btn.textContent='Saving...';
+  try {
+    let logoUrl = document.getElementById('brandLogoUrl').value.trim() || null;
+    if (brandCroppedDataUrl) {
+      btn.textContent='Uploading logo...';
+      const blob = await (await fetch(brandCroppedDataUrl)).blob();
+      const file = new File([blob],'logo.png',{type:'image/png'});
+      const result = await uploadFile(file, ()=>{});
+      logoUrl = result.url;
+    }
+    const payload = { name, logo_url:logoUrl, sort_order:parseInt(document.getElementById('brandOrder').value)||0, active:true };
+    if (editId) {
+      await db(`brands?id=eq.${editId}`,{method:'PATCH',body:JSON.stringify(payload)});
+    } else {
+      await db('brands',{method:'POST',body:JSON.stringify(payload)});
+    }
+    toast(editId?'Brand updated!':'Brand added!','success');
+    closeBrandModal();
+    await loadBrandList();
+  } catch(e) {
+    toast('Error: '+e.message,'error');
+  } finally {
+    btn.disabled=false; btn.textContent='Save Brand';
+  }
+}
+
+async function deleteBrand(id, name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  try {
+    await db(`brands?id=eq.${id}`,{method:'DELETE'});
+    toast('Deleted','success');
+    await loadBrandList();
+  } catch(e) { toast('Error: '+e.message,'error'); }
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -6,7 +6,15 @@
 <title>Vichitra Co. — Vichitra Folio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lora:ital,wght@0,400;0,500;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+@font-face {
+  font-family: 'MazzardH';
+  src: url('https://db.onlinewebfonts.com/t/eb5b5ee332420add9a40ee988cb6ac37.woff2') format('woff2'),
+       url('https://db.onlinewebfonts.com/t/eb5b5ee332420add9a40ee988cb6ac37.woff') format('woff');
+  font-weight: 700; font-display: swap;
+}
+</style>
 <style>
 :root {
   --ink: #2a0845;
@@ -27,7 +35,7 @@ html, body {
   width:100%; height:100%;
   background: var(--ink);
   color: #ffffff;
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   overflow: hidden;
 }
 
@@ -156,7 +164,7 @@ nav {
 }
 .nav-logo img { height: 32px; width: 32px; object-fit: contain; border-radius: 8px; opacity: 0.95; }
 .nav-logo-wordmark {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700; font-size: 15px; letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #ffffff;
@@ -246,7 +254,7 @@ nav {
   animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .home-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: clamp(80px, 11vw, 180px);
   letter-spacing: 0.02em; line-height: 0.88;
@@ -257,7 +265,7 @@ nav {
 }
 .home-title span { color: rgba(255,220,240,0.95); display: block; }
 .home-tagline {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 19px; line-height: 1.7;
   color: rgba(255,255,255,0.65);
   margin-top: 32px;
@@ -293,7 +301,7 @@ nav {
   color: rgba(255,255,255,0.32); opacity: 1;
 }
 .menu-item-name {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 24px;
   color: #ffffff; letter-spacing: 0.02em;
@@ -333,7 +341,7 @@ nav {
   animation: fadeUp 0.9s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .section-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: clamp(60px, 8.5vw, 100px);
   letter-spacing: 0.04em; line-height: 1;
@@ -351,14 +359,14 @@ nav {
 /* ── PRASTAVANA ── */
 #prastavana { z-index: 10; }
 .pras-text {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 21px; font-weight: 400; line-height: 1.9;
   color: rgba(255,255,255,0.72); max-width: 680px;
   animation: fadeUp 0.9s 0.35s cubic-bezier(0.16,1,0.3,1) both;
   white-space: pre-wrap;
 }
 .pras-headline {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: clamp(34px, 5vw, 52px);
   color: #ffffff;
@@ -434,7 +442,7 @@ nav {
   margin-bottom: 12px; line-height: 1.3;
 }
 .pt-card-desc {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.7;
   display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
   overflow: hidden;
@@ -449,14 +457,14 @@ nav {
   animation: fadeUp 0.8s 0.1s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: clamp(50px, 7.5vw, 88px); letter-spacing: 0.03em;
   color: #ffffff; margin-bottom: 24px;
   animation: fadeUp 0.9s 0.2s cubic-bezier(0.16,1,0.3,1) both;
 }
 .pt-detail-desc {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 20px; line-height: 1.85;
   color: rgba(255,255,255,0.72); max-width: 680px;
   animation: fadeUp 0.9s 0.3s cubic-bezier(0.16,1,0.3,1) both;
@@ -551,7 +559,7 @@ nav {
   margin-top: 10px; flex-shrink: 0;
 }
 .industry-bullet-text {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 18px; color: rgba(255,255,255,0.7); line-height: 1.7;
 }
 
@@ -600,7 +608,7 @@ nav {
   margin-bottom: 8px;
 }
 .interior-card-desc {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 16px; color: #e0b8cc; line-height: 1.65;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
@@ -617,14 +625,14 @@ nav {
   padding-left: 60px; padding-right: 60px;
 }
 .int-detail-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: 'MazzardH', 'Outfit', sans-serif;
   font-weight: 700;
   font-size: clamp(50px, 7.5vw, 90px); letter-spacing: 0.03em;
   color: #ffffff; margin-bottom: 20px;
   animation: fadeUp 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
 }
 .int-detail-desc {
-  font-family: 'Lora', Georgia, serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 20px; line-height: 1.85;
   color: #f0d4e2; max-width: 660px; margin-bottom: 48px;
   animation: fadeUp 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) both;
@@ -883,6 +891,55 @@ nav {
   text-transform: uppercase;
 }
 
+/* ── BRAND MARQUEE ── */
+.marquee-band {
+  position: relative; z-index: 10;
+  padding: 14px 0;
+  border-top: 0.5px solid rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.18);
+  overflow: hidden;
+}
+.marquee-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); text-align: center; margin-bottom: 10px;
+}
+.marquee-track {
+  display: flex; align-items: center;
+  width: max-content;
+  animation: marqueeScroll 22s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+.marquee-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 44px; flex-shrink: 0;
+}
+.marquee-circle {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.12);
+  overflow: hidden; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.marquee-circle img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+.marquee-init {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.75);
+}
+.marquee-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.03em; white-space: nowrap;
+}
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 /* ── MOBILE ── */
 @media (max-width: 900px) {
   .home-inner {
@@ -921,8 +978,8 @@ nav {
 </nav>
 
 <!-- HOME -->
-<div class="screen active" id="home">
-  <div class="home-inner">
+<div class="screen active" id="home" style="display:flex;flex-direction:column;">
+  <div class="home-inner" style="flex:1;">
     <div class="home-left">
       <div class="home-eyebrow">Selected Works &amp; Services</div>
       <div class="home-title">Vichitra<span>Folio</span></div>
@@ -946,23 +1003,30 @@ nav {
             <span class="menu-arrow">›</span>
           </div>
         </div>
-      <div class="menu-item" style="--d:0.85s" onclick="navigate('industries')">
-        <div class="menu-item-inner">
-          <span class="menu-item-num">03</span>
-          <span class="menu-item-name">Industries We Serve</span>
-          <span class="menu-item-desc">Sectors &amp; services we cover</span>
-          <span class="menu-arrow">›</span>
+        <div class="menu-item" style="--d:0.85s" onclick="navigate('industries')">
+          <div class="menu-item-inner">
+            <span class="menu-item-num">03</span>
+            <span class="menu-item-name">Industries We Serve</span>
+            <span class="menu-item-desc">Sectors &amp; services we cover</span>
+            <span class="menu-arrow">›</span>
+          </div>
+        </div>
+        <div class="menu-item" style="--d:1.0s" onclick="navigate('interior')">
+          <div class="menu-item-inner">
+            <span class="menu-item-num">04</span>
+            <span class="menu-item-name">Interior Portfolio</span>
+            <span class="menu-item-desc">Spaces crafted with intention</span>
+            <span class="menu-arrow">›</span>
+          </div>
         </div>
       </div>
-      <div class="menu-item" style="--d:1.0s" onclick="navigate('interior')">
-        <div class="menu-item-inner">
-          <span class="menu-item-num">04</span>
-          <span class="menu-item-name">Interior Portfolio</span>
-          <span class="menu-item-desc">Spaces crafted with intention</span>
-          <span class="menu-arrow">›</span>
-        </div>
-      </div>
-      </div>
+    </div>
+  </div>
+  <!-- BRAND MARQUEE -->
+  <div class="marquee-band">
+    <div class="marquee-label">Brands we've worked with</div>
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="marquee-item"><div class="marquee-circle"><span class="marquee-init">…</span></div><span class="marquee-name">Loading</span></div>
     </div>
   </div>
 </div>
@@ -1505,8 +1569,37 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
 
-// ── TOAST ────────────────────────────────────
-function showToast(msg, type = 'success') {
+// ── BRANDS MARQUEE ───────────────────────────
+async function loadBrands() {
+  try {
+    const brands = await sb('brands?select=*&active=eq.true&order=sort_order.asc');
+    if (!brands || !brands.length) {
+      document.getElementById('marqueeTrack').innerHTML = '';
+      return;
+    }
+    // Duplicate for seamless loop
+    const items = [...brands, ...brands];
+    document.getElementById('marqueeTrack').innerHTML = items.map(b => {
+      const initials = b.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      return `
+        <div class="marquee-item">
+          <div class="marquee-circle">
+            ${b.logo_url
+              ? `<img src="${b.logo_url}" alt="${b.name}" loading="lazy"/>`
+              : `<span class="marquee-init">${initials}</span>`}
+          </div>
+          <span class="marquee-name">${b.name}</span>
+        </div>
+      `;
+    }).join('');
+  } catch(e) {
+    console.error('Brands load error:', e);
+    document.getElementById('marqueeTrack').innerHTML = '';
+  }
+}
+
+// Load brands on page start
+loadBrands();
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className = `${type === 'error' ? 'error' : ''} show`;
