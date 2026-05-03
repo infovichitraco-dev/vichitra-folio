@@ -1119,7 +1119,15 @@ async function loadScreen(id) {
     switch(id) {
       case 'prastavana':
         if (!cache.overview) {
-          cache.overview = await sb('overview?select=*,overview_media(id,url,type,title,description,sort_order)&limit=1');
+          const ovRows = await sb('overview?select=*&limit=1');
+          if (ovRows && ovRows.length) {
+            const ov = ovRows[0];
+            const media = await sb(`overview_media?select=*&overview_id=eq.${ov.id}&order=sort_order.asc`).catch(() => []);
+            ov.overview_media = media || [];
+            cache.overview = [ov];
+          } else {
+            cache.overview = [];
+          }
         }
         renderPrastavana();
         break;
@@ -1506,4 +1514,4 @@ function showToast(msg, type = 'success') {
 }
 </script>
 </body>
-</html> 
+</html>
