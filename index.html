@@ -913,12 +913,16 @@ nav {
 .marquee-track {
   display: flex; align-items: center;
   width: max-content;
-  animation: marqueeScroll 22s linear infinite;
+  animation: marqueeScroll 28s linear infinite;
+  will-change: transform;
+  /* GPU-accelerated for buttery smooth scroll */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 .marquee-track:hover { animation-play-state: paused; }
 .marquee-item {
-  display: flex; align-items: center; gap: 16px;
-  padding: 0 56px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 18px;
+  padding: 0 60px; flex-shrink: 0;
 }
 .marquee-circle {
   width: 64px; height: 64px; border-radius: 50%;
@@ -926,24 +930,40 @@ nav {
   background: rgba(255,255,255,0.12);
   overflow: hidden; display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
+  transform: translateZ(0);
 }
 .marquee-circle img {
   width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
 }
 .marquee-init {
   font-family: 'Outfit', sans-serif;
-  font-size: 18px; font-weight: 600;
+  font-size: 20px; font-weight: 600;
   color: rgba(255,255,255,0.75);
 }
 .marquee-name {
   font-family: 'Outfit', sans-serif;
-  font-size: 16px; font-weight: 500;
+  font-size: 20px; font-weight: 500;
   color: rgba(255,255,255,0.75);
   letter-spacing: 0.03em; white-space: nowrap;
 }
+/* Fade edges for smooth entry/exit feel */
+.marquee-band::before,
+.marquee-band::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 80px;
+  z-index: 2; pointer-events: none;
+}
+.marquee-band::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.25), transparent);
+}
+.marquee-band::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(0,0,0,0.25), transparent);
+}
 @keyframes marqueeScroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 /* ── MOBILE ── */
