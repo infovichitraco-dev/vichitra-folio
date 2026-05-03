@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Vichitra Co. — Vichitra Folio</title>
+<link rel="icon" type="image/png" href="vichitra-logo.png"/>
+<link rel="apple-touch-icon" href="vichitra-logo.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -1608,11 +1610,6 @@ async function loadBrands() {
 
 // Load brands on page start
 loadBrands();
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `${type === 'error' ? 'error' : ''} show`;
-  setTimeout(() => { t.className = ''; }, 3500);
-}
 </script>
 </body>
 </html>
