@@ -1611,10 +1611,9 @@ async function loadBrands() {
       document.getElementById('marqueeTrack').innerHTML = '';
       return;
     }
-    // Duplicate for seamless loop
-    // Duplicate only if needed for seamless scroll (need enough items to fill screen)
     const items = brands.length < 6 ? [...brands, ...brands, ...brands, ...brands] : [...brands, ...brands];
-    document.getElementById('marqueeTrack').innerHTML = items.map(b => {
+    const track = document.getElementById('marqueeTrack');
+    track.innerHTML = items.map(b => {
       const initials = b.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
       return `
         <div class="marquee-item">
@@ -1627,14 +1626,22 @@ async function loadBrands() {
         </div>
       `;
     }).join('');
+    // Force animation restart after injecting content
+    track.style.animation = 'none';
+    track.offsetHeight; // trigger reflow
+    track.style.animation = '';
   } catch(e) {
     console.error('Brands load error:', e);
     document.getElementById('marqueeTrack').innerHTML = '';
   }
 }
 
-// Load brands on page start
-loadBrands();
+// Load brands after page is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', loadBrands);
+} else {
+  loadBrands();
+}
 </script>
 </body>
 </html>
