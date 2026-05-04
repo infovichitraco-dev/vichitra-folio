@@ -242,7 +242,7 @@ nav {
   width: 100%;
   padding: 80px 60px 40px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.8fr;
   gap: 60px;
   align-items: center;
   flex: 1;
@@ -314,8 +314,8 @@ nav {
 }
 .menu-item-desc {
   font-family: 'Outfit', sans-serif;
-  font-size: 14px; letter-spacing: 0.04em;
-  color: rgba(255,255,255,0.42);
+  font-size: 13px; letter-spacing: 0.03em;
+  color: rgba(255,255,255,0.55);
   text-align: right;
 }
 .menu-arrow {
@@ -324,7 +324,8 @@ nav {
   background: rgba(255,255,255,0.14);
   border: 0.5px solid rgba(255,255,255,0.22);
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; color: rgba(255,255,255,0.75);
+  line-height: 1;
+  font-size: 20px; color: rgba(255,255,255,0.75);
   transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   flex-shrink: 0;
 }
@@ -332,6 +333,9 @@ nav {
   background: rgba(255,255,255,0.92);
   color: #8020c0;
   transform: translateX(2px);
+}
+.menu-item:hover .menu-arrow svg {
+  stroke: #8020c0;
 }
 
 /* ── SECTION COMMON ── */
@@ -1021,7 +1025,7 @@ nav {
             <span class="menu-item-num">01</span>
             <span class="menu-item-name">The Prastavana</span>
             <span class="menu-item-desc">Who we are &amp; what we stand for</span>
-            <span class="menu-arrow">›</span>
+            <span class="menu-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg></span>
           </div>
         </div>
         <div class="menu-item" style="--d:0.7s" onclick="navigate('project-types')">
@@ -1029,7 +1033,7 @@ nav {
             <span class="menu-item-num">02</span>
             <span class="menu-item-name">Type of Projects</span>
             <span class="menu-item-desc">Unique work across industries</span>
-            <span class="menu-arrow">›</span>
+            <span class="menu-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg></span>
           </div>
         </div>
         <div class="menu-item" style="--d:0.85s" onclick="navigate('industries')">
@@ -1037,7 +1041,7 @@ nav {
             <span class="menu-item-num">03</span>
             <span class="menu-item-name">Industries We Serve</span>
             <span class="menu-item-desc">Sectors &amp; services we cover</span>
-            <span class="menu-arrow">›</span>
+            <span class="menu-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg></span>
           </div>
         </div>
         <div class="menu-item" style="--d:1.0s" onclick="navigate('interior')">
@@ -1045,7 +1049,7 @@ nav {
             <span class="menu-item-num">04</span>
             <span class="menu-item-name">Interior Portfolio</span>
             <span class="menu-item-desc">Spaces crafted with intention</span>
-            <span class="menu-arrow">›</span>
+            <span class="menu-arrow"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2l4 4-4 4"/></svg></span>
           </div>
         </div>
       </div>
@@ -1226,7 +1230,7 @@ async function loadScreen(id) {
         break;
       case 'project-types':
         if (!cache.projectTypes) {
-          cache.projectTypes = await sb('project_types?select=*,project_type_media(*),project_type_links(id,url,title,sort_order)&order=sort_order.asc');
+          cache.projectTypes = await sb('project_types?select=*,cover_url,project_type_media(*),project_type_links(id,url,title,sort_order)&order=sort_order.asc');
         }
         renderProjectTypes();
         break;
@@ -1286,11 +1290,11 @@ function renderProjectTypes() {
     return;
   }
   el.innerHTML = items.map((p, i) => {
-    const cover = (p.project_type_media || []).find(m => m.sort_order === 0) || p.project_type_media?.[0];
+    const cover = p.cover_url || ((p.project_type_media || []).find(m => m.sort_order === 0) || p.project_type_media?.[0])?.url;
     return `
       <div class="pt-card" style="--i:${i}" data-pt-id="${p.id}">
         ${cover
-          ? `<img class="pt-card-cover" src="${cover.url}" alt="${(p.name||'').replace(/"/g,'&quot;')}" loading="lazy"/>`
+          ? `<img class="pt-card-cover" src="${cover}" alt="${(p.name||'').replace(/"/g,'&quot;')}" loading="lazy"/>`
           : `<div class="pt-card-cover-placeholder"></div>`}
         <div class="pt-card-body">
           ${p.industry_tag ? `<div class="pt-card-tag">${p.industry_tag}</div>` : ''}
