@@ -470,6 +470,8 @@ input[type=range]::-webkit-slider-thumb {
     <button class="tab-btn" onclick="switchTab('industries')">03 Industries</button>
     <button class="tab-btn" onclick="switchTab('interior')">04 Interior</button>
     <button class="tab-btn" onclick="switchTab('brands')">05 Brands</button>
+    <button class="tab-btn" onclick="switchTab('food-therapy')">06 Food Therapy</button>
+    <button class="tab-btn" onclick="switchTab('social')">07 Social Media</button>
   </div>
 
   <!-- ── TAB: PRASTAVANA ── -->
@@ -543,6 +545,35 @@ input[type=range]::-webkit-slider-thumb {
   </div>
 </div>
 
+  <!-- FOOD THERAPY TAB -->
+  <div class="tab-panel" id="tab-food-therapy">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">The Food Therapy</div>
+        <div class="panel-sub">Reels shown in 9:16 film strip on portfolio</div>
+      </div>
+      <button class="btn btn-gold" onclick="openFTModal()">+ Add Reel</button>
+    </div>
+    <div class="card-list" id="ftList"><div class="loading-msg">Loading...</div></div>
+  </div>
+
+  <!-- SOCIAL MEDIA TAB -->
+  <div class="tab-panel" id="tab-social">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">Social Media</div>
+        <div class="panel-sub">Intro paragraph and brand posts</div>
+      </div>
+      <button class="btn btn-gold" onclick="openSocialBrandModal()">+ Add Brand</button>
+    </div>
+    <div class="form-group" style="max-width:700px;margin-bottom:28px;">
+      <label class="form-label">Intro Paragraph</label>
+      <textarea class="form-textarea" id="socialIntroText" placeholder="Write an intro about your social media work..." style="min-height:100px;"></textarea>
+      <button class="btn btn-gold btn-sm" style="margin-top:10px;" onclick="saveSocialIntro()">Save Intro</button>
+    </div>
+    <div class="card-list" id="socialBrandList"><div class="loading-msg">Loading...</div></div>
+  </div>
+
 <!-- ── MODAL: BRAND ── -->
 <div class="modal-overlay" id="brandModal">
   <div class="modal" style="max-width:560px;">
@@ -596,6 +627,73 @@ input[type=range]::-webkit-slider-thumb {
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeBrandModal()">Cancel</button>
       <button class="btn btn-gold" id="brandSaveBtn" onclick="saveBrand()">Save Brand</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: FOOD THERAPY REEL ── -->
+<div class="modal-overlay" id="ftModal">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-title" id="ftModalTitle">New Reel</div>
+    <div class="modal-sub">Add a Food Therapy reel to the portfolio</div>
+    <input type="hidden" id="ftEditId"/>
+    <div class="form-group">
+      <label class="form-label">Reel Title</label>
+      <input class="form-input" id="ftTitle" placeholder="e.g. Char Siu Pork Buns"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Instagram URL *</label>
+      <input class="form-input" id="ftUrl" placeholder="https://www.instagram.com/reel/..."/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sort Order</label>
+      <input class="form-input" id="ftSort" type="number" value="0" style="width:100px;"/>
+    </div>
+    <hr class="section-divider"/>
+    <div class="form-label" style="margin-bottom:6px;">Cover Image (9:16 ratio recommended)</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;">
+      <input type="file" id="ftCoverFile" accept="image/*" style="display:none" onchange="handleFTCoverFile(event)"/>
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('ftCoverFile').click()">Choose Cover</button>
+      <span id="ftCoverFilename" style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);">No image selected</span>
+      <input type="hidden" id="ftCoverUrl"/>
+    </div>
+    <div id="ftCoverPreview" style="display:none;margin-bottom:12px;">
+      <img id="ftCoverPreviewImg" style="max-height:160px;border-radius:4px;border:1px solid var(--border);"/>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeFTModal()">Cancel</button>
+      <button class="btn btn-gold" id="ftSaveBtn" onclick="saveFT()">Save Reel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL: SOCIAL BRAND ── -->
+<div class="modal-overlay" id="socialBrandModal">
+  <div class="modal" style="max-width:600px;">
+    <div class="modal-title" id="socialBrandModalTitle">Add Brand</div>
+    <div class="modal-sub">Select a brand and add Instagram post/reel links</div>
+    <input type="hidden" id="sbEditId"/>
+    <div class="form-group">
+      <label class="form-label">Brand *</label>
+      <select class="form-select" id="sbBrandSelect" onchange="onSBBrandChange()">
+        <option value="">— Select a brand —</option>
+      </select>
+    </div>
+    <div id="sbBrandPreview" style="display:none;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:4px;">
+        <div id="sbBrandLogo" style="width:44px;height:44px;border-radius:50%;overflow:hidden;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;"></div>
+        <span id="sbBrandName" style="font-family:'Outfit',sans-serif;font-size:16px;color:var(--cream);"></span>
+      </div>
+    </div>
+    <hr class="section-divider"/>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="form-label" style="margin:0;">Instagram Posts / Reels</div>
+      <button class="btn btn-outline btn-sm" onclick="addSBPost()">+ Add Post</button>
+    </div>
+    <div id="sbPostList" style="display:flex;flex-direction:column;gap:12px;"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeSocialBrandModal()">Cancel</button>
+      <button class="btn btn-gold" id="sbSaveBtn" onclick="saveSocialBrand()">Save Brand</button>
     </div>
   </div>
 </div>
@@ -837,7 +935,7 @@ async function uploadFile(file, onProgress) {
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  const idx = ['prastavana','project-types','industries','interior','brands'].indexOf(name);
+  const idx = ['prastavana','project-types','industries','interior','brands','food-therapy','social'].indexOf(name);
   if (idx >= 0) document.querySelectorAll('.tab-btn')[idx].classList.add('active');
   document.getElementById('tab-' + name).classList.add('active');
 }
@@ -849,6 +947,9 @@ function initAdmin() {
   loadIndList();
   loadIntList();
   loadBrandList();
+  loadFTList();
+  loadSocialBrandList();
+  loadSocialIntro();
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1235,8 +1336,337 @@ async function deleteInd(id, name) {
   } catch(e) { toast('Error: ' + e.message, 'error'); }
 }
 
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FOOD THERAPY
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let ftItems = [];
+
+async function loadFTList() {
+  try {
+    ftItems = await db('food_therapy_reels?select=*&order=sort_order.asc') || [];
+    renderFTList();
+  } catch(e) {
+    document.getElementById('ftList').innerHTML = `<div class="empty-state">Error loading reels</div>`;
+  }
+}
+
+function renderFTList() {
+  const el = document.getElementById('ftList');
+  if (!ftItems.length) { el.innerHTML = `<div class="empty-state">No reels yet. Add your first reel.</div>`; return; }
+  el.innerHTML = ftItems.map(r => `
+    <div class="admin-card">
+      <div style="display:flex;gap:14px;align-items:center;">
+        ${r.cover_url ? `<img src="${r.cover_url}" style="width:48px;height:80px;object-fit:cover;border-radius:4px;border:1px solid var(--border);flex-shrink:0;"/>` : `<div style="width:48px;height:80px;background:var(--card);border:1px solid var(--border);border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;">🎬</div>`}
+        <div>
+          <div class="admin-card-title">${r.title || 'Untitled Reel'}</div>
+          <div class="admin-card-meta">${r.instagram_url ? r.instagram_url.slice(0,50)+'...' : 'No URL'}</div>
+        </div>
+      </div>
+      <div class="admin-card-actions">
+        <button class="btn btn-outline btn-sm" onclick="editFT('${r.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteFT('${r.id}','${(r.title||'Reel').replace(/'/g,"\'")}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openFTModal() {
+  document.getElementById('ftEditId').value = '';
+  document.getElementById('ftModalTitle').textContent = 'New Reel';
+  document.getElementById('ftTitle').value = '';
+  document.getElementById('ftUrl').value = '';
+  document.getElementById('ftSort').value = ftItems.length;
+  document.getElementById('ftCoverUrl').value = '';
+  document.getElementById('ftCoverFilename').textContent = 'No image selected';
+  document.getElementById('ftCoverPreview').style.display = 'none';
+  document.getElementById('ftModal').classList.add('open');
+}
+
+function editFT(id) {
+  const r = ftItems.find(x => x.id == id);
+  if (!r) return;
+  document.getElementById('ftEditId').value = r.id;
+  document.getElementById('ftModalTitle').textContent = 'Edit Reel';
+  document.getElementById('ftTitle').value = r.title || '';
+  document.getElementById('ftUrl').value = r.instagram_url || '';
+  document.getElementById('ftSort').value = r.sort_order || 0;
+  document.getElementById('ftCoverUrl').value = r.cover_url || '';
+  document.getElementById('ftCoverFilename').textContent = r.cover_url ? 'Existing cover ✓' : 'No image selected';
+  if (r.cover_url) {
+    document.getElementById('ftCoverPreviewImg').src = r.cover_url;
+    document.getElementById('ftCoverPreview').style.display = 'block';
+  } else {
+    document.getElementById('ftCoverPreview').style.display = 'none';
+  }
+  document.getElementById('ftModal').classList.add('open');
+}
+
+function closeFTModal() { document.getElementById('ftModal').classList.remove('open'); }
+
+async function handleFTCoverFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById('ftCoverFilename').textContent = `Uploading ${file.name}...`;
+  try {
+    const result = await uploadFile(file, pct => { document.getElementById('ftCoverFilename').textContent = `Uploading... ${pct}%`; });
+    document.getElementById('ftCoverUrl').value = result.url;
+    document.getElementById('ftCoverFilename').textContent = file.name + ' ✓';
+    document.getElementById('ftCoverPreviewImg').src = result.url;
+    document.getElementById('ftCoverPreview').style.display = 'block';
+  } catch(e) {
+    document.getElementById('ftCoverFilename').textContent = 'Upload failed';
+    toast('Upload failed: ' + e.message, 'error');
+  }
+}
+
+async function saveFT() {
+  const url = document.getElementById('ftUrl').value.trim();
+  if (!url) { toast('Instagram URL is required', 'error'); return; }
+  const editId = document.getElementById('ftEditId').value;
+  const btn = document.getElementById('ftSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const payload = {
+      title: document.getElementById('ftTitle').value.trim() || null,
+      instagram_url: url,
+      cover_url: document.getElementById('ftCoverUrl').value.trim() || null,
+      sort_order: parseInt(document.getElementById('ftSort').value) || 0
+    };
+    if (editId) {
+      await db(`food_therapy_reels?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify(payload) });
+    } else {
+      await db('food_therapy_reels', { method:'POST', body:JSON.stringify(payload) });
+    }
+    toast(editId ? 'Reel updated!' : 'Reel added!', 'success');
+    closeFTModal();
+    await loadFTList();
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Reel';
+  }
+}
+
+async function deleteFT(id, name) {
+  if (!confirm(`Delete "${name}"?`)) return;
+  try {
+    await db(`food_therapy_reels?id=eq.${id}`, { method:'DELETE' });
+    toast('Deleted', 'success');
+    await loadFTList();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SOCIAL MEDIA
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let socialBrandItems = [];
+let sbPosts = [];
+let socialOverviewId = null;
+
+async function loadSocialIntro() {
+  try {
+    const rows = await db('social_overview?select=*&limit=1');
+    if (rows && rows.length) {
+      socialOverviewId = rows[0].id;
+      document.getElementById('socialIntroText').value = rows[0].intro_text || '';
+    }
+  } catch(e) {}
+}
+
+async function saveSocialIntro() {
+  const text = document.getElementById('socialIntroText').value.trim();
+  try {
+    if (socialOverviewId) {
+      await db(`social_overview?id=eq.${socialOverviewId}`, { method:'PATCH', body:JSON.stringify({ intro_text: text }) });
+    } else {
+      const r = await db('social_overview', { method:'POST', body:JSON.stringify({ intro_text: text }) });
+      if (r && r[0]) socialOverviewId = r[0].id;
+    }
+    toast('Intro saved!', 'success');
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+async function loadSocialBrandList() {
+  try {
+    socialBrandItems = await db('social_brands?select=*,brand:brands(id,name,logo_url),social_posts(id,instagram_url,cover_url,sort_order)&order=sort_order.asc') || [];
+    renderSocialBrandList();
+  } catch(e) {
+    document.getElementById('socialBrandList').innerHTML = `<div class="empty-state">Error loading brands</div>`;
+  }
+}
+
+function renderSocialBrandList() {
+  const el = document.getElementById('socialBrandList');
+  if (!socialBrandItems.length) { el.innerHTML = `<div class="empty-state">No brands yet.</div>`; return; }
+  el.innerHTML = socialBrandItems.map(b => {
+    const brand = b.brand || {};
+    const posts = b.social_posts || [];
+    const initials = (brand.name||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    return `
+      <div class="admin-card">
+        <div style="display:flex;gap:14px;align-items:center;">
+          <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;border:1px solid var(--border);flex-shrink:0;background:var(--card);display:flex;align-items:center;justify-content:center;">
+            ${brand.logo_url ? `<img src="${brand.logo_url}" style="width:100%;height:100%;object-fit:cover;"/>` : `<span style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--muted);">${initials}</span>`}
+          </div>
+          <div>
+            <div class="admin-card-title">${brand.name||'Unknown Brand'}</div>
+            <div class="admin-card-meta">${posts.length} post${posts.length===1?'':'s'}</div>
+          </div>
+        </div>
+        <div class="admin-card-actions">
+          <button class="btn btn-outline btn-sm" onclick="editSocialBrand('${b.id}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteSocialBrand('${b.id}','${(brand.name||'').replace(/'/g,"\'")}')">Delete</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function openSocialBrandModal() {
+  document.getElementById('sbEditId').value = '';
+  document.getElementById('socialBrandModalTitle').textContent = 'Add Brand';
+  document.getElementById('sbBrandSelect').value = '';
+  document.getElementById('sbBrandPreview').style.display = 'none';
+  sbPosts = [{ instagram_url:'', cover_url:'', sort_order:0 }];
+  renderSBPosts();
+  // Populate brand dropdown from marquee brands
+  try {
+    const brands = await db('brands?select=*&order=sort_order.asc');
+    const sel = document.getElementById('sbBrandSelect');
+    sel.innerHTML = '<option value="">— Select a brand —</option>' +
+      (brands||[]).map(b => `<option value="${b.id}" data-name="${b.name}" data-logo="${b.logo_url||''}">${b.name}</option>`).join('');
+  } catch(e) {}
+  document.getElementById('socialBrandModal').classList.add('open');
+}
+
+async function editSocialBrand(id) {
+  const sb = socialBrandItems.find(x => x.id == id);
+  if (!sb) return;
+  document.getElementById('sbEditId').value = sb.id;
+  document.getElementById('socialBrandModalTitle').textContent = 'Edit Brand';
+  sbPosts = (sb.social_posts||[]).sort((a,b)=>(a.sort_order||0)-(b.sort_order||0)).map(p => ({...p}));
+  if (!sbPosts.length) sbPosts.push({ instagram_url:'', cover_url:'', sort_order:0 });
+  renderSBPosts();
+  // Populate dropdown and pre-select
+  try {
+    const brands = await db('brands?select=*&order=sort_order.asc');
+    const sel = document.getElementById('sbBrandSelect');
+    sel.innerHTML = '<option value="">— Select a brand —</option>' +
+      (brands||[]).map(b => `<option value="${b.id}" data-name="${b.name}" data-logo="${b.logo_url||''}">${b.name}</option>`).join('');
+    sel.value = sb.brand_id || (sb.brand && sb.brand.id) || '';
+    onSBBrandChange();
+  } catch(e) {}
+  document.getElementById('socialBrandModal').classList.add('open');
+}
+
+function onSBBrandChange() {
+  const sel = document.getElementById('sbBrandSelect');
+  const opt = sel.options[sel.selectedIndex];
+  if (!opt || !opt.value) { document.getElementById('sbBrandPreview').style.display = 'none'; return; }
+  const name = opt.getAttribute('data-name');
+  const logo = opt.getAttribute('data-logo');
+  const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('sbBrandLogo').innerHTML = logo
+    ? `<img src="${logo}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`
+    : `<span style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:600;color:var(--muted);">${initials}</span>`;
+  document.getElementById('sbBrandName').textContent = name;
+  document.getElementById('sbBrandPreview').style.display = 'block';
+}
+
+function renderSBPosts() {
+  document.getElementById('sbPostList').innerHTML = sbPosts.map((p, i) => `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;gap:8px;align-items:center;">
+        <span style="font-family:'Outfit',sans-serif;font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;">Post ${i+1}</span>
+        ${sbPosts.length > 1 ? `<button class="btn btn-danger btn-sm" onclick="removeSBPost(${i})" style="margin-left:auto;">Remove</button>` : ''}
+      </div>
+      <input class="form-input" value="${p.instagram_url||''}" placeholder="https://www.instagram.com/reel/..." oninput="sbPosts[${i}].instagram_url=this.value"/>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <input type="file" id="sbCoverFile-${i}" accept="image/*" style="display:none" onchange="handleSBCoverFile(event,${i})"/>
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('sbCoverFile-${i}').click()">Upload Cover</button>
+        <span id="sbCoverName-${i}" style="font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);">${p.cover_url ? 'Cover ✓' : 'No cover'}</span>
+        ${p.cover_url ? `<img src="${p.cover_url}" style="height:40px;border-radius:3px;border:1px solid var(--border);"/>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function addSBPost() {
+  sbPosts.push({ instagram_url:'', cover_url:'', sort_order: sbPosts.length });
+  renderSBPosts();
+}
+
+function removeSBPost(i) {
+  sbPosts.splice(i, 1);
+  renderSBPosts();
+}
+
+async function handleSBCoverFile(event, idx) {
+  const file = event.target.files[0];
+  if (!file) return;
+  document.getElementById(`sbCoverName-${idx}`).textContent = 'Uploading...';
+  try {
+    const result = await uploadFile(file, pct => {
+      document.getElementById(`sbCoverName-${idx}`).textContent = `${pct}%`;
+    });
+    sbPosts[idx].cover_url = result.url;
+    document.getElementById(`sbCoverName-${idx}`).textContent = 'Cover ✓';
+    renderSBPosts();
+  } catch(e) {
+    document.getElementById(`sbCoverName-${idx}`).textContent = 'Upload failed';
+    toast('Upload failed: ' + e.message, 'error');
+  }
+}
+
+function closeSocialBrandModal() {
+  document.getElementById('socialBrandModal').classList.remove('open');
+}
+
+async function saveSocialBrand() {
+  const brandId = document.getElementById('sbBrandSelect').value;
+  if (!brandId) { toast('Please select a brand', 'error'); return; }
+  const editId = document.getElementById('sbEditId').value;
+  const btn = document.getElementById('sbSaveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    let sbId;
+    if (editId) {
+      await db(`social_brands?id=eq.${editId}`, { method:'PATCH', body:JSON.stringify({ brand_id: brandId }) });
+      sbId = editId;
+      await db(`social_posts?social_brand_id=eq.${sbId}`, { method:'DELETE' });
+    } else {
+      const r = await db('social_brands', { method:'POST', body:JSON.stringify({ brand_id: brandId, sort_order: socialBrandItems.length }) });
+      sbId = r[0].id;
+    }
+    const validPosts = sbPosts.filter(p => p.instagram_url.trim());
+    if (validPosts.length) {
+      await db('social_posts', { method:'POST', body:JSON.stringify(
+        validPosts.map((p,i) => ({ social_brand_id: sbId, instagram_url: p.instagram_url.trim(), cover_url: p.cover_url || null, sort_order: i }))
+      )});
+    }
+    toast(editId ? 'Brand updated!' : 'Brand added!', 'success');
+    closeSocialBrandModal();
+    await loadSocialBrandList();
+  } catch(e) {
+    toast('Error: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Save Brand';
+  }
+}
+
+async function deleteSocialBrand(id, name) {
+  if (!confirm(`Delete "${name}" and all its posts?`)) return;
+  try {
+    await db(`social_brands?id=eq.${id}`, { method:'DELETE' });
+    toast('Deleted', 'success');
+    await loadSocialBrandList();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // BRANDS
+
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let brandItems = [];
 let brandCoverImg = null;
