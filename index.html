@@ -176,6 +176,8 @@ section{position:relative}
 }
 .grad-text{
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
+  /* gradient only paints inside the box; italic glyphs (like the "?" in charcha?) overhang it, so pad and pull back */
+  display:inline-block;padding:0 .16em .06em 0;margin-right:-.16em;
 }
 
 /* ───────────────────────── beat 1 · namaste ───────────────────────── */
@@ -186,16 +188,17 @@ section{position:relative}
     radial-gradient(42% 38% at 28% 32%,rgba(236,105,185,.32),transparent 70%),
     radial-gradient(46% 42% at 72% 64%,rgba(132,40,147,.4),transparent 70%),
     radial-gradient(34% 30% at 56% 26%,rgba(194,79,180,.25),transparent 70%);
-  filter:blur(40px);
+  /* gradients are already soft; a live blur filter on this huge layer made the namaste crossfade stutter */
   animation:breathe 9s ease-in-out infinite alternate;
-  opacity:.7;
+  opacity:.7;will-change:transform;
 }
 @keyframes breathe{
   0%{transform:scale(1) rotate(0deg)}
   100%{transform:scale(1.14) rotate(4deg)}
 }
 .nmste-wrap{position:relative;text-align:center;z-index:2;width:min(92vw,860px)}
-#nmsteSvg{width:100%;height:auto;overflow:visible}
+#nmsteSvg{width:100%;height:auto;overflow:visible;will-change:transform,opacity}
+.namaste-latin{will-change:transform,opacity}
 #nmsteSvg text{
   font-family:var(--f-deva);font-size:170px;
   fill:#fff;fill-opacity:0;
@@ -427,7 +430,13 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
   position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;z-index:4;
   border:1.5px solid var(--rose);border-radius:4px;opacity:0;pointer-events:none;
 }
-.ptr-focus{transition:left .12s linear,top .12s linear,opacity .3s}
+/* pointer focus box: positioned with transform only, no transition lag */
+.ptr-focus{left:0;top:0;transition:opacity .3s;will-change:transform}
+.focus-veil.focusing{
+  -webkit-backdrop-filter:blur(3.5px);backdrop-filter:blur(3.5px);
+  -webkit-mask-image:radial-gradient(circle at var(--fx,50%) var(--fy,50%),transparent 0 80px,#000 150px);
+  mask-image:radial-gradient(circle at var(--fx,50%) var(--fy,50%),transparent 0 80px,#000 150px);
+}
 .vf-rec{
   position:absolute;left:calc(4vw + 22px);top:calc(var(--nav-h) + 26px);z-index:4;opacity:0;
   font-size:11px;letter-spacing:.24em;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px;
@@ -1282,7 +1291,7 @@ body.static .tl-path{stroke-dashoffset:0}
               </g>
               <circle id="khGlow" cx="214" cy="132" r="22"/>
               <g id="khPins"></g>
-              <g id="khTag"><rect x="0" y="0" width="80" height="20" rx="10"/><text x="40" y="14" text-anchor="middle" id="khTagT">Your Café</text></g>
+              <g id="khTag"><rect x="0" y="0" width="80" height="20" rx="10"/><text x="40" y="14" text-anchor="middle" id="khTagT">Your Brand</text></g>
               <g id="khMag"><circle cx="0" cy="0" r="20"/><path d="M 14 14 L 28 28"/></g>
             </svg>
             <div class="kh-list" id="khList"></div>
@@ -1441,6 +1450,19 @@ body.static .tl-path{stroke-dashoffset:0}
     <div class="tl-item r">
       <span class="tl-node"></span>
       <div class="tl-art"><svg viewBox="0 0 160 110" aria-hidden="true">
+        <path class="dl" pathLength="1" d="M 10 98 H 150"/>
+        <path class="dl" pathLength="1" d="M 58 26 A 7 7 0 1 0 58.01 26"/>
+        <path class="dl" pathLength="1" d="M 102 26 A 7 7 0 1 0 102.01 26"/>
+        <path class="dl" pathLength="1" d="M 58 33 V 66 M 58 66 L 48 96 M 58 66 L 66 96 M 58 42 L 44 58"/>
+        <path class="dl" pathLength="1" d="M 102 33 V 66 M 102 66 L 94 96 M 102 66 L 112 96 M 102 42 L 116 58"/>
+        <path class="dl acc" pathLength="1" d="M 58 42 L 80 20 L 102 42"/>
+        <path class="dl acc" pathLength="1" d="M 80 8 V 14 M 70 11 L 73 16 M 90 11 L 87 16"/>
+      </svg></div>
+      <div class="tl-text"><div class="yr">2026</div><p>Pratik quits his job too and goes full time. Two founders, both all in.</p></div>
+    </div>
+    <div class="tl-item">
+      <span class="tl-node"></span>
+      <div class="tl-art"><svg viewBox="0 0 160 110" aria-hidden="true">
         <path class="dl" pathLength="1" d="M 20 40 L 30 20 H 130 L 140 40"/>
         <path class="dl acc" pathLength="1" d="M 20 40 Q 30 50 40 40 Q 50 50 60 40 Q 70 50 80 40 Q 90 50 100 40 Q 110 50 120 40 Q 130 50 140 40"/>
         <path class="dl" pathLength="1" d="M 28 44 V 100 H 132 V 44"/>
@@ -1452,7 +1474,7 @@ body.static .tl-path{stroke-dashoffset:0}
     </div>
   </div>
   <div class="stats-row" id="statsRow">
-    <div class="stat"><div class="n"><b data-count="8">0</b></div><div class="l">Years of creating</div></div>
+    <div class="stat"><div class="n"><b data-count="9">0</b></div><div class="l">Years of creating</div></div>
     <div class="stat"><div class="n"><b data-count="50">0</b>+</div><div class="l">Brands grown</div></div>
     <div class="stat"><div class="n"><b data-count="20">0</b>+</div><div class="l">Industries served</div></div>
   </div>
@@ -1617,7 +1639,8 @@ if(reduced || !gsapOK){ goStatic(); return; }
 gsap.registerPlugin(ScrollTrigger);
 var hasFlip = typeof Flip !== 'undefined';
 if(hasFlip) gsap.registerPlugin(Flip);
-ScrollTrigger.defaults({anticipatePin:1});
+ScrollTrigger.defaults({anticipatePin:0});
+ScrollTrigger.config({ignoreMobileResize:true});   /* phone address bar showing/hiding no longer re-measures and jolts pinned sections */
 var isMobile = vw() < 760;
 var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
 function scrollToProgress(st, p){
@@ -1644,15 +1667,16 @@ gsap.to('#thread', {
 /* ════════ BEAT 1 · namaste morph ════════ */
 (function(){
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b1', start:'top top', end:'+=120%', pin:true, scrub:.8}
+    scrollTrigger:{trigger:'#b1', start:'top top', end:'+=120%', pin:true, scrub:.5}
   });
-  tl.to('#nmsteSvg', {opacity:0, scale:1.12, filter:'blur(14px)', duration:.32, ease:'power2.in'}, 0)
-    .to('.b1-sub', {opacity:0, y:-16, duration:.2}, 0)
-    .to('.scroll-hint', {opacity:0, duration:.15}, 0)
-    .fromTo('#namasteLatin', {opacity:0, scale:1.25, filter:'blur(10px)'},
-            {opacity:1, scale:1, filter:'blur(0px)', duration:.34, ease:'power2.out'}, .18)
-    .to('.aurora', {opacity:1, duration:.4}, .2)
-    .to('#namasteLatin', {opacity:0, scale:.9, letterSpacing:'.14em', duration:.3, ease:'power2.in'}, .72);
+  /* opacity + transform only (no blur filter, no letter-spacing) so the crossfade stays on the GPU */
+  tl.to('#nmsteSvg', {opacity:0, y:-28, scale:1.04, duration:.34, ease:'sine.inOut', force3D:true}, 0)
+    .to('.b1-sub', {opacity:0, y:-16, duration:.2, ease:'sine.inOut'}, 0)
+    .to('.scroll-hint', {opacity:0, duration:.15, ease:'sine.inOut'}, 0)
+    .fromTo('#namasteLatin', {opacity:0, y:28, scale:1.04},
+            {opacity:1, y:0, scale:1, duration:.36, ease:'sine.inOut', force3D:true}, .2)
+    .to('.aurora', {opacity:1, duration:.4, ease:'sine.inOut'}, .2)
+    .to('#namasteLatin', {opacity:0, y:-24, scale:.97, duration:.3, ease:'sine.inOut', force3D:true}, .72);
 })();
 
 /* ════════ BEAT 2 · thousands of dots form the real logo on white ════════ */
@@ -1727,7 +1751,7 @@ gsap.to('#thread', {
   size(); window.addEventListener('resize', size);
 
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b2', start:'top top', end:'+=175%', pin:true, scrub:.8,
+    scrollTrigger:{trigger:'#b2', start:'top top', end:'+=175%', pin:true, scrub:.5,
       onToggle:function(self){ state.active = self.isActive; }}
   });
   tl.to(state, {conv:1, duration:.5, ease:'power2.inOut'}, 0)
@@ -1743,7 +1767,7 @@ gsap.to('#thread', {
   var words = $$('#b3Words span');
   var rots = [-7, 6, -4, 8];
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b3', start:'top top', end:'+=160%', pin:true, scrub:.8}
+    scrollTrigger:{trigger:'#b3', start:'top top', end:'+=160%', pin:true, scrub:.5}
   });
   words.forEach(function(w,i){
     tl.fromTo(w, {y:160, opacity:0, rotation:rots[i]},
@@ -1752,7 +1776,7 @@ gsap.to('#thread', {
   $$('.b3-noise').forEach(function(n,i){
     tl.fromTo(n, {opacity:0, y:30}, {opacity:1, y:-20, duration:.5}, .1+i*.04);
   });
-  tl.to('#b3Words', {scale:.82, opacity:0, filter:'blur(8px)', duration:.2, ease:'power2.in'}, .62)
+  tl.to('#b3Words', {scale:.86, opacity:0, duration:.2, ease:'power2.in'}, .62)
     .to('.b3-noise', {opacity:0, duration:.15}, .62)
     .fromTo('#sabkuch h2', {scale:.55, opacity:0}, {scale:1, opacity:1, duration:.24, ease:'power3.out'}, .74)
     .fromTo('#sabkuch p', {y:26, opacity:0}, {y:0, opacity:1, duration:.16}, .86)
@@ -1762,7 +1786,7 @@ gsap.to('#thread', {
 /* ════════ chapter title cards (called in page order so pins above are measured first) ════════ */
 function chapCard(sel){
   var c = $(sel);
-  var t = gsap.timeline({scrollTrigger:{trigger:c, start:'top 80%', end:'center 50%', scrub:.8}});
+  var t = gsap.timeline({scrollTrigger:{trigger:c, start:'top 80%', end:'center 50%', scrub:.5}});
   t.fromTo($('.chap-num',c), {opacity:0, y:20}, {opacity:1, y:0, duration:.3}, 0)
    .fromTo($('.chap-rule',c), {scaleY:0, transformOrigin:'50% 0%'}, {scaleY:1, duration:.4}, .1)
    .fromTo($('.chap-name',c), {opacity:0, y:60, letterSpacing:'.12em'}, {opacity:1, y:0, letterSpacing:'-.02em', duration:.6, ease:'power3.out'}, .15)
@@ -1869,7 +1893,7 @@ chapCard('#chCreate');
   var typed = {n:0};
 
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b4', start:'top top', end:'+=170%', pin:true, scrub:.8, invalidateOnRefresh:true}
+    scrollTrigger:{trigger:'#b4', start:'top top', end:'+=170%', pin:true, scrub:.5, invalidateOnRefresh:true}
   });
   rings.forEach(function(r,i){
     tl.to(r, {strokeDashoffset:0, duration:.12, ease:'power1.inOut'}, .01 + i*.06)
@@ -1916,13 +1940,13 @@ chapCard('#chCreate');
   var counter = {v:0}, viewNum = $('#viewNum');
 
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b5', start:'top top', end:'+=160%', pin:true, scrub:.8, invalidateOnRefresh:true}
+    scrollTrigger:{trigger:'#b5', start:'top top', end:'+=160%', pin:true, scrub:.5, invalidateOnRefresh:true}
   });
   tl.to('#b5Text', {opacity:1, x:0, duration:.16, ease:'power2.out'}, 0)
     .fromTo(cal, {opacity:0, y:20}, {opacity:1, y:0, duration:.08}, .02)
     .to(cells, {opacity:1, scale:1, duration:.06, stagger:.004, ease:'power2.out'}, .05)
     .to('.k-cell i', {scale:1, duration:.05, stagger:.004, ease:'power2.out'}, .14)
-    .to(hero, {scale:1.35, boxShadow:'0 0 0 2px #EC69B9, 0 18px 40px rgba(236,105,185,.45)', duration:.06}, .3)
+    .to(hero, {scale:1.35, duration:.06, ease:'power2.out'}, .3)
     .to(others, {opacity:0, duration:.06}, .36)
     .to('.k-cal-h, .k-cal-days', {opacity:0, duration:.05}, .36)
     .to(cal, {borderColor:'rgba(255,255,255,0)', backgroundColor:'rgba(255,255,255,0)', duration:.05}, .36)
@@ -2030,7 +2054,15 @@ chapCard('#chCreate');
   var apS = makeAperture($('#apScroll')), apM = makeAperture($('#apShot'));
 
   var veil = $('#focusVeil'), fb = {b:6};
-  function setVeil(){ var v = 'blur(' + fb.b.toFixed(2) + 'px)'; veil.style.backdropFilter = v; veil.style.webkitBackdropFilter = v; }
+  var lastBlur = -1;
+  function setVeil(force){
+    if(focusing) return;   /* pointer focus owns the veil while active */
+    /* full-screen backdrop blur is costly: only repaint when it changes by half a pixel */
+    var b = Math.round(fb.b*2)/2;
+    if(b === lastBlur && force !== true) return;
+    lastBlur = b;
+    var v = b > 0 ? 'blur(' + b + 'px)' : 'none'; veil.style.backdropFilter = v; veil.style.webkitBackdropFilter = v;
+  }
   setVeil();
 
   var fp = $('#flightPath'), FL = fp.getTotalLength(), drone = $('#drone');
@@ -2059,7 +2091,7 @@ chapCard('#chCreate');
   gsap.set(['#shutterBtn','#shutterHint'], {opacity:0});
 
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b6', start:'top top', end:'+=230%', pin:true, scrub:.8, invalidateOnRefresh:true}
+    scrollTrigger:{trigger:'#b6', start:'top top', end:'+=230%', pin:true, scrub:.5, invalidateOnRefresh:true}
   });
   tl.fromTo('#roomClip', {clipPath:'circle(0% at 50% 50%)'}, {clipPath:'circle(75% at 50% 50%)', duration:.16, ease:'power2.inOut'}, 0)
     .fromTo('#irisRing', {scale:.6, opacity:1}, {scale:11, opacity:0, duration:.16, ease:'power2.in'}, 0)
@@ -2081,7 +2113,7 @@ chapCard('#chCreate');
     .to(apS.st, {r:900, duration:.04, ease:'power2.out', onUpdate:apS.draw}, .286)
     /* the photo becomes one frame on a rolling film strip */
     .fromTo(strip, {x:function(){ return vw()*.18; }}, {x:stripEnd, duration:.16, ease:'power1.inOut'}, .3)
-    .fromTo(STRIP[0].el, {scale:1.35, boxShadow:'0 0 0 2px #fff'}, {scale:1, boxShadow:'0 0 0 0 #fff', duration:.06}, .3)
+    .fromTo(STRIP[0].el, {scale:1.35}, {scale:1, duration:.06, ease:'power2.out'}, .3)
     /* AI re-render: a scan line sweeps and restyles every frame */
     .to(scanEl, {opacity:1, duration:.01}, .46)
     .to(scan, {p:1, duration:.1, ease:'none', onUpdate:scanUpd}, .46)
@@ -2117,19 +2149,31 @@ chapCard('#chCreate');
   $('#shutterBtn').addEventListener('click', shoot);
 
   /* pull focus: sharp where you point, soft everywhere else */
-  var ptr = $('#ptrFocus'), focusing = false;
+  /* box + sharp spot move together in one rAF per frame, via transform and CSS vars only */
+  var ptr = $('#ptrFocus'), focusing = false, fx = 0, fy = 0, rafId = 0;
+  function paintFocus(){
+    rafId = 0;
+    ptr.style.transform = 'translate3d(' + fx + 'px,' + fy + 'px,0)';
+    veil.style.setProperty('--fx', fx + 'px');
+    veil.style.setProperty('--fy', fy + 'px');
+  }
   function focusAt(x, y){
-    var r = stage.getBoundingClientRect(), lx = x - r.left, ly = y - r.top;
-    var m = 'radial-gradient(circle at ' + lx + 'px ' + ly + 'px, transparent 0 80px, #000 150px)';
-    veil.style.maskImage = m; veil.style.webkitMaskImage = m;
-    var v = 'blur(3.5px)'; veil.style.backdropFilter = v; veil.style.webkitBackdropFilter = v;
-    ptr.style.left = lx + 'px'; ptr.style.top = ly + 'px'; ptr.style.opacity = 1;
-    focusing = true;
+    var r = stage.getBoundingClientRect();
+    fx = Math.round(x - r.left); fy = Math.round(y - r.top);
+    if(!focusing){
+      focusing = true;
+      veil.style.backdropFilter = ''; veil.style.webkitBackdropFilter = '';
+      veil.classList.add('focusing');
+      ptr.style.opacity = 1;
+      paintFocus();
+      return;
+    }
+    if(!rafId) rafId = requestAnimationFrame(paintFocus);
   }
   function focusOff(){
     if(!focusing) return; focusing = false;
-    veil.style.maskImage = 'none'; veil.style.webkitMaskImage = 'none';
-    setVeil(); ptr.style.opacity = 0;
+    veil.classList.remove('focusing');
+    setVeil(true); ptr.style.opacity = 0;
   }
   stage.addEventListener('pointermove', function(e){
     if(e.pointerType !== 'mouse' || e.target.closest('.shutter,.explore')) return;
@@ -2153,7 +2197,7 @@ function tabSection(sel, endPct){
   }
   function phaseOf(p){ return p < .335 ? 0 : p < .67 ? 1 : 2; }
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:sec, start:'top top', end:'+=' + endPct + '%', pin:true, scrub:.8, invalidateOnRefresh:true,
+    scrollTrigger:{trigger:sec, start:'top top', end:'+=' + endPct + '%', pin:true, scrub:.5, invalidateOnRefresh:true,
       onUpdate:function(s){ setPhase(phaseOf(s.progress)); },
       onToggle:function(s){ if(!s.isActive){ cur = -1; hooks.forEach(function(h){ h(-1); }); } else setPhase(phaseOf(s.progress)); }}
   });
@@ -2315,16 +2359,33 @@ var NIR = tabSection('#nirmaan', 330);
     r.innerHTML = '<span class="rk">' + (i+1) + '</span><span class="meta"><b></b><small></small></span>';
     list.appendChild(r); rows.push(r);
   }
-  function cap(w){ return w.charAt(0).toUpperCase() + w.slice(1); }
+  function cap(w){ return w.split(' ').map(function(p){ return p.length <= 2 ? p.toUpperCase() : p.charAt(0).toUpperCase() + p.slice(1); }).join(' '); }
+  /* "best salons in bandra" → "salon"; anything unclear → "brand" (we serve every industry, not just cafés) */
   function wordOf(q){
-    var skip = {best:1, top:1, near:1, me:1, in:1, the:1, a:1, an:1, for:1, good:1, cheap:1, nearby:1, open:1, now:1};
-    var w = q.toLowerCase().split(/\s+/).filter(function(x){ return x && !skip[x]; });
-    return w.length ? w[0] : (q.trim() || 'café');
+    /* leading filler is skipped; a place word ends the phrase; keep at most two words ("real estate", "yoga studio") */
+    var filler = {best:1, top:1, good:1, cheap:1, rated:1, local:1, find:1, my:1, a:1, an:1, the:1, affordable:1, famous:1, popular:1, new:1};
+    var stop = {in:1, at:1, near:1, around:1, nearby:1, me:1, for:1, open:1, now:1, on:1, of:1, and:1, with:1, today:1};
+    var toks = q.toLowerCase().replace(/[^a-zÀ-ɏ\s-]/g, ' ').split(/\s+/).filter(function(x){ return x.length > 1; });
+    var out = [];
+    for(var i=0;i<toks.length && out.length<2;i++){
+      var t = toks[i];
+      if(stop[t]){ if(out.length) break; else continue; }
+      if(!out.length && filler[t]) continue;
+      out.push(t);
+    }
+    if(!out.length) return 'brand';
+    var last = out[out.length-1];
+    if(last.length > 4 && /s$/.test(last) && !/ss$/.test(last)) out[out.length-1] = last.replace(/ies$/, 'y').replace(/s$/, '');
+    return out.join(' ');
   }
-  var seq = null;
+  var seq = null, lastWord = '';
   function runSearch(word){
+    if(word === lastWord && seq && seq.isActive()) return;
+    lastWord = word;
     var W = cap(word);
-    var names = [W + ' Corner', 'The ' + W + ' Co.', W + ' House'];
+    var names = word === 'brand'
+      ? ['City Studio', 'The Local Co.', 'Corner House']
+      : [W + ' Corner', 'The ' + W + ' Co.', W + ' House'];
     var smalls = ['4.2 ★ · 1.4 km', '4.0 ★ · 2.1 km', '3.9 ★ · 2.8 km'];
     rows.forEach(function(r,k){
       if(k < 3){ $('b', r).textContent = names[k]; $('small', r).textContent = smalls[k]; }
@@ -2356,20 +2417,28 @@ var NIR = tabSection('#nirmaan', 330);
          rows.slice(0,3).forEach(function(r,k){ $('.rk', r).textContent = k + 2; });
        });
   }
-  var input = $('#khInput'), userSearched = false, Q = 'best café near me', qt = {p:0};
+  var input = $('#khInput'), userSearched = false, Q = 'best brands near me', qt = {p:0};
   tl.to('#khForm', {opacity:1, y:0, duration:.03}, .68)
     .to(qt, {p:1, duration:.06, ease:'none', onUpdate:function(){
         if(!userSearched) input.value = Q.slice(0, Math.round(qt.p*Q.length));
       }}, .7)
     .to('#khMap .dl', {strokeDashoffset:0, duration:.06, stagger:.008, ease:'power1.inOut'}, .7)
     .to('#khBlocks', {opacity:1, duration:.03}, .77)
-    .call(function(){ if(!userSearched) runSearch('café'); }, null, .8);
+    .call(function(){ if(!userSearched) runSearch('brand'); }, null, .8);
   $('#khForm').addEventListener('submit', function(e){
     e.preventDefault();
     userSearched = true;
     var q = input.value.trim(); if(!q) return;
     input.blur();
+    lastWord = '';
     runSearch(wordOf(q));
+  });
+  /* live: results follow what you type (after a short pause), no need to press Enter */
+  var typeT = 0;
+  input.addEventListener('input', function(){
+    userSearched = true;
+    clearTimeout(typeT);
+    typeT = setTimeout(function(){ if(input.value.trim()) runSearch(wordOf(input.value)); }, 650);
   });
   input.addEventListener('focus', function(){ userSearched = true; });
 })(NIR.tl);
@@ -2695,10 +2764,10 @@ var SANGAM = (function(tl){
   ScrollTrigger.addEventListener('refresh', build);
   document.fonts.ready.then(build);
   gsap.fromTo(path, {strokeDashoffset:1}, {strokeDashoffset:0, ease:'none',
-    scrollTrigger:{trigger:tlEl, start:'top 65%', end:'bottom 65%', scrub:.8}});
+    scrollTrigger:{trigger:tlEl, start:'top 65%', end:'bottom 65%', scrub:.5}});
   gsap.set(path, {strokeDasharray:'1 1'});
   $$('.tl-item').forEach(function(it){
-    var t = gsap.timeline({scrollTrigger:{trigger:it, start:'top 80%', end:'top 40%', scrub:.8}});
+    var t = gsap.timeline({scrollTrigger:{trigger:it, start:'top 80%', end:'top 40%', scrub:.5}});
     t.to($$('.dl', it), {strokeDashoffset:0, duration:1, stagger:.12, ease:'none'}, 0)
      .fromTo($('.tl-text', it), {opacity:0, y:24}, {opacity:1, y:0, duration:.6, ease:'power2.out'}, .1);
   });
