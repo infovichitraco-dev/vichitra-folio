@@ -284,33 +284,37 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
   user-select:none;color:#E9DCF1;
 }
 
-/* ───────────────────────── beat 4 · aarambh rings ───────────────────────── */
-#b4 .stage{background:var(--paper);flex-direction:column;text-align:center}
-.rings{
-  position:absolute;left:50%;top:50%;width:0;height:0;z-index:1;
+/* line-drawing helper: any path with pathLength="1" + class dl starts hidden and is drawn by animating stroke-dashoffset 1 → 0 */
+.dl{stroke-dasharray:1 1;stroke-dashoffset:1}
+
+/* ───────────────────────── beat 4 · aarambh diya ───────────────────────── */
+#b4 .stage{
+  background:var(--paper);flex-direction:column;text-align:center;
+  padding:calc(var(--nav-h) + 6px) 6vw 18px;
 }
-.ring{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(0);
-  border-radius:50%;border:1.5px solid;
+.diya-wrap{width:min(60vw,290px);flex:0 0 auto}
+#diyaSvg{width:100%;height:auto;max-height:28vh;display:block;margin:0 auto;overflow:visible}
+#diyaSvg .dl{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.diya-body{stroke:var(--plum);stroke-width:3}
+.diya-fill{fill:url(#diyaGrad);opacity:0}
+.diya-wick{stroke:var(--ink);stroke-width:2.5}
+.diya-flame{stroke:var(--rose);stroke-width:2.5}
+.diya-flame-fill{fill:url(#flameGrad);opacity:0}
+.flame-flick{transform-box:fill-box;transform-origin:50% 100%;animation:flick 1.4s ease-in-out infinite alternate}
+@keyframes flick{0%{transform:scale(1,1) skewX(0)}50%{transform:scale(.96,1.05) skewX(2deg)}100%{transform:scale(1.03,.97) skewX(-2deg)}}
+.diya-glow{opacity:0}
+.diya-ray{stroke:var(--orchid);stroke-width:2}
+.diya-spark{fill:var(--rose)}
+.b4-content{position:relative;z-index:2}
+.b4-content .skt{margin-top:8px;font-size:clamp(40px,7.2vw,88px)}
+.b4-content .copy{margin-top:12px}
+.b4-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 10px;margin-top:16px}
+.b4-step{
+  font-size:clamp(10px,1.2vw,12px);letter-spacing:.22em;text-transform:uppercase;font-weight:600;
+  color:var(--plum);padding:6px 14px;border-radius:99px;border:1px solid rgba(194,79,180,.35);
+  background:var(--paper);opacity:0;
 }
-.ring:nth-child(1){width:170px;height:170px;border-color:rgba(236,105,185,.65)}
-.ring:nth-child(2){width:340px;height:340px;border-color:rgba(194,79,180,.45)}
-.ring:nth-child(3){width:540px;height:540px;border-color:rgba(132,40,147,.3)}
-.ring:nth-child(4){width:780px;height:780px;border-color:rgba(91,30,122,.18)}
-.spark{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:14px;height:14px;border-radius:50%;background:var(--grad);
-  box-shadow:0 0 0 0 rgba(236,105,185,.45);
-  z-index:1;
-}
-.ring-word{
-  position:absolute;
-  font-size:clamp(10px,1.3vw,13px);letter-spacing:.26em;text-transform:uppercase;font-weight:600;
-  color:var(--plum);background:var(--paper);padding:5px 14px;border-radius:99px;
-  border:1px solid rgba(194,79,180,.35);white-space:nowrap;opacity:0;
-}
-.b4-content{position:relative;z-index:4;background:transparent}
-.b4-content .skt{margin-top:16px}
+.b4-content .explore{margin-top:18px}
 
 /* ───────────────────────── beat 5 · katha phone ───────────────────────── */
 #b5 .stage{background:var(--ink);gap:clamp(24px,6vw,90px);flex-wrap:wrap;padding:0 6vw}
@@ -348,6 +352,14 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
 .cap-lines i:nth-child(1){width:46%;background:var(--grad)}
 .cap-lines i:nth-child(2){width:88%}
 .cap-lines i:nth-child(3){width:64%}
+.reel-bottom{display:flex;flex-direction:column}
+.k-icon{position:absolute;left:50%;top:44%;width:54%;transform:translate(-50%,-50%);overflow:visible}
+.k-bubble{fill:none;stroke:#fff;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.k-ring{fill:none;stroke:url(#pgrad);stroke-width:3.5;stroke-linecap:round}
+.k-dot{fill:var(--rose);opacity:0}
+.k-play{fill:#fff;opacity:0}
+.k-prog{height:3px;border-radius:3px;background:rgba(255,255,255,.18);margin-top:12px;overflow:hidden;width:100%}
+.k-prog i{display:block;height:100%;background:var(--grad);transform:scaleX(0);transform-origin:0 50%}
 
 /* ───────────────────────── beat 6 · drishti ───────────────────────── */
 #b6 .stage{background:#140D1D}
@@ -356,10 +368,37 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   clip-path:circle(0% at 50% 50%);
 }
-#roomSvg,#droneSvg{position:absolute;width:min(120vw,1100px);height:auto}
+#roomSvg{position:absolute;width:min(120vw,1100px);height:auto}
 #roomSvg line,#roomSvg rect{stroke-width:1.2;fill:none}
-#droneSvg{opacity:0}
-#droneSvg line{stroke-width:1;fill:none}
+/* viewfinder: corners + rule-of-thirds grid framing the whole stage */
+#vfSvg{
+  position:absolute;left:4vw;right:4vw;top:calc(var(--nav-h) + 8px);bottom:3vh;
+  width:calc(100% - 8vw);height:calc(100% - var(--nav-h) - 8px - 3vh);z-index:3;pointer-events:none;
+}
+#vfSvg path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
+#vfSvg .vf{stroke:#fff;stroke-width:2}
+#vfSvg .vfg{stroke:rgba(255,255,255,.28);stroke-width:1}
+.vf-focus{
+  position:absolute;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;z-index:3;
+  border:1.5px solid var(--rose);border-radius:4px;opacity:0;pointer-events:none;
+}
+.vf-rec{
+  position:absolute;left:calc(4vw + 22px);top:calc(var(--nav-h) + 26px);z-index:3;opacity:0;
+  font-size:11px;letter-spacing:.24em;font-weight:600;color:#fff;display:flex;align-items:center;gap:8px;
+}
+.vf-rec i{width:9px;height:9px;border-radius:50%;background:#FF4D6D;animation:blink 1.1s steps(1) infinite}
+/* skyline + drone flight path */
+#skySvg{
+  position:absolute;left:50%;top:calc(var(--nav-h) + 7vh);transform:translateX(-50%);
+  width:min(86vw,860px);height:auto;overflow:visible;z-index:2;
+}
+#skySvg .sky{fill:none;stroke:rgba(255,255,255,.75);stroke-width:1.6;stroke-linejoin:round}
+#skySvg .ground{fill:none;stroke:rgba(236,105,185,.6);stroke-width:1.6}
+#skySvg .flight{fill:none;stroke:var(--rose);stroke-width:2;stroke-linecap:round}
+#drone{opacity:0}
+#drone path{stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round}
+#drone circle{fill:none;stroke:#fff;stroke-width:1.6}
+#drone rect{fill:var(--rose)}
 .iris-ring{
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   border-radius:50%;border:1px solid rgba(236,105,185,.35);
@@ -383,11 +422,25 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
 
 /* ───────────────────────── beat 7 · utsav + sangam ───────────────────────── */
 #b7 .stage{background:var(--paper)}
-#b7 canvas{position:absolute;inset:0;width:100%;height:100%}
+.b7-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:1}
+.b7-svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.b7-svg .toran{stroke:var(--plum);stroke-width:2}
+.b7-svg .strand{stroke:rgba(132,40,147,.55);stroke-width:1.2}
+.b7-svg .mg{opacity:0}
+.b7-svg .ray{stroke-width:2.2}
+.b7-svg .tip{opacity:0}
+.b7-svg .river{stroke-width:3}
+.b7-svg .stream{stroke:var(--plum);stroke-width:6}
+.b7-svg .flow{stroke:#fff;stroke-width:1.6;stroke-dasharray:.012 .03;opacity:0;animation:flow 2.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-.42}}
+.b7-svg .creator,.b7-svg .brand,.b7-svg .lbl{opacity:0}
+.b7-svg .lbl{font:600 11px Sora,sans-serif;fill:var(--ink-soft);letter-spacing:.06em}
+.b7-svg .brand-lbl{font:600 12px Sora,sans-serif;fill:var(--ink);letter-spacing:.14em;text-transform:uppercase}
 .b7-head{
   position:absolute;left:0;right:0;text-align:center;z-index:3;padding:0 6vw;pointer-events:none;
 }
-.b7-head.top{top:9%}
+.b7-head.top{top:calc(var(--nav-h) + 120px)}
+.b7-head .skt{font-size:clamp(40px,7vw,88px)}
 .b7-head .hgroup{position:absolute;left:0;right:0;opacity:0}
 .b7-foot{
   position:absolute;left:0;right:0;bottom:7%;text-align:center;z-index:3;padding:0 6vw;
@@ -417,6 +470,30 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
 #graphSvg{width:100%;height:100%;overflow:visible}
 #graphPath{fill:none;stroke:url(#ggrad);stroke-width:3.5;stroke-linecap:round}
 #graphDot{fill:#fff;filter:drop-shadow(0 0 12px rgba(236,105,185,.9))}
+#graphSvg .leaf{fill:#C24FB4}
+#graphSvg .leaf.alt{fill:#EC69B9}
+/* shabd: cliche gets struck through, the real line gets written */
+.shabd{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,18px);max-width:560px}
+.cliche{
+  position:relative;display:inline-block;font-size:clamp(14px,2.2vw,19px);color:rgba(255,255,255,.6);
+  padding:2px 4px;letter-spacing:.02em;
+}
+.cliche .strike{position:absolute;left:-2%;top:30%;width:104%;height:46%;overflow:visible}
+.cliche .strike path{fill:none;stroke:var(--rose);stroke-width:2.6;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.nib{
+  position:absolute;left:0;top:58%;width:24px;height:24px;opacity:0;pointer-events:none;
+  transform:translate(-50%,-100%) rotate(30deg);transform-origin:50% 100%;
+}
+.nib svg{width:100%;height:100%;display:block}
+.nib path{fill:#fff;stroke:var(--violet);stroke-width:1.2;stroke-linejoin:round}
+.swoosh{width:min(72%,340px);height:16px;overflow:visible;margin-top:-10px}
+.swoosh path{fill:none;stroke:var(--rose);stroke-width:3;vector-effect:non-scaling-stroke;stroke-linecap:round}
+/* haat: market stall whose stripes become a barcode, tags on a string */
+#stallSvg{width:min(80%,320px);height:auto;overflow:visible}
+.stall-roof,.stall-val{fill:none;stroke:#fff;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.tags{position:relative;margin-top:6px;width:min(100%,540px)}
+.tag-string{position:absolute;left:0;top:0;width:100%;height:20px;overflow:visible}
+.tag-string path{fill:none;stroke:rgba(255,255,255,.5);stroke-width:1.5;vector-effect:non-scaling-stroke}
 .typed-line{
   font-family:var(--f-display);font-style:italic;font-weight:560;
   font-size:clamp(24px,4.6vw,44px);color:#fff;line-height:1.3;max-width:560px;
@@ -427,17 +504,15 @@ body.loaded .scroll-hint{animation:rise 1s ease 3.5s forwards}
   vertical-align:-.08em;margin-left:3px;animation:blink 0.9s steps(1) infinite;
 }
 @keyframes blink{50%{opacity:0}}
-.barcode{display:flex;align-items:flex-end;gap:5px;height:96px;margin-bottom:26px}
-.barcode i{
-  display:block;width:7px;background:#fff;border-radius:2px;
-  transform:scaleY(0);transform-origin:50% 100%;
-}
-.mkt-chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.mkt-chips{display:flex;gap:6px;flex-wrap:nowrap;justify-content:space-around;align-items:flex-start;padding:0 2%}
 .mkt-chips span{
-  font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;
-  border:1px solid rgba(255,255,255,.3);padding:10px 20px;border-radius:99px;
-  opacity:0;background:rgba(255,255,255,.05);
+  position:relative;flex:0 0 auto;
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  border:1px solid rgba(255,255,255,.35);padding:8px 13px 8px 20px;border-radius:6px;
+  opacity:0;background:rgba(255,255,255,.06);
 }
+.mkt-chips span::before{content:'';position:absolute;left:50%;bottom:100%;width:1px;height:var(--hang,14px);background:rgba(255,255,255,.5)}
+.mkt-chips span::after{content:'';position:absolute;left:8px;top:50%;width:5px;height:5px;margin-top:-2.5px;border-radius:50%;background:rgba(255,255,255,.6)}
 .b8-copy{color:rgba(255,255,255,.6);font-size:clamp(13px,1.7vw,16px);max-width:520px;margin-top:clamp(18px,3vh,30px);min-height:3.2em;position:relative;width:100%}
 .b8-copy p{position:absolute;left:50%;transform:translateX(-50%);width:100%;max-width:520px;opacity:0;margin:0}
 .b8-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:clamp(14px,2.5vh,24px)}
@@ -527,6 +602,7 @@ footer{
 .f-col a{display:block;font-size:13.5px;color:rgba(255,255,255,.72);padding:5px 0;transition:color .3s}
 .f-col a:hover{color:#fff}
 .f-col a small{opacity:.5;font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-left:8px}
+.svc-grid{display:grid;grid-template-columns:repeat(2,auto);column-gap:34px}
 .f-base{
   max-width:1180px;margin:48px auto 0;padding-top:22px;
   border-top:1px solid rgba(255,255,255,.1);
@@ -552,10 +628,15 @@ body.static .stage{height:auto;min-height:0;padding:90px 6vw}
 body.static #b1 .stage,body.static #b2 .stage{min-height:70vh}
 body.static canvas{display:none}
 body.static .b2-logo,body.static .tagline,body.static .views,body.static .reel-side .ric,
-body.static .ring-word,body.static .b6-chip,body.static .b8-panel,body.static .mkt-chips span,
+body.static .b4-step,body.static .b6-chip,body.static .b8-panel,body.static .mkt-chips span,
 body.static .b7-head .hgroup,body.static .b7-foot .hcopy p,body.static .b8-copy p{
   opacity:1!important;transform:none!important;position:relative!important;
 }
+body.static .dl{stroke-dashoffset:0!important}
+body.static .diya-fill,body.static .diya-flame-fill,body.static .diya-glow,body.static .k-play,
+body.static #b4Content{opacity:1!important}
+body.static .k-bubble,body.static .diya-spark,body.static #vfSvg,body.static .b7-svg,
+body.static .nib,body.static .vf-rec,body.static .vf-focus{display:none}
 body.static .b2-logo{position:relative!important;left:auto;top:auto;transform:none;margin:0 auto}
 
 @media(max-width:760px){
@@ -568,19 +649,27 @@ body.static .b2-logo{position:relative!important;left:auto;top:auto;transform:no
   .views{font-size:17px}
 }
 body.static .room-clip{clip-path:none;position:relative;height:50vh}
-body.static .cap-lines i{transform:none}
-body.static .ring{transform:translate(-50%,-50%) scale(1)}
+body.static .cap-lines i,body.static .k-prog i{transform:none}
 body.static .story-track{flex-direction:column;width:100%;align-items:flex-start;padding:60px 8vw}
 body.static .b8-viz{display:none}
 body.static .sabkuch{position:relative;margin-top:30px}
 body.static .b8-tab{color:rgba(255,255,255,.8)}
 body.static .chapter-tag{display:none}
 
+@media(max-width:760px){
+  .chapter-tag{display:none}
+}
 @media(max-width:640px){
   .reel-side{bottom:24%}
   .stats-row{flex-wrap:wrap;gap:30px}
   .nav-brand span{display:none}
-  .b8-viz{height:200px}
+  .b8-viz{height:210px}
+  #stallSvg{width:68%}
+  .mkt-chips span{font-size:9px;padding:6px 7px 6px 15px;letter-spacing:.06em}
+  .mkt-chips span::after{left:6px;width:4px;height:4px;margin-top:-2px}
+  .b3-noise:nth-of-type(5),.b3-noise:nth-of-type(6){display:none}
+  .vf-rec{left:calc(4vw + 14px)}
+  .svc-grid a small{display:none}
 }
 </style>
 </head>
@@ -604,9 +693,8 @@ body.static .chapter-tag{display:none}
   <p class="o-eyebrow">Vichitra Co · Mumbai</p>
   <div class="o-links">
     <a class="o-link" href="index.html"><span class="num">01</span><h3>Aangan</h3><span class="ann">Home</span></a>
-    <a class="o-link" href="work.html"><span class="num">02</span><h3>Drishya</h3><span class="ann">Our Work</span></a>
-    <a class="o-link" href="about.html"><span class="num">03</span><h3>Prastavana</h3><span class="ann">Our Story</span></a>
-    <a class="o-link" href="contact.html"><span class="num">04</span><h3>Charcha</h3><span class="ann">Contact</span></a>
+    <a class="o-link" href="#b9"><span class="num">02</span><h3>Hamari Katha</h3><span class="ann">Our Story</span></a>
+    <a class="o-link" href="#b10"><span class="num">03</span><h3>Charcha</h3><span class="ann">Contact</span></a>
   </div>
   <div class="o-sub">
     <a class="o-chip" href="services/aarambh.html"><b>Aarambh</b><small>Brand Launch</small></a>
@@ -669,21 +757,48 @@ body.static .chapter-tag{display:none}
 <!-- ════════ BEAT 4 · AARAMBH ════════ -->
 <section id="b4">
   <div class="stage">
-    <div class="rings" id="rings">
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <div class="ring"></div>
-      <span class="ring-word" style="left:0;top:-85px">Naming</span>
-      <span class="ring-word" style="left:170px;top:0">Identity</span>
-      <span class="ring-word" style="left:-270px;top:0">Positioning</span>
-      <span class="ring-word" style="left:0;top:170px">Launch Plan</span>
+    <div class="diya-wrap">
+      <svg id="diyaSvg" viewBox="0 0 300 230" aria-hidden="true">
+        <defs>
+          <linearGradient id="diyaGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#EC69B9" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#842893" stop-opacity=".34"/>
+          </linearGradient>
+          <linearGradient id="flameGrad" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#EC69B9"/>
+            <stop offset="55%" stop-color="#FF9F6B"/>
+            <stop offset="100%" stop-color="#FFD98A"/>
+          </linearGradient>
+          <radialGradient id="glowGrad">
+            <stop offset="0%" stop-color="#FFC27A" stop-opacity=".55"/>
+            <stop offset="60%" stop-color="#EC69B9" stop-opacity=".16"/>
+            <stop offset="100%" stop-color="#EC69B9" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle class="diya-glow" cx="150" cy="96" r="92" fill="url(#glowGrad)"/>
+        <path class="diya-fill" d="M 34 150 C 70 214 230 214 266 150 L 292 136 C 250 162 120 170 34 150 Z"/>
+        <path class="dl diya-body" pathLength="1" d="M 292 136 L 266 150 C 230 214 70 214 34 150 C 120 170 250 162 292 136"/>
+        <path class="dl diya-body" pathLength="1" d="M 122 208 Q 150 218 178 208"/>
+        <path class="dl diya-wick" pathLength="1" d="M 150 157 L 150 132"/>
+        <g class="flame-flick">
+          <path class="diya-flame-fill" d="M 150 130 C 128 108 136 82 150 52 C 164 82 172 108 150 130 Z"/>
+        </g>
+        <path class="dl diya-flame" pathLength="1" d="M 150 130 C 128 108 136 82 150 52 C 164 82 172 108 150 130 Z"/>
+        <path class="dl diya-ray" pathLength="1" d="M 150 38 L 150 20"/>
+        <path class="dl diya-ray" pathLength="1" d="M 117 52 L 104 40"/>
+        <path class="dl diya-ray" pathLength="1" d="M 183 52 L 196 40"/>
+        <path class="dl diya-ray" pathLength="1" d="M 103 86 L 86 82"/>
+        <path class="dl diya-ray" pathLength="1" d="M 197 86 L 214 82"/>
+        <circle class="diya-spark" id="diyaSpark" cx="150" cy="8" r="5"/>
+      </svg>
     </div>
-    <div class="spark" id="spark"></div>
     <div class="b4-content" id="b4Content">
       <p class="eyebrow">Brand Launch and Strategy</p>
       <h2 class="skt">Aarambh<span class="ann">The Beginning</span></h2>
-      <p class="copy">Every brand begins as a spark. We design the fire around it. Naming, identity, positioning and a launch plan that actually lands.</p>
+      <p class="copy">Every brand begins as a spark. We design the fire around it.</p>
+      <div class="b4-steps">
+        <span class="b4-step">Naming</span><span class="b4-step">Identity</span><span class="b4-step">Positioning</span><span class="b4-step">Launch Plan</span>
+      </div>
       <a class="explore" href="services/aarambh.html">Explore Aarambh →</a>
     </div>
   </div>
@@ -715,7 +830,16 @@ body.static .chapter-tag{display:none}
           <div class="ric"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 12a8 8 0 1 1-4-6.9L21 4l-1 4.5A8 8 0 0 1 21 12z"/></svg><span>replies</span></div>
           <div class="ric"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M3 12l18-9-6 18-3.5-7L3 12z"/></svg><span>shares</span></div>
         </div>
-        <div class="cap-lines" id="capLines"><i></i><i></i><i></i></div>
+        <svg class="k-icon" viewBox="0 0 120 100" aria-hidden="true">
+          <path class="dl k-bubble" pathLength="1" d="M 22 8 H 98 Q 112 8 112 22 V 58 Q 112 72 98 72 H 54 L 34 90 L 38 72 H 22 Q 8 72 8 58 V 22 Q 8 8 22 8 Z"/>
+          <circle class="k-dot" cx="40" cy="40" r="5"/><circle class="k-dot" cx="60" cy="40" r="5"/><circle class="k-dot" cx="80" cy="40" r="5"/>
+          <path class="dl k-ring" pathLength="1" d="M 60 10 A 30 30 0 1 1 59.95 10"/>
+          <path class="k-play" d="M 52 26 L 75 40 L 52 54 Z"/>
+        </svg>
+        <div class="reel-bottom">
+          <div class="cap-lines" id="capLines"><i></i><i></i><i></i></div>
+          <div class="k-prog"><i id="kProg"></i></div>
+        </div>
       </div>
     </div>
   </div>
@@ -742,11 +866,31 @@ body.static .chapter-tag{display:none}
             <line x1="400" y1="310" x2="400" y2="460" stroke="rgba(255,255,255,.18)"/>
           </g>
         </svg>
-        <svg id="droneSvg" viewBox="0 0 800 500" aria-hidden="true">
-          <g stroke="rgba(236,105,185,.45)" id="droneGrid"></g>
-        </svg>
       </div>
     </div>
+    <svg id="vfSvg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="dl vf" pathLength="1" d="M 0 9 V 0 H 6"/>
+      <path class="dl vf" pathLength="1" d="M 94 0 H 100 V 9"/>
+      <path class="dl vf" pathLength="1" d="M 100 91 V 100 H 94"/>
+      <path class="dl vf" pathLength="1" d="M 6 100 H 0 V 91"/>
+      <path class="dl vfg" pathLength="1" d="M 33.33 0 V 100"/>
+      <path class="dl vfg" pathLength="1" d="M 66.66 0 V 100"/>
+      <path class="dl vfg" pathLength="1" d="M 0 33.33 H 100"/>
+      <path class="dl vfg" pathLength="1" d="M 0 66.66 H 100"/>
+    </svg>
+    <div class="vf-focus" id="vfFocus"></div>
+    <div class="vf-rec" id="vfRec"><i></i>REC</div>
+    <svg id="skySvg" viewBox="0 0 860 250" aria-hidden="true">
+      <path class="dl sky" pathLength="1" d="M 0 240 H 40 V 172 H 88 V 124 H 128 V 190 H 168 V 92 H 198 V 72 H 214 V 92 H 238 V 150 H 298 V 112 H 348 V 200 H 388 V 62 H 398 V 40 H 410 V 62 H 430 V 140 H 478 V 102 H 538 V 180 H 578 V 130 H 618 V 82 H 658 V 160 H 718 V 120 H 758 V 198 H 798 V 150 H 860 V 240"/>
+      <path class="dl ground" pathLength="1" d="M 0 240 H 860"/>
+      <path class="flight" id="flightPath" d="M 18 156 C 90 40 280 -6 470 22 S 700 60 800 14"/>
+      <g id="drone">
+        <path d="M -13 -13 L 13 13 M 13 -13 L -13 13"/>
+        <circle cx="-13" cy="-13" r="7"/><circle cx="13" cy="-13" r="7"/>
+        <circle cx="-13" cy="13" r="7"/><circle cx="13" cy="13" r="7"/>
+        <rect x="-5" y="-5" width="10" height="10" rx="2"/>
+      </g>
+    </svg>
     <div class="b6-text" id="b6Text">
       <p class="eyebrow">Photography and Films</p>
       <h2 class="skt">Drishti<span class="ann">The Vision</span></h2>
@@ -764,7 +908,7 @@ body.static .chapter-tag{display:none}
 <!-- ════════ BEAT 7 · UTSAV + SANGAM ════════ -->
 <section id="b7">
   <div class="stage">
-    <canvas id="mCanvas"></canvas>
+    <svg class="b7-svg" id="b7Svg" aria-hidden="true"></svg>
     <div class="b7-head top">
       <div class="hgroup" id="h7a">
         <p class="eyebrow">Event Coverage</p>
@@ -815,12 +959,26 @@ body.static .chapter-tag{display:none}
         </svg>
       </div>
       <div class="b8-panel" id="p8b">
-        <div class="typed-line"><span id="typedTxt"></span><span class="caret"></span></div>
+        <div class="shabd">
+          <div class="cliche" id="cliche">We are a 360° solution provider.
+            <svg class="strike" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path class="dl" id="strikePath" pathLength="1" d="M 0 13 C 12 7 24 15 38 10 S 62 6 76 12 S 94 9 100 8"/></svg>
+            <span class="nib" id="nib"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M 12 23 L 6 11 L 9 2 H 15 L 18 11 Z M 12 23 V 13"/></svg></span>
+          </div>
+          <div class="typed-line"><span id="typedTxt"></span><span class="caret"></span></div>
+          <svg class="swoosh" viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path class="dl" id="swooshPath" pathLength="1" d="M 6 14 C 80 4 170 3 294 10"/></svg>
+        </div>
       </div>
       <div class="b8-panel" id="p8c">
-        <div class="barcode" id="barcode"></div>
-        <div class="mkt-chips" id="mktChips">
-          <span>Amazon</span><span>Flipkart</span><span>Meesho</span><span>Myntra</span><span>Nykaa</span>
+        <svg id="stallSvg" viewBox="0 0 320 150" aria-hidden="true">
+          <g id="stripes"></g>
+          <path class="dl stall-roof" pathLength="1" d="M 14 44 L 160 8 L 306 44"/>
+          <path class="dl stall-val" pathLength="1" d="M 14 44 Q 32.2 60 50.4 44 Q 68.6 60 86.8 44 Q 105 60 123.2 44 Q 141.4 60 159.6 44 Q 177.8 60 196 44 Q 214.2 60 232.4 44 Q 250.6 60 268.8 44 Q 287 60 306 44 M 14 44 H 306"/>
+        </svg>
+        <div class="tags">
+          <svg class="tag-string" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path class="dl" id="tagString" pathLength="1" d="M 0 3 Q 50 19 100 3"/></svg>
+          <div class="mkt-chips" id="mktChips">
+            <span>Amazon</span><span>Flipkart</span><span>Meesho</span><span>Myntra</span><span>Nykaa</span>
+          </div>
         </div>
       </div>
     </div>
@@ -873,7 +1031,7 @@ body.static .chapter-tag{display:none}
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
       WhatsApp Us
     </a>
-    <a class="cta ghost" href="contact.html">Send a Message</a>
+    <a class="cta ghost" href="mailto:namaste@vichitraco.com?subject=Project%20enquiry">Send a Message</a>
   </div>
   <a class="cta-mail reveal" href="mailto:namaste@vichitraco.com">namaste@vichitraco.com</a>
 
@@ -886,29 +1044,26 @@ body.static .chapter-tag{display:none}
       <div class="f-col">
         <h4>Pages</h4>
         <a href="index.html">Home</a>
-        <a href="work.html">Drishya<small>Work</small></a>
-        <a href="about.html">Prastavana<small>About</small></a>
-        <a href="contact.html">Charcha<small>Contact</small></a>
+        <a href="#b9">Hamari Katha<small>Our Story</small></a>
+        <a href="#b10">Charcha<small>Contact</small></a>
       </div>
       <div class="f-col">
         <h4>Services</h4>
-        <a href="services/aarambh.html">Aarambh<small>Brand Launch</small></a>
-        <a href="services/katha.html">Katha<small>Social Media</small></a>
-        <a href="services/drishti.html">Drishti<small>Photo and Film</small></a>
-        <a href="services/utsav.html">Utsav<small>Events</small></a>
-      </div>
-      <div class="f-col">
-        <h4>&nbsp;</h4>
-        <a href="services/sangam.html">Sangam<small>Influencers</small></a>
-        <a href="services/vriddhi.html">Vriddhi<small>Performance</small></a>
-        <a href="services/shabd.html">Shabd<small>PR and Writing</small></a>
-        <a href="services/haat.html">Haat<small>Listings</small></a>
+        <div class="svc-grid">
+          <a href="services/aarambh.html">Aarambh<small>Brand Launch</small></a>
+          <a href="services/sangam.html">Sangam<small>Influencers</small></a>
+          <a href="services/katha.html">Katha<small>Social Media</small></a>
+          <a href="services/vriddhi.html">Vriddhi<small>Performance</small></a>
+          <a href="services/drishti.html">Drishti<small>Photo and Film</small></a>
+          <a href="services/shabd.html">Shabd<small>PR and Writing</small></a>
+          <a href="services/utsav.html">Utsav<small>Events</small></a>
+          <a href="services/haat.html">Haat<small>Listings</small></a>
+        </div>
       </div>
       <div class="f-col">
         <h4>Reach Us</h4>
         <a href="https://wa.me/918898490531?text=Namaste%20Vichitra%20Co!%20I%20found%20you%20through%20your%20website%20and%20would%20love%20to%20talk." target="_blank" rel="noopener">WhatsApp</a>
         <a href="mailto:namaste@vichitraco.com">namaste@vichitraco.com</a>
-        <a href="https://www.instagram.com" target="_blank" rel="noopener">Instagram</a>
       </div>
     </div>
     <div class="f-base">
@@ -970,34 +1125,56 @@ window.addEventListener('scroll', function(){
   $('#waFloat').classList.toggle('on', window.scrollY > vh()*0.8);
 }, {passive:true});
 
-/* ───────── drone grid generation ───────── */
-(function buildDroneGrid(){
-  var g = $('#droneGrid'); if(!g) return;
-  var ns = 'http://www.w3.org/2000/svg', html = '';
-  var horizonY = 215, i, y, gap = 6, x;
-  for(i=0;i<14;i++){
-    y = horizonY + gap; gap *= 1.42;
-    if(y > 520) break;
-    html += '<line x1="0" y1="'+y.toFixed(1)+'" x2="800" y2="'+y.toFixed(1)+'"/>';
+var SVGNS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs, parent){
+  var el = document.createElementNS(SVGNS, tag);
+  for(var k in attrs){ el.setAttribute(k, attrs[k]); }
+  if(parent) parent.appendChild(el);
+  return el;
+}
+
+/* ───────── haat: awning stripes (they later stretch into a barcode) ───────── */
+var STRIPES = [];
+(function buildStripes(){
+  var g = $('#stripes'); if(!g) return;
+  var widths = [5,3,7,4,6,3,8,4,5,3,7,4,6,3,8,4,5,3,7,4,6,3,8];
+  for(var i=0;i<widths.length;i++){
+    var x = 24 + i*12.2;
+    var bar = 58 + ((i*37)%44);   /* barcode length, varies per bar (stays inside the 150px viewBox) */
+    STRIPES.push({el: svgEl('line', {x1:x, x2:x, y1:44, y2:44, 'stroke-width':widths[i],
+      stroke: i%2 ? '#EC69B9' : '#FFFFFF'}, g), bar: bar});
   }
-  for(i=-10;i<=10;i++){
-    x = 400 + i*38;
-    html += '<line x1="400" y1="'+horizonY+'" x2="'+(400+i*160)+'" y2="520"/>';
-  }
-  html += '<line x1="0" y1="'+horizonY+'" x2="800" y2="'+horizonY+'" stroke="rgba(255,255,255,.5)"/>';
-  g.innerHTML = html;
 })();
 
-/* ───────── barcode bars ───────── */
-(function buildBarcode(){
-  var bc = $('#barcode'); if(!bc) return;
-  var widths = [3,7,4,9,3,6,11,4,7,3,9,5,3,8,4,10,3,6,4,8,3,7,5,9];
-  var html = '';
-  for(var i=0;i<widths.length;i++){
-    var h = 38 + ((i*53)%59);
-    html += '<i style="width:'+widths[i]+'px;height:'+h+'px"></i>';
+/* ───────── haat: tags hang at the height of the sagging string ───────── */
+(function hangTags(){
+  var tags = $$('#mktChips span'), n = tags.length;
+  tags.forEach(function(t,i){
+    var f = (i+0.5)/n;
+    var y = (1-f)*(1-f)*3 + 2*(1-f)*f*19 + f*f*3;   /* same curve as #tagString */
+    t.style.marginTop = (y + 12) + 'px';
+    t.style.setProperty('--hang', (y + 12) + 'px');
+  });
+})();
+
+/* ───────── vriddhi: leaves along the growth line ───────── */
+var LEAVES = [];
+(function buildLeaves(){
+  var svg = $('#graphSvg'); if(!svg) return;
+  var pts = [[10,270],[110,240],[200,252],[300,180],[390,196],[490,90],[620,28]];
+  var total = 0, seg = [0];
+  for(var i=1;i<pts.length;i++){
+    total += Math.hypot(pts[i][0]-pts[i-1][0], pts[i][1]-pts[i-1][1]);
+    seg.push(total);
   }
-  bc.innerHTML = html;
+  var dot = $('#graphDot');
+  for(var j=1;j<pts.length-1;j++){
+    var up = j%2 ? -62 : -118;
+    var g = svgEl('g', {transform:'translate('+pts[j][0]+' '+pts[j][1]+') rotate('+up+') scale(0)'});
+    svgEl('path', {'class':'leaf'+(j%2?'':' alt'), d:'M 0 0 C 6 -12 24 -14 34 -2 C 24 6 8 6 0 0 Z'}, g);
+    svg.insertBefore(g, dot);
+    LEAVES.push({g:g, x:pts[j][0], y:pts[j][1], r:up, at:seg[j]/total, s:{v:0}});
+  }
 })();
 
 /* ───────── static fallback ───────── */
@@ -1009,9 +1186,10 @@ function goStatic(){
   $('#typedTxt').textContent = TYPED_SENTENCE;
   $('#viewNum').textContent = '1.2M';
   $$('.stat .n b').forEach(function(b){ b.textContent = b.getAttribute('data-count'); });
-  $$('.barcode i').forEach(function(b){ b.style.transform = 'none'; });
+  STRIPES.forEach(function(s){ s.el.setAttribute('y2', 44 + s.bar); s.el.setAttribute('stroke', '#FFFFFF'); });
+  LEAVES.forEach(function(l){ l.g.setAttribute('transform', 'translate('+l.x+' '+l.y+') rotate('+l.r+')'); });
+  $('#kProg').style.transform = 'none';
   $$('.b8-tab').forEach(function(t){ t.classList.add('act'); });
-  $('#droneSvg').style.opacity = .5;
   $('#waFloat').classList.add('on');
 }
 
@@ -1051,7 +1229,10 @@ chapters.forEach(function(c){
   ScrollTrigger.create({
     trigger:c[0], start:'top 60%', end:'bottom 40%',
     onToggle:function(self){
-      if(self.isActive){ chapterTxt.textContent = c[1]; chapterTag.classList.add('on'); }
+      if(!self.isActive) return;
+      chapterTxt.textContent = c[1];
+      /* hide the label over the contact section + footer so it never sits on buttons/links */
+      chapterTag.classList.toggle('on', c[0] !== '#b10');
     }
   });
 });
@@ -1059,7 +1240,7 @@ chapters.forEach(function(c){
 /* ════════ BEAT 1 · namaste morph ════════ */
 (function(){
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b1', start:'top top', end:'+=160%', pin:true, scrub:.6}
+    scrollTrigger:{trigger:'#b1', start:'top top', end:'+=120%', pin:true, scrub:.6}
   });
   tl.to('#nmsteSvg', {opacity:0, scale:1.12, filter:'blur(14px)', duration:.32, ease:'power2.in'}, 0)
     .to('.b1-sub', {opacity:0, y:-16, duration:.2}, 0)
@@ -1127,7 +1308,7 @@ chapters.forEach(function(c){
 
   var tl = gsap.timeline({
     scrollTrigger:{
-      trigger:'#b2', start:'top top', end:'+=230%', pin:true, scrub:.6,
+      trigger:'#b2', start:'top top', end:'+=175%', pin:true, scrub:.6,
       onToggle:function(self){ state.active = self.isActive; }
     }
   });
@@ -1144,7 +1325,7 @@ chapters.forEach(function(c){
   var words = $$('#b3Words span');
   var rots = [-7, 6, -4, 8];
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b3', start:'top top', end:'+=210%', pin:true, scrub:.6}
+    scrollTrigger:{trigger:'#b3', start:'top top', end:'+=160%', pin:true, scrub:.6}
   });
   words.forEach(function(w,i){
     tl.fromTo(w, {y:160, opacity:0, rotation:rots[i]},
@@ -1160,33 +1341,29 @@ chapters.forEach(function(c){
     .to({}, {duration:.1});
 })();
 
-/* ════════ BEAT 4 · aarambh rings ════════ */
+/* ════════ BEAT 4 · aarambh: spark → diya → flame ════════ */
 (function(){
-  function fitRings(){
-    var f = Math.min(1, vw()/860);
-    gsap.set('#rings', {scale:f});
-    gsap.set('.ring-word', {xPercent:-50, yPercent:-50, scale:Math.min(1.6, 1/f)});
-  }
-  fitRings();
-  window.addEventListener('resize', fitRings);
-
+  gsap.set('#b4Content', {opacity:0, y:40});
+  gsap.set('.b4-step', {y:10});
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b4', start:'top top', end:'+=190%', pin:true, scrub:.6}
+    scrollTrigger:{trigger:'#b4', start:'top top', end:'+=150%', pin:true, scrub:.6}
   });
-  tl.fromTo('#spark', {scale:0}, {scale:1, duration:.08, ease:'back.out(2)'}, 0)
-    .to('#spark', {boxShadow:'0 0 0 26px rgba(236,105,185,0)', duration:.2}, .06);
-  $$('.ring').forEach(function(r,i){
-    tl.to(r, {scale:1, duration:.16, ease:'power2.out'}, .08+i*.07);
-  });
-  $$('.ring-word').forEach(function(w,i){
-    tl.fromTo(w, {opacity:0, y:14}, {opacity:1, y:0, duration:.1}, .2+i*.06);
-  });
-  tl.fromTo('#b4Content', {opacity:0, y:60}, {opacity:1, y:0, duration:.24, ease:'power2.out'}, .42)
-    .to('#spark', {opacity:0, duration:.1}, .42)
-    .to({}, {duration:.2});
+  tl.fromTo('#diyaSpark', {scale:0, transformOrigin:'50% 50%'}, {scale:1, duration:.05, ease:'back.out(3)'}, 0)
+    .to('#diyaSpark', {attr:{cx:292, cy:136}, duration:.1, ease:'power2.in'}, .05)
+    .to('#diyaSpark', {opacity:0, duration:.03}, .15)
+    .to('#b4 .diya-body', {strokeDashoffset:0, duration:.17, stagger:.1, ease:'power1.inOut'}, .14)
+    .to('#b4 .diya-fill', {opacity:1, duration:.1}, .3)
+    .to('#b4 .diya-wick', {strokeDashoffset:0, duration:.05}, .32)
+    .to('#b4 .diya-flame', {strokeDashoffset:0, duration:.1, ease:'power1.inOut'}, .36)
+    .to('#b4 .diya-flame-fill', {opacity:1, duration:.08}, .44)
+    .fromTo('#b4 .diya-glow', {opacity:0, scale:.4, transformOrigin:'50% 50%'}, {opacity:1, scale:1, duration:.14}, .44)
+    .to('#b4 .diya-ray', {strokeDashoffset:0, duration:.06, stagger:.02}, .48)
+    .to('#b4Content', {opacity:1, y:0, duration:.16, ease:'power2.out'}, .5)
+    .to('.b4-step', {opacity:1, y:0, duration:.06, stagger:.04}, .6)
+    .to({}, {duration:.14});
 })();
 
-/* ════════ BEAT 5 · katha phone ════════ */
+/* ════════ BEAT 5 · katha: phone draws, bubble → play, views climb ════════ */
 (function(){
   var path = $('#phonePath');
   var L = path.getTotalLength();
@@ -1199,149 +1376,220 @@ chapters.forEach(function(c){
     return (v/1000000).toFixed(1)+'M';
   }
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b5', start:'top top', end:'+=210%', pin:true, scrub:.6}
+    scrollTrigger:{trigger:'#b5', start:'top top', end:'+=160%', pin:true, scrub:.6}
   });
   tl.fromTo('#b5Text', {opacity:0, x:-50}, {opacity:1, x:0, duration:.22, ease:'power2.out'}, 0)
-    .to(path, {strokeDashoffset:0, duration:.34, ease:'power1.inOut'}, .05);
+    .to(path, {strokeDashoffset:0, duration:.28, ease:'power1.inOut'}, .04)
+    .to('#b5 .k-bubble', {strokeDashoffset:0, duration:.12, ease:'power1.inOut'}, .22)
+    .fromTo('#b5 .k-dot', {opacity:0, scale:0, transformOrigin:'50% 50%'},
+            {opacity:1, scale:1, duration:.04, stagger:.025, ease:'back.out(2)'}, .32)
+    .to('#b5 .k-dot', {opacity:0, scale:0, duration:.04}, .44)
+    .to('#b5 .k-bubble', {opacity:0, duration:.05}, .45)
+    .to('#b5 .k-ring', {strokeDashoffset:0, duration:.1, ease:'power1.inOut'}, .46)
+    .fromTo('#b5 .k-play', {opacity:0, scale:.4, transformOrigin:'50% 50%'},
+            {opacity:1, scale:1, duration:.06, ease:'back.out(2)'}, .54);
   $$('.reel-side .ric').forEach(function(el,i){
-    tl.to(el, {opacity:1, y:0, scale:1, duration:.09, ease:'back.out(1.8)'}, .42+i*.07);
+    tl.to(el, {opacity:1, y:0, scale:1, duration:.08, ease:'back.out(1.8)'}, .5+i*.05);
   });
   $$('.cap-lines i').forEach(function(el,i){
-    tl.to(el, {scaleX:1, duration:.1, ease:'power2.out'}, .5+i*.06);
+    tl.to(el, {scaleX:1, duration:.08, ease:'power2.out'}, .56+i*.04);
   });
-  tl.to('.views', {opacity:1, y:0, duration:.1}, .62)
-    .to(counter, {v:1200000, duration:.3, ease:'power1.in',
+  tl.to('.views', {opacity:1, y:0, duration:.08}, .62)
+    .to(counter, {v:1200000, duration:.26, ease:'power1.in',
         onUpdate:function(){ viewNum.textContent = fmt(counter.v); }}, .62)
+    .to('#kProg', {scaleX:1, duration:.26, ease:'none'}, .62)
     .to({}, {duration:.1});
 })();
 
-/* ════════ BEAT 6 · drishti iris ════════ */
+/* ════════ BEAT 6 · drishti: iris → viewfinder + focus pull → skyline + drone flight ════════ */
 (function(){
   var clip = $('#roomClip');
+  var fp = $('#flightPath'), FL = fp.getTotalLength(), drone = $('#drone');
+  gsap.set(fp, {strokeDasharray:FL, strokeDashoffset:FL});
+  var fly = {p:0};
+  function placeDrone(){
+    var pt = fp.getPointAtLength(fly.p*FL);
+    var pt2 = fp.getPointAtLength(Math.min(FL, fly.p*FL + 2));
+    var tilt = Math.atan2(pt2.y-pt.y, pt2.x-pt.x) * 57.3 * 0.35;
+    drone.setAttribute('transform', 'translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+') rotate('+tilt.toFixed(1)+')');
+  }
+  placeDrone();
   gsap.set('#b6Text', {opacity:0, y:40});
   var tl = gsap.timeline({
-    scrollTrigger:{trigger:'#b6', start:'top top', end:'+=260%', pin:true, scrub:.6}
+    scrollTrigger:{trigger:'#b6', start:'top top', end:'+=200%', pin:true, scrub:.6}
   });
   tl.fromTo(clip, {clipPath:'circle(0% at 50% 50%)'}, {clipPath:'circle(75% at 50% 50%)', duration:.3, ease:'power2.inOut'}, 0)
     .fromTo('#irisRing', {scale:.6, opacity:1}, {scale:11, opacity:0, duration:.3, ease:'power2.in'}, 0)
-    .fromTo('#roomSvg', {scale:1}, {scale:2.05, duration:.5, ease:'power1.inOut'}, .12)
-    .to('#roomSvg', {opacity:0, duration:.14}, .5)
-    .fromTo('#droneSvg', {opacity:0, scale:1.12, y:40}, {opacity:.85, scale:1, y:0, duration:.2, ease:'power2.out'}, .52)
-    .to('#b6Text', {opacity:1, y:0, duration:.2, ease:'power2.out'}, .58);
+    .fromTo('#roomSvg', {scale:1, filter:'blur(6px)'}, {scale:2.05, duration:.44, ease:'power1.inOut'}, .1)
+    .to('#vfSvg .vf', {strokeDashoffset:0, duration:.08, stagger:.03}, .06)
+    .to('#vfSvg .vfg', {strokeDashoffset:0, duration:.1, stagger:.02}, .12)
+    .to('#vfRec', {opacity:1, duration:.04}, .16)
+    .fromTo('#vfFocus', {opacity:0, scale:1.8}, {opacity:1, scale:1, duration:.08, ease:'power3.out'}, .2)
+    .to('#roomSvg', {filter:'blur(0px)', duration:.08}, .24)
+    .to('#vfFocus', {borderColor:'#7CFFB2', duration:.02}, .3)
+    .to(['#vfFocus','#vfSvg .vfg'], {opacity:0, duration:.06}, .42)
+    .to('#roomSvg', {opacity:0, duration:.1}, .46)
+    .to('#skySvg .ground', {strokeDashoffset:0, duration:.08}, .5)
+    .to('#skySvg .sky', {strokeDashoffset:0, duration:.16, ease:'power1.inOut'}, .52)
+    .to(drone, {opacity:1, duration:.03}, .64)
+    .to(fp, {strokeDashoffset:0, duration:.18, ease:'none'}, .64)
+    .to(fly, {p:1, duration:.18, ease:'none', onUpdate:placeDrone}, .64)
+    .to('#b6Text', {opacity:1, y:0, duration:.14, ease:'power2.out'}, .6);
   $$('.b6-chip').forEach(function(c,i){
-    tl.to(c, {opacity:1, y:0, duration:.08}, .66+i*.05);
+    tl.to(c, {opacity:1, y:0, duration:.06}, .68+i*.04);
   });
-  tl.to({}, {duration:.16});
+  tl.to({}, {duration:.12});
 })();
 
-/* ════════ BEAT 7 · utsav + sangam canvas ════════ */
+/* ════════ BEAT 7 · utsav (toran, marigolds, fireworks) → sangam (rivers merge into your brand) ════════ */
 (function(){
-  var canvas = $('#mCanvas'), ctx = canvas.getContext('2d');
-  var N = isMobile ? 200 : 420;
-  var ORBITS = 14;
-  var parts = [], state = {p:0, active:false};
-  var cw=0, ch=0, maxR=0;
-  var labels = ['120K','480K','1.2M','85K','640K'];
+  var svg = $('#b7Svg'), stage = $('#b7 .stage');
+  var COLORS = ['#EC69B9','#C24FB4','#842893','#F6A13A','#D75AB7'];
+  var gU = svgEl('g', {}, svg), gS = svgEl('g', {}, svg);
 
-  function size(){
-    cw = canvas.clientWidth; ch = canvas.clientHeight;
-    canvas.width = cw*dpr; canvas.height = ch*dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    maxR = Math.min(cw,ch)*0.42;
-    build();
+  /* utsav elements (created once, positioned in layout()) */
+  var toran = svgEl('path', {'class':'dl toran', pathLength:1}, gU);
+  var strands = [], marigolds = [];
+  for(var s=0;s<5;s++){
+    strands.push(svgEl('path', {'class':'dl strand', pathLength:1}, gU));
+    for(var m=0;m<3;m++){
+      marigolds.push(svgEl('circle', {'class':'mg', r: m===2 ? 6.5 : 5.5, fill: (s+m)%2 ? '#F6A13A' : '#EC69B9'}, gU));
+    }
   }
-  function build(){
-    parts = [];
-    var mandR = maxR*0.82;
-    for(var i=0;i<N;i++){
-      var dir = Math.random()*Math.PI*2;
-      var th = (i/N)*Math.PI*2*3; /* wraps thrice for density */
-      var rr = mandR * Math.abs(Math.sin(3*th)) * (0.55+0.45*Math.random());
-      var orbit = i < ORBITS;
-      var oR = maxR*(0.42 + 0.4*((i%4)/3));
-      parts.push({
-        dir:dir, dist: maxR*(0.35+Math.random()*0.85),
-        mx: Math.cos(th)*rr, my: Math.sin(th)*rr,
-        orbit:orbit, oR:oR, oA: (i/ORBITS)*Math.PI*2,
-        r: orbit ? 5+Math.random()*3 : 1+Math.random()*2.2,
-        c: BRAND_COLORS[(Math.random()*BRAND_COLORS.length)|0],
-        spin:(Math.random()<.5?-1:1)*(0.2+Math.random()*0.3)
+  var bursts = [];
+  for(var b=0;b<3;b++){
+    var rays = [], tips = [];
+    for(var r=0;r<12;r++){
+      rays.push(svgEl('path', {'class':'dl ray', pathLength:1, stroke:COLORS[(r+b)%COLORS.length]}, gU));
+      tips.push(svgEl('circle', {'class':'tip', r:2.6, fill:COLORS[(r+b+2)%COLORS.length]}, gU));
+    }
+    bursts.push({rays:rays, tips:tips});
+  }
+
+  /* sangam elements */
+  var rivers = [], flows = [], creators = [], labels = [];
+  var RIVER_COL = ['#EC69B9','#C24FB4','#A93FA6'], FOLLOW = ['120K','480K','1.2M'];
+  for(var k=0;k<3;k++){
+    rivers.push(svgEl('path', {'class':'dl river', pathLength:1, stroke:RIVER_COL[k]}, gS));
+    flows.push(svgEl('path', {'class':'flow', pathLength:1}, gS));
+    creators.push(svgEl('circle', {'class':'creator', r:7, fill:RIVER_COL[k]}, gS));
+    var t = svgEl('text', {'class':'lbl', 'text-anchor':'start'}, gS); t.textContent = FOLLOW[k];
+    labels.push(t);
+  }
+  var stream = svgEl('path', {'class':'dl stream', pathLength:1}, gS);
+  var streamFlow = svgEl('path', {'class':'flow', pathLength:1}, gS);
+  var brand = svgEl('g', {'class':'brand'}, gS);
+  var brandRing = svgEl('circle', {r:18, fill:'none', stroke:'#EC69B9', 'stroke-width':1.5}, brand);
+  var brandDot = svgEl('circle', {r:10, fill:'#1A1124'}, brand);
+  var brandLbl = svgEl('text', {'class':'brand-lbl', 'text-anchor':'middle'}, brand); brandLbl.textContent = 'your brand';
+
+  function P(x,y){ return x.toFixed(1)+' '+y.toFixed(1); }
+
+  function layout(){
+    var sr = stage.getBoundingClientRect();
+    var cw = sr.width, ch = sr.height;
+    if(!cw || !ch) return;
+    svg.setAttribute('viewBox', '0 0 '+cw+' '+ch);
+    var navH = 72;
+    /* free band between the heading and the copy/buttons */
+    var hb = $('#h7a').getBoundingClientRect(), fb = $('.b7-foot').getBoundingClientRect();
+    var top = Math.max(hb.bottom, $('#h7b').getBoundingClientRect().bottom) - sr.top + 16;
+    var bot = fb.top - sr.top - 16;
+    if(bot - top < 120){ top = ch*0.42; bot = ch*0.74; }
+    var mid = (top+bot)/2, bandH = bot-top;
+
+    /* toran: 3 swags just below the nav */
+    var y0 = navH + 10, sag = Math.min(56, ch*0.07), swags = 3, w = cw/swags;
+    var d = 'M '+P(-10,y0), lows = [];
+    for(var i=0;i<swags;i++){
+      var x0 = i*w, x1 = (i+1)*w + (i===swags-1 ? 10 : 0);
+      d += ' Q '+P((x0+x1)/2, y0+sag*2)+' '+P(x1,y0);
+      lows.push([(x0+x1)/2, y0+sag]);
+    }
+    toran.setAttribute('d', d);
+    var hangs = [lows[0], [w, y0], lows[1], [2*w, y0], lows[2]];
+    var strandLen = Math.min(46, ch*0.055);
+    hangs.forEach(function(h,j){
+      var len = j%2 ? strandLen*0.7 : strandLen;
+      strands[j].setAttribute('d', 'M '+P(h[0],h[1])+' V '+(h[1]+len).toFixed(1));
+      for(var q=0;q<3;q++){
+        var c = marigolds[j*3+q];
+        c.setAttribute('cx', h[0].toFixed(1));
+        c.setAttribute('cy', (h[1] + len*(q+1)/3).toFixed(1));
+      }
+    });
+
+    /* fireworks inside the free band */
+    var R = Math.min(bandH*0.42, cw*0.1, 90);
+    var centres = [[cw*0.24, mid+bandH*0.08],[cw*0.5, mid-bandH*0.06],[cw*0.76, mid+bandH*0.1]];
+    bursts.forEach(function(bu,bi){
+      var cx = centres[bi][0], cy = centres[bi][1];
+      bu.rays.forEach(function(ray,ri){
+        var a = ri/12*Math.PI*2 + bi*0.3;
+        ray.setAttribute('d', 'M '+P(cx+Math.cos(a)*R*0.22, cy+Math.sin(a)*R*0.22)+' L '+P(cx+Math.cos(a)*R, cy+Math.sin(a)*R));
+        bu.tips[ri].setAttribute('cx', (cx+Math.cos(a)*R*1.12).toFixed(1));
+        bu.tips[ri].setAttribute('cy', (cy+Math.sin(a)*R*1.12).toFixed(1));
       });
-    }
-  }
-  function draw(){
-    if(!state.active) return;
-    ctx.clearRect(0,0,cw,ch);
-    var t = gsap.ticker.time;
-    var p = state.p, cx = cw/2, cy = ch/2 + ch*0.02;
-    var pA = clamp(p,0,1), pB = clamp(p-1,0,1), pC = clamp(p-2,0,1);
-    var eA = 1-Math.pow(1-pA,3), eB = pB<.5 ? 2*pB*pB : 1-Math.pow(-2*pB+2,2)/2, eC = 1-Math.pow(1-pC,3);
+    });
 
-    if(pC > 0.25){
-      /* center brand dot */
-      ctx.globalAlpha = (pC-0.25)/0.75;
-      ctx.fillStyle = '#1A1124';
-      ctx.beginPath(); ctx.arc(cx,cy,9,0,6.2832); ctx.fill();
-      ctx.font = '600 11px Sora, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('your brand', cx, cy+28);
-    }
-
-    for(var i=0;i<parts.length;i++){
-      var q = parts[i];
-      /* phase A: burst */
-      var ax = cx + Math.cos(q.dir)*(eA*q.dist);
-      var ay = cy + Math.sin(q.dir)*(eA*q.dist) - eA*ch*0.04;
-      /* phase B: blend to mandala (mandala itself slowly rotates) */
-      var rot = t*0.12;
-      var mx = cx + q.mx*Math.cos(rot) - q.my*Math.sin(rot);
-      var my = cy + q.mx*Math.sin(rot) + q.my*Math.cos(rot);
-      var x = lerp(ax, mx, eB), y = lerp(ay, my, eB);
-      var alpha = (0.25+0.75*eA) * (q.orbit ? 1 : (1-eC));
-      var rad = q.r;
-      /* phase C: orbit dots */
-      if(q.orbit){
-        var oa = q.oA + t*q.spin*0.6;
-        var ox = cx + Math.cos(oa)*q.oR, oy = cy + Math.sin(oa)*q.oR*0.82;
-        x = lerp(x, ox, eC); y = lerp(y, oy, eC);
-        rad = lerp(q.r, 7, eC);
-      }
-      if(alpha <= 0.02) continue;
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = q.c;
-      ctx.beginPath(); ctx.arc(x,y,rad,0,6.2832); ctx.fill();
-      if(q.orbit && i < labels.length && eC > 0.5){
-        ctx.globalAlpha = (eC-0.5)*2;
-        ctx.fillStyle = '#6B5C7E';
-        ctx.font = '600 10px Sora, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(labels[i], x, y-14);
-      }
-    }
-    ctx.globalAlpha = 1;
+    /* sangam: three creators → confluence → your brand */
+    var M = [cw*0.54, mid], B = [cw*0.84, mid];
+    var starts = [[cw*0.08, top+bandH*0.2],[cw*0.06, top+bandH*0.9],[cw*0.3, top+bandH*0.1]];
+    starts.forEach(function(st,si){
+      var dd = 'M '+P(st[0],st[1])+' C '+P(st[0]+(M[0]-st[0])*0.55, st[1])+' '+P(M[0]-(M[0]-st[0])*0.35, M[1])+' '+P(M[0],M[1]);
+      rivers[si].setAttribute('d', dd);
+      flows[si].setAttribute('d', dd);
+      creators[si].setAttribute('cx', st[0].toFixed(1));
+      creators[si].setAttribute('cy', st[1].toFixed(1));
+      /* label sits beside its dot (never above it, where the heading is) */
+      labels[si].setAttribute('x', (st[0] + 13).toFixed(1));
+      labels[si].setAttribute('y', (st[1] + (si===1 ? 20 : 18)).toFixed(1));
+    });
+    var sd = 'M '+P(M[0],M[1])+' C '+P(M[0]+(B[0]-M[0])*0.4, M[1]-bandH*0.12)+' '+P(B[0]-(B[0]-M[0])*0.4, B[1]+bandH*0.12)+' '+P(B[0]-20,B[1]);
+    stream.setAttribute('d', sd);
+    streamFlow.setAttribute('d', sd);
+    brand.setAttribute('transform', 'translate('+P(B[0],B[1])+')');
+    brandLbl.setAttribute('y', 40);
   }
-  gsap.ticker.add(draw);
-  size(); window.addEventListener('resize', size);
+  layout();
+  window.addEventListener('resize', layout);
+  ScrollTrigger.addEventListener('refresh', layout);
+  document.fonts.ready.then(layout);
 
   var tl = gsap.timeline({
-    scrollTrigger:{
-      trigger:'#b7', start:'top top', end:'+=330%', pin:true, scrub:.6,
-      onToggle:function(self){ state.active = self.isActive; }
-    }
+    scrollTrigger:{trigger:'#b7', start:'top top', end:'+=250%', pin:true, scrub:.6}
   });
-  tl.to(state, {p:1, duration:.28, ease:'none'}, 0)
-    .fromTo('#h7a', {opacity:0, y:30}, {opacity:1, y:0, duration:.12}, .04)
-    .fromTo('#c7a', {opacity:0, y:20}, {opacity:1, y:0, duration:.12}, .08)
-    .to(state, {p:2, duration:.26, ease:'none'}, .3)
-    .to(state, {p:3, duration:.26, ease:'none'}, .62)
-    .to('#h7a', {opacity:0, y:-26, duration:.1}, .6)
-    .to('#c7a', {opacity:0, duration:.1}, .6)
-    .fromTo('#h7b', {opacity:0, y:30}, {opacity:1, y:0, duration:.12}, .68)
-    .fromTo('#c7b', {opacity:0, y:20}, {opacity:1, y:0, duration:.12}, .72)
+  /* utsav */
+  tl.fromTo('#h7a', {opacity:0, y:30}, {opacity:1, y:0, duration:.08}, 0)
+    .fromTo('#c7a', {opacity:0, y:20}, {opacity:1, y:0, duration:.08}, .04)
+    .to(toran, {strokeDashoffset:0, duration:.14, ease:'power1.inOut'}, .02)
+    .to(strands, {strokeDashoffset:0, duration:.05, stagger:.02}, .12)
+    .fromTo(marigolds, {opacity:0, scale:0, transformOrigin:'50% 50%'},
+            {opacity:1, scale:1, duration:.03, stagger:.006, ease:'back.out(2.4)'}, .15);
+  bursts.forEach(function(bu,bi){
+    var at = .22 + bi*.06;
+    tl.to(bu.rays, {strokeDashoffset:0, duration:.05, ease:'power2.out'}, at)
+      .fromTo(bu.tips, {opacity:0, scale:0, transformOrigin:'50% 50%'}, {opacity:1, scale:1, duration:.03}, at+.04)
+      .to(bu.rays, {strokeDashoffset:-1, duration:.06, ease:'power1.in'}, at+.07)
+      .to(bu.tips, {opacity:0, y:12, duration:.05}, at+.09);
+  });
+  tl.to(gU, {opacity:0, duration:.06}, .46)
+    .to('#h7a', {opacity:0, y:-26, duration:.06}, .46)
+    .to('#c7a', {opacity:0, duration:.06}, .46)
+  /* sangam */
+    .fromTo('#h7b', {opacity:0, y:30}, {opacity:1, y:0, duration:.08}, .52)
+    .fromTo('#c7b', {opacity:0, y:20}, {opacity:1, y:0, duration:.08}, .56)
+    .fromTo(creators, {opacity:0, scale:0, transformOrigin:'50% 50%'}, {opacity:1, scale:1, duration:.04, stagger:.02, ease:'back.out(2)'}, .54)
+    .to(labels, {opacity:1, duration:.04, stagger:.02}, .56)
+    .to(rivers, {strokeDashoffset:0, duration:.12, stagger:.03, ease:'power1.inOut'}, .58)
+    .to(stream, {strokeDashoffset:0, duration:.1, ease:'power1.inOut'}, .72)
+    .fromTo(brand, {opacity:0}, {opacity:1, duration:.04}, .8)
+    .fromTo(brandRing, {scale:.3, transformOrigin:'50% 50%'}, {scale:1, duration:.06, ease:'back.out(2)'}, .8)
+    .to(flows.concat([streamFlow]), {opacity:.75, duration:.05}, .82)
     .to({}, {duration:.12});
 })();
 
-/* ════════ BEAT 8 · vriddhi shabd haat ════════ */
+/* ════════ BEAT 8 · vriddhi (growth stem + leaves) · shabd (strike the cliché, write the line) · haat (stall → barcode, tags) ════════ */
 (function(){
   var gp = $('#graphPath');
   var GL = gp.getTotalLength();
@@ -1352,42 +1600,60 @@ chapters.forEach(function(c){
   function setTab(n){
     tabs.forEach(function(t,i){ t.classList.toggle('act', i===n); });
   }
+  function setLeaf(l){
+    l.g.setAttribute('transform', 'translate('+l.x+' '+l.y+') rotate('+l.r+') scale('+l.s.v.toFixed(3)+')');
+  }
   var tl = gsap.timeline({
     scrollTrigger:{
-      trigger:'#b8', start:'top top', end:'+=340%', pin:true, scrub:.6,
+      trigger:'#b8', start:'top top', end:'+=260%', pin:true, scrub:.6,
       onUpdate:function(self){
         var pr = self.progress;
         setTab(pr < .33 ? 0 : pr < .63 ? 1 : 2);
       }
     }
   });
-  /* phase 1: graph */
-  tl.fromTo('#p8a', {opacity:0}, {opacity:1, duration:.06}, 0)
-    .to(gp, {strokeDashoffset:0, duration:.2, ease:'power1.inOut'}, .02)
-    .to('#graphDot', {opacity:1, duration:.04}, .2)
-    .fromTo('#c8a', {opacity:0, y:14}, {opacity:1, y:0, duration:.08}, .06)
-    .to('#p8a', {opacity:0, duration:.06}, .3)
-    .to('#c8a', {opacity:0, duration:.06}, .3);
-  /* phase 2: typed */
-  tl.fromTo('#p8b', {opacity:0}, {opacity:1, duration:.05}, .34)
-    .to(typed, {p:1, duration:.2, ease:'none',
+  /* phase 1: the growth line grows like a stem, leaves open as it passes */
+  tl.fromTo('#p8a', {opacity:0}, {opacity:1, duration:.04}, 0)
+    .to(gp, {strokeDashoffset:0, duration:.2, ease:'none'}, .02)
+    .to('#graphDot', {opacity:1, duration:.03}, .21)
+    .fromTo('#c8a', {opacity:0, y:14}, {opacity:1, y:0, duration:.06}, .05);
+  LEAVES.forEach(function(l){
+    tl.to(l.s, {v:1, duration:.04, ease:'back.out(2.2)', onUpdate:function(){ setLeaf(l); }}, .02 + .2*l.at);
+  });
+  tl.to('#p8a', {opacity:0, duration:.05}, .3)
+    .to('#c8a', {opacity:0, duration:.05}, .3);
+
+  /* phase 2: pen strikes the cliché, then the real line gets written and underlined */
+  tl.fromTo('#p8b', {opacity:0}, {opacity:1, duration:.04}, .34)
+    .to('#nib', {opacity:1, duration:.02}, .35)
+    .fromTo('#nib', {left:'0%'}, {left:'100%', duration:.08, ease:'none'}, .36)
+    .to('#strikePath', {strokeDashoffset:0, duration:.08, ease:'none'}, .36)
+    .to('#nib', {opacity:0, duration:.02}, .44)
+    .to('#cliche', {opacity:.45, duration:.03}, .44)
+    .to(typed, {p:1, duration:.1, ease:'none',
         onUpdate:function(){
           var n = Math.round(typed.p * TYPED_SENTENCE.length);
           typedTxt.textContent = TYPED_SENTENCE.slice(0, n);
-        }}, .36)
-    .fromTo('#c8b', {opacity:0, y:14}, {opacity:1, y:0, duration:.08}, .4)
-    .to('#p8b', {opacity:0, duration:.06}, .6)
-    .to('#c8b', {opacity:0, duration:.06}, .6);
-  /* phase 3: barcode + marketplaces */
-  tl.fromTo('#p8c', {opacity:0}, {opacity:1, duration:.05}, .64);
-  $$('.barcode i').forEach(function(b,i){
-    tl.to(b, {scaleY:1, duration:.025, ease:'power2.out'}, .66+i*.006);
+        }}, .45)
+    .to('#swooshPath', {strokeDashoffset:0, duration:.04, ease:'power2.out'}, .55)
+    .fromTo('#c8b', {opacity:0, y:14}, {opacity:1, y:0, duration:.06}, .4)
+    .to('#p8b', {opacity:0, duration:.05}, .6)
+    .to('#c8b', {opacity:0, duration:.05}, .6);
+
+  /* phase 3: a line draws the stall, its stripes stretch into a barcode, tags swing in on a string */
+  tl.fromTo('#p8c', {opacity:0}, {opacity:1, duration:.04}, .64)
+    .to('#stallSvg .stall-roof', {strokeDashoffset:0, duration:.05}, .65)
+    .to('#stallSvg .stall-val', {strokeDashoffset:0, duration:.06}, .69);
+  STRIPES.forEach(function(s,i){
+    tl.to(s.el, {attr:{y2:58}, duration:.02}, .72 + i*.002)
+      .to(s.el, {attr:{y2:44 + s.bar, stroke:'#FFFFFF'}, duration:.04, ease:'power2.out'}, .77 + i*.003);
   });
+  tl.to('#tagString', {strokeDashoffset:0, duration:.04}, .8);
   $$('.mkt-chips span').forEach(function(c,i){
-    tl.fromTo(c, {opacity:0, scale:1.5, rotation:-5+i*2},
-                 {opacity:1, scale:1, rotation:0, duration:.05, ease:'back.out(1.6)'}, .78+i*.035);
+    tl.fromTo(c, {opacity:0, y:-10, rotation:-14+i*6, transformOrigin:'50% -14px'},
+                 {opacity:1, y:0, rotation:0, duration:.06, ease:'elastic.out(1,.45)'}, .82+i*.02);
   });
-  tl.fromTo('#c8c', {opacity:0, y:14}, {opacity:1, y:0, duration:.08}, .8)
+  tl.fromTo('#c8c', {opacity:0, y:14}, {opacity:1, y:0, duration:.06}, .84)
     .to({}, {duration:.06});
 })();
 
@@ -1399,7 +1665,7 @@ chapters.forEach(function(c){
   var tl = gsap.timeline({
     scrollTrigger:{
       trigger:'#b9', start:'top top',
-      end:function(){ return '+=' + (dist() + vh()*0.6); },
+      end:function(){ return '+=' + (dist() + vh()*0.4); },
       pin:true, scrub:.6, invalidateOnRefresh:true,
       onUpdate:function(self){
         if(self.progress > .82 && !counted){
