@@ -1064,7 +1064,7 @@ body.menu-open nav .lines i{background:#fff!important}
   /* Khoj: result list shrinks instead of spilling onto the title */
   .kh-body{display:flex;flex-direction:column;gap:10px}
   #khMap{flex:1 1 0;min-height:0;height:auto;width:100%}
-  .kh-list{flex:0 0 auto;height:158px;max-height:42%}
+  .kh-list{flex:0 0 auto;height:158px;max-height:42%;overflow:hidden}
   /* iOS zooms into any text field under 16px and leaves the page shifted: keep fields at 16px */
   .aar-try input,.kh-search input{font-size:16px}
   /* Aarambh: one less paragraph and a little more air */
@@ -3118,7 +3118,7 @@ var NIR = tabSection('#nirmaan', 420);
 
   var list = $('#khList'), rows = [], ROW = function(){
     /* rows shrink to fit short screens instead of spilling under the copy */
-    var base = isMobile ? 39 : 62, h = list.clientHeight, r = h ? Math.max(isMobile ? 28 : 38, Math.min(base, h/4)) : base;
+    var base = isMobile ? 39 : 62, h = list.clientHeight, r = h ? Math.max(isMobile ? 22 : 38, Math.min(base, h/4)) : base;
     rows.forEach(function(el){ el.style.height = (r - (isMobile ? 4 : 8)) + 'px'; });
     return r;
   };
