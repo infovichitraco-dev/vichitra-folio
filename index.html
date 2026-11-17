@@ -1945,7 +1945,7 @@ var STRIP = [];
 (function(){
   if(!window.matchMedia('(hover:none) and (pointer:coarse)').matches) return;
   var sheet = document.getElementById('typeSheet'), sIn = document.getElementById('typeSheetIn'),
-      lbl = document.getElementById('typeSheetLbl'), target = null;
+      lbl = document.getElementById('typeSheetLbl'), target = null, openedAt = 0, baseY = null, kbSeen = false;
   document.querySelectorAll('input[data-sheet]').forEach(function(f){
     f.readOnly = true;                       /* the field itself never raises the keyboard */
     f.setAttribute('inputmode', 'none');
@@ -1958,6 +1958,7 @@ var STRIP = [];
       sIn.value = f.value;
       sheet.classList.add('on');
       sIn.focus();                           /* inside the tap, so the keyboard is allowed to open */
+      openedAt = Date.now(); baseY = null; kbSeen = false;
     }
     f.addEventListener('touchend', open);
     f.addEventListener('click', open);
@@ -1977,6 +1978,20 @@ var STRIP = [];
     }
   }
   document.getElementById('typeSheetDone').addEventListener('click', function(){ close(true); });
+  /* it goes away by itself: scroll on, tap elsewhere, or put the keyboard away */
+  window.addEventListener('scroll', function(){
+    if(!target || Date.now() - openedAt < 700) return;      /* ignore the browser's own nudge as the keyboard opens */
+    if(baseY === null){ baseY = window.scrollY; return; }
+    if(Math.abs(window.scrollY - baseY) > 90) close(false);
+  }, {passive:true});
+  document.addEventListener('touchstart', function(e){
+    if(target && !sheet.contains(e.target)) close(false);
+  }, {passive:true});
+  if(window.visualViewport) visualViewport.addEventListener('resize', function(){
+    if(!target) return;
+    var small = visualViewport.height < window.innerHeight*.8;
+    if(small) kbSeen = true; else if(kbSeen) close(false);  /* keyboard came up, then went down */
+  });
   sIn.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); close(true); } });
   sIn.addEventListener('blur', function(){ setTimeout(function(){ if(document.activeElement !== sIn) close(false); }, 120); });
 })();
