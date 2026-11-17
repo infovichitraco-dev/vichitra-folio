@@ -1042,6 +1042,71 @@ body.menu-open nav .lines i{background:#fff!important}
   .svc-grid a small{display:none}
 }
 
+/* ───────────────────────── phones: fit every screen, any height ───────────────────────── */
+@media(max-width:760px){
+  /* visuals take whatever height the text leaves (sizes set by fitMobile in JS) */
+  .aar-rings{width:var(--aarS, min(84vw,38vh,330px))}
+  /* the phone keeps its real proportions and is scaled as a whole, so its screen never crams */
+  .k-visual{width:210px;transform:scale(var(--kS,.8));transform-origin:50% 0;margin-bottom:calc(434px * (var(--kS,.8) - 1))}
+  .k-hint-w{transform:translateX(-50%) scale(calc(1 / var(--kS,.8)));transform-origin:50% 100%}
+  /* Drishti: shutter lives up top, clear of the title; its pill sits just below it */
+  .shutter{top:calc(var(--nav-h) + 30px);margin-top:0;right:12px}
+  .shutter-hint{top:calc(var(--nav-h) + 92px);right:10px}
+  /* Dwaar: device toggle above the site, product card clear of the category chips */
+  .dw{padding-top:32px}
+  .dw-toggle{top:0}
+  .dw-list{top:auto;bottom:44px}
+  /* Yantra: questions in one swipeable row */
+  .ya-qs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .ya-qs::-webkit-scrollbar{display:none}
+  .ya-qs button,.ya-qs .hint{flex:0 0 auto}
+  .ya-br{display:none}
+  /* Khoj: result list shrinks instead of spilling onto the title */
+  .kh-body{display:flex;flex-direction:column;gap:10px}
+  #khMap{flex:1 1 0;min-height:0;height:auto;width:100%}
+  .kh-list{flex:0 0 auto;height:158px;max-height:42%}
+  /* iOS zooms into any text field under 16px and leaves the page shifted: keep fields at 16px */
+  .aar-try input,.kh-search input{font-size:16px}
+  /* Aarambh: one less paragraph and a little more air */
+  .aar-content .copy{display:none}
+  .aar-try{gap:8px;margin-top:14px}
+  .aar-content .cta-line{margin-top:16px}
+  /* Katha: content starts under the menu bar, so nothing is ever pushed off the top */
+  #b5 .stage{justify-content:flex-start;padding-top:calc(var(--nav-h) + 12px)}
+  /* Dwaar: price row stays inside the product card */
+  .dw-list .tag{display:none}
+  /* Yantra: a plain column (more reliable in Safari than the grid): diagram on top, chat fills the rest */
+  .ya{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+  #yaSvg{flex:0 0 24%;width:100%;height:auto;min-height:0}
+  .ya-chat{flex:1 1 0;min-height:0;height:auto;max-height:none;width:100%}
+}
+/* short phones (iPhone SE / mini with Safari bars): drop the secondary lines so nothing collides */
+@media(max-width:760px) and (max-height:640px){
+  .aar-content .copy,#b5 .copy,.tc p:not(.svc-t){display:none}
+  .aar-content .skt .ann,#b5 .skt .ann{display:none}
+  #yaSvg{display:none}
+  #ctSvg{max-height:24vh}
+  .ct-steps{height:150px}
+  .ct-head .skt{font-size:28px}
+  .ct-step p{font-size:12.5px}
+  .ct-step .yr{font-size:32px}
+  .dw-list .img{height:26px}
+  .dw-list .stars{display:none}
+}
+/* phones held sideways: too short for the story screens, so ask for upright */
+.rotate-msg{display:none}
+@media (orientation:landscape) and (max-height:500px) and (hover:none) and (pointer:coarse){
+  .rotate-msg{display:flex;position:fixed;inset:0;z-index:3000;background:var(--ink);color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px}
+  .rotate-msg svg{width:54px;height:54px;fill:none;stroke:var(--rose);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:rotPh 2.4s ease-in-out infinite}
+  .rotate-msg b{font-family:var(--f-display);font-size:24px;font-weight:560}
+  .rotate-msg span{font-size:13px;color:rgba(255,255,255,.65)}
+  body{overflow:hidden}
+}
+@keyframes rotPh{0%,20%{transform:rotate(-90deg)}55%,100%{transform:rotate(0)}}
+/* the strip under a pinned screen (Safari's toolbar area) keeps the screen's own colour */
+.pin-spacer:has(> #b1),.pin-spacer:has(> #b5),.pin-spacer:has(> #vistaar){background:var(--ink)}
+.pin-spacer:has(> #b6){background:#120B1A}
+
 /* ───────────────────────── static / reduced-motion fallback ───────────────────────── */
 body.static .aig{display:none}
 body.static .stage{height:auto;min-height:0;padding:100px 6vw}
@@ -1703,6 +1768,7 @@ body.static #ctSvg .ct-fly,body.static #ctSvg .ct-letter{display:none}
 
 </main>
 
+<div class="rotate-msg" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg><b>Turn your phone upright</b><span>Vichitra Co is made to be scrolled in portrait.</span></div>
 <div class="soon-toast" id="soonToast" role="status" aria-live="polite"><i></i><span></span></div>
 <a class="wa-float" id="waFloat" aria-label="Chat on WhatsApp" href="https://wa.me/918898490531?text=Namaste%20Vichitra%20Co!%20I%20found%20you%20through%20your%20website%20and%20would%20love%20to%20talk." target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
@@ -1794,8 +1860,15 @@ function updFloat(){
       if(r.width && r.bottom > 0 && r.top < window.innerHeight && (!host || parseFloat(getComputedStyle(host).opacity) > .5)){ show = false; break; }
     }
   }
+  /* phones: the chai-table story uses the full width at the bottom, keep the bubble off it */
+  if(show && window.innerWidth < 760){
+    var ct = document.querySelector('#b9 .ct-stage').getBoundingClientRect();
+    if(ct.top <= 1 && ct.bottom >= window.innerHeight - 1) show = false;
+  }
   $('#waFloat').classList.toggle('on', show);
 }
+/* re-check a few times a second too: a scroll can end before the screen's fade has finished */
+setInterval(updFloat, 300);
 window.addEventListener('scroll', function(){
   $('#nav').classList.toggle('scrolled', window.scrollY > 60);
   updFloat();
@@ -1837,6 +1910,21 @@ var STRIP = [];
   });
 })();
 
+/* ───────── phones: closing the keyboard puts the page back where it was ───────── */
+(function(){
+  var saved = null;
+  document.addEventListener('focusin', function(e){
+    if(e.target.matches && e.target.matches('input,textarea')) saved = window.scrollY;
+  });
+  document.addEventListener('focusout', function(e){
+    if(saved === null || !(e.target.matches && e.target.matches('input,textarea'))) return;
+    var y = saved; saved = null;
+    /* Safari slides the page while the keyboard animates away; restore after it settles */
+    setTimeout(function(){ window.scrollTo(0, y); }, 60);
+    setTimeout(function(){ window.scrollTo(0, y); }, 350);
+  });
+})();
+
 /* ───────── service pages aren't built yet: show a toast instead of a missing page ───────── */
 (function(){
   var toast = $('#soonToast'), txt = $('span', toast), hideT = 0;
@@ -1871,7 +1959,25 @@ gsap.registerPlugin(ScrollTrigger);
 var hasFlip = typeof Flip !== 'undefined';
 if(hasFlip) gsap.registerPlugin(Flip);
 ScrollTrigger.defaults({anticipatePin:0});
-ScrollTrigger.config({ignoreMobileResize:true});   /* phone address bar showing/hiding no longer re-measures and jolts pinned sections */
+ScrollTrigger.config({ignoreMobileResize:true});
+/* phones: size the Aarambh rings and the Katha phone from the height the text leaves free */
+function fitMobile(){
+  var root = document.documentElement.style;
+  if(vw() >= 760){ root.removeProperty('--aarS'); root.removeProperty('--kS'); return; }
+  var navH = document.querySelector('nav').offsetHeight;
+  var s4 = document.querySelector('#b4 .stage'), c4 = document.getElementById('b4Content');
+  var a = s4.clientHeight - navH - c4.offsetHeight - 30;
+  root.setProperty('--aarS', Math.round(clamp(a, 90, Math.min(vw()*.84, 330))) + 'px');
+  var s5 = document.querySelector('#b5 .stage'), t5 = document.getElementById('b5Text');
+  var k = s5.clientHeight - navH - t5.offsetHeight - 14 - 32;
+  root.setProperty('--kS', clamp(k/434, .45, Math.min(1, vw()*.56/210)).toFixed(3));
+}
+fitMobile();
+var fitW = vw();
+window.addEventListener('resize', function(){
+  if(Math.abs(vw() - fitW) < 2) return;   /* height-only changes are Safari's toolbar: ignore */
+  fitW = vw(); fitMobile(); ScrollTrigger.refresh();
+});   /* phone address bar showing/hiding no longer re-measures and jolts pinned sections */
 var isMobile = vw() < 760;
 var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
 /* ── smooth wheel scrolling (laptops/desktops only; phones keep native touch scrolling) ── */
@@ -1907,8 +2013,13 @@ function scrollToProgress(st, p){ glideTo(st.start + (st.end - st.start)*p, 1); 
 /* ── gentle snap: when scrolling stops near a finished screen, glide onto it ── */
 var REST = [];
 function rest(tl, times){ REST.push({tl:tl, times:times}); }   /* times in timeline seconds; negative = from the end */
+var REST_EL = [];   /* plain (unpinned) blocks to settle on, centred in the screen */
 function restPoints(){
   var out = [];
+  REST_EL.forEach(function(el){
+    var r = el.getBoundingClientRect();
+    out.push(Math.max(0, window.scrollY + r.top - Math.max(0, (window.innerHeight - r.height)/2)));
+  });
   REST.forEach(function(r){
     var st = r.tl.scrollTrigger, d = r.tl.duration(); if(!st || !d) return;
     r.times.forEach(function(t){ if(t < 0) t = d + t; out.push(st.start + (st.end - st.start)*clamp(t/d, 0, 1)); });
@@ -1941,6 +2052,7 @@ function restPoints(){
 
 document.fonts.ready.then(function(){
   document.body.classList.add('loaded');
+  fitMobile();
   ScrollTrigger.refresh();
 });
 setTimeout(function(){ document.body.classList.add('loaded'); }, 2600); /* font safety net */
@@ -2421,6 +2533,7 @@ chapCard('#chCreate');
       kh.textContent = 'Swipe up for more'; kh.classList.add('swipe');
       gsap.fromTo(kh, {opacity:0}, {opacity:1, duration:.4, ease:'power2.out'});
       $('#kNext').classList.add('nudge');
+      capture(true);
     }
     if(auto !== true)
       showCta('ctaKatha', 'Want reels people double-tap? →', "Hi Vichitra Co, I'd like help with our social media and content.");
@@ -2456,7 +2569,10 @@ chapCard('#chCreate');
   }, {passive:true});
 
   /* next reel: arrow, mouse drag up, or a quick swipe up */
-  var slides = $$('.reel-slide'), cur = 0, flipping = false;
+  var slides = $$('.reel-slide'), cur = 0, flipping = false, capturing = false, flips = 0;
+  /* capture only after the visitor has engaged (first like), and let go after they've seen every reel,
+     so a thumb landing on the phone can still scroll the page */
+  function capture(on){ capturing = on; phone.style.touchAction = on ? 'none' : ''; }
   var CAPS = ['Chai, chaos and one good idea.', 'Unboxing day at the studio.', 'Sunset shoot, zero retakes.'];
   function next(){
     if(flipping) return; flipping = true;
@@ -2469,6 +2585,7 @@ chapCard('#chCreate');
     gsap.fromTo('#kProg', {scaleX:0}, {scaleX:1, duration:4, ease:'none'});
     $('#kCap').textContent = CAPS[n];
     cur = n;
+    if(capturing && ++flips >= slides.length){ capture(false); }
   }
   $('#kNext').addEventListener('click', function(e){ e.stopPropagation(); next(); });
   var y0 = null, x0 = null;
@@ -2479,10 +2596,12 @@ chapCard('#chCreate');
   });
   var ty0 = null, tx0 = null, tt0 = 0;
   phone.addEventListener('touchstart', function(e){ ty0 = e.touches[0].clientY; tx0 = e.touches[0].clientX; tt0 = Date.now(); }, {passive:true});
+  /* while capturing, a vertical drag on the phone belongs to the reel, not the page */
+  phone.addEventListener('touchmove', function(e){ if(capturing && e.cancelable) e.preventDefault(); }, {passive:false});
   phone.addEventListener('touchend', function(e){
     if(ty0 === null) return;
-    var t = e.changedTouches[0];
-    if(ty0 - t.clientY > 50 && Math.abs(t.clientX - tx0) < 40 && Date.now() - tt0 < 400) next();
+    var t = e.changedTouches[0], dy = ty0 - t.clientY, dx = Math.abs(t.clientX - tx0);
+    if(dy > 40 && dx < dy && (capturing || Date.now() - tt0 < 400)) next();
     ty0 = null;
   }, {passive:true});
 })();
@@ -2669,6 +2788,8 @@ chapCard('#chCreate');
     .to(fp, {strokeDashoffset:0, duration:.16, ease:'none'}, .7)
     .to(fly, {p:1, duration:.16, ease:'none', onUpdate:placeDrone}, .7)
     .to('#b6Text', {opacity:1, y:0, duration:.12, ease:'power2.out'}, .66)
+    /* phones: the shutter belongs to the viewfinder; it bows out when the title comes in */
+    .to(['#shutterBtn','#shutterHint'], {autoAlpha:isMobile ? 0 : 1, duration:.04}, .66)
     .to('.b6-chip', {opacity:1, y:0, duration:.05, stagger:.025}, .72)
     .to({}, {duration:.26});
   rest(tl, [.215, .61, -.1]);
@@ -3027,7 +3148,7 @@ var NIR = tabSection('#nirmaan', 420);
     return out.join(' ');
   }
   var seq = null, lastWord = '';
-  function runSearch(word){
+  function runSearch(word, demo){
     if(word === lastWord && seq && seq.isActive()) return;
     lastWord = word;
     var W = cap(word);
@@ -3050,6 +3171,7 @@ var NIR = tabSection('#nirmaan', 420);
     gsap.set([tag, glow], {opacity:0});
     gsap.set(mag, {opacity:0, x:40, y:60});
     seq = gsap.timeline();
+    if(demo) seq.timeScale(1.6);   /* the automatic demo runs brisker, so it finishes before you scroll on */
     /* results slide in one by one, in order, as the pins drop */
     seq.fromTo(rows, {opacity:0, x:16}, {opacity:1, x:0, duration:.4, stagger:.1, ease:'power2.out'}, 0)
        .to(pins, {opacity:1, y:0, duration:.5, stagger:.07, ease:'power2.out'}, 0)
@@ -3080,7 +3202,7 @@ var NIR = tabSection('#nirmaan', 420);
       }}, .7)
     .to('#khMap .dl', {strokeDashoffset:0, duration:.06, stagger:.008, ease:'power1.inOut'}, .7)
     .to('#khBlocks', {opacity:1, duration:.03}, .77)
-    .call(function(){ if(!userSearched) runSearch('brand'); }, null, .8);
+    .call(function(){ if(!userSearched) runSearch('brand', true); }, null, .74);
   $('#khForm').addEventListener('submit', function(e){
     e.preventDefault();
     userSearched = true;
@@ -3704,6 +3826,7 @@ var SANGAM = (function(tl){
     .to({}, {duration:.5}, 7.6);
   rest(tl, [.92, 1.75, 2.8, 3.8, 4.96, 5.6, 6.96, 7.85]);
 
+  REST_EL.push($('#statsRow'));
   ScrollTrigger.create({trigger:'#statsRow', start:'top 88%', once:true, onEnter:function(){
     $$('.stat .n b').forEach(function(b){
       var target = parseInt(b.getAttribute('data-count'), 10), o = {v:0};
