@@ -1116,13 +1116,12 @@ body.menu-open nav .lines i{background:#fff!important}
 .type-sheet .ok{color:#fff;background:var(--grad);min-width:96px}
 /* phones held sideways: too short for the story screens, so ask for upright */
 .rotate-msg{display:none}
-@media (orientation:landscape) and (max-height:500px) and (hover:none) and (pointer:coarse){
-  .rotate-msg{display:flex;position:fixed;inset:0;z-index:3000;background:var(--ink);color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px}
-  .rotate-msg svg{width:54px;height:54px;fill:none;stroke:var(--rose);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:rotPh 2.4s ease-in-out infinite}
-  .rotate-msg b{font-family:var(--f-display);font-size:24px;font-weight:560}
-  .rotate-msg span{font-size:13px;color:rgba(255,255,255,.65)}
-  body{overflow:hidden}
-}
+/* shown only by script, from how the phone is held (never because the keyboard shrank the view) */
+html.is-sideways .rotate-msg{display:flex;position:fixed;inset:0;z-index:3000;background:var(--ink);color:#fff;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center;padding:24px}
+html.is-sideways .rotate-msg svg{width:54px;height:54px;fill:none;stroke:var(--rose);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;animation:rotPh 2.4s ease-in-out infinite}
+html.is-sideways .rotate-msg b{font-family:var(--f-display);font-size:24px;font-weight:560}
+html.is-sideways .rotate-msg span{font-size:13px;color:rgba(255,255,255,.65)}
+html.is-sideways body{overflow:hidden}
 @keyframes rotPh{0%,20%{transform:rotate(-90deg)}55%,100%{transform:rotate(0)}}
 /* the strip under a pinned screen (Safari's toolbar area) keeps the screen's own colour */
 .pin-spacer:has(> #b1),.pin-spacer:has(> #b5),.pin-spacer:has(> #vistaar){background:var(--ink)}
@@ -1947,6 +1946,28 @@ var STRIP = [];
   });
 })();
 
+/* ───────── phone held sideways? ─────────
+   Decided from the device's own orientation, not the visible area: an open keyboard makes the visible
+   area short and wide, and must never be mistaken for a sideways phone. */
+(function(){
+  if(!window.matchMedia('(hover:none) and (pointer:coarse)').matches) return;
+  var root = document.documentElement;
+  function sideways(){
+    var a = document.activeElement;
+    if(a && a.matches && a.matches('input,textarea')) return false;     /* typing: never block */
+    var land;
+    if(screen.orientation && screen.orientation.type) land = screen.orientation.type.indexOf('landscape') === 0;
+    else if(typeof window.orientation === 'number') land = Math.abs(window.orientation) === 90;
+    else return false;
+    return land && Math.min(screen.width, screen.height) < 500;         /* phones only, not tablets */
+  }
+  function upd(){ root.classList.toggle('is-sideways', sideways()); }
+  upd();
+  if(screen.orientation && screen.orientation.addEventListener) screen.orientation.addEventListener('change', function(){ setTimeout(upd, 60); });
+  window.addEventListener('orientationchange', function(){ setTimeout(upd, 60); });
+  document.addEventListener('focusin', upd); document.addEventListener('focusout', function(){ setTimeout(upd, 60); });
+})();
+
 /* ───────── touch phones: type in a small dialog, with the page frozen behind it ─────────
    iPhone browsers close the keyboard when a field inside a pinned screen shifts as the keyboard opens.
    So on touch phones a tap on the field opens a dialog outside the pinned screens. While it is open the
@@ -1989,8 +2010,14 @@ var STRIP = [];
     setTimeout(function(){ window.scrollTo(0, lockY); }, 60);
     setTimeout(function(){ window.scrollTo(0, lockY); }, 380);
   }
-  document.getElementById('typeSheetDone').addEventListener('click', function(){ close(true); });
-  document.getElementById('typeSheetCancel').addEventListener('click', function(){ close(false); });
+  /* buttons act the moment the finger lifts: waiting for the click lets the keyboard start closing first,
+     the page shifts, and the click can miss the button (a known iPhone habit) */
+  function btn(id, ok){
+    var el = document.getElementById(id), viaTouch = 0;
+    el.addEventListener('touchend', function(e){ if(e.cancelable) e.preventDefault(); viaTouch = Date.now(); close(ok); });
+    el.addEventListener('click', function(){ if(Date.now() - viaTouch > 600) close(ok); });
+  }
+  btn('typeSheetDone', true); btn('typeSheetCancel', false);
   sIn.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); close(true); } });
   /* tapping the dim area outside the card just puts the keyboard back on the field */
   sheet.addEventListener('click', function(e){ if(e.target === sheet) sIn.focus(); });
