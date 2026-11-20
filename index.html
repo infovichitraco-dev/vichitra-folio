@@ -10,6 +10,7 @@
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="only light"><!-- stops Samsung Internet / Chrome auto-dark repainting the site -->
 <title>Vichitra Co · Beautifully Strange. Creatively Precise.</title>
 <meta name="description" content="Vichitra Co is a Mumbai creative agency for brand strategy and identity, social media, photography and films, websites and e-commerce, custom software and AI, SEO, performance marketing, creator marketing and sales support.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -947,6 +948,18 @@ nav.scrolled .lines i{background:var(--ink)!important}
 body.menu-open nav{color:#fff!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important}
 body.menu-open nav .lines i{background:#fff!important}
 
+/* nav over dark screens: dark glass + white text, never a grey strip (2026-11-20) */
+nav.scrolled.on-dark{background:rgba(26,17,36,.74);color:#fff;box-shadow:0 1px 0 rgba(255,255,255,.08)}
+nav.scrolled.on-dark .lines i{background:#fff!important}
+/* a full 44px tap target (Apple's minimum), without moving anything */
+.menu-btn{min-height:44px;padding-top:0;padding-bottom:0}
+.overlay{overscroll-behavior:contain}
+@media(max-width:760px){
+  /* open menu: the English meaning sits under the name instead of drifting to the right */
+  .o-link{display:grid;grid-template-columns:26px minmax(0,1fr);column-gap:18px;row-gap:2px;align-items:baseline}
+  .o-link .ann{grid-column:2}
+}
+
 /* ───────────────────────── phones ───────────────────────── */
 @media(max-width:760px){
   .chapter-tag{display:none}
@@ -1178,10 +1191,10 @@ body.static #ctSvg .ct-fly,body.static #ctSvg .ct-letter{display:none}
 
 <nav id="nav">
   <a class="nav-brand" href="index.html">
-    <img src="assets/logo.png" alt="Vichitra Co logo">
+    <img src="assets/logo-192.png" alt="Vichitra Co logo">
     <span>Vichitra Co</span>
   </a>
-  <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="overlay">
     <span id="menuTxt">Menu</span>
     <span class="lines"><i></i><i></i></span>
   </button>
@@ -1756,7 +1769,7 @@ body.static #ctSvg .ct-fly,body.static #ctSvg .ct-letter{display:none}
   <footer>
     <div class="f-grid">
       <div class="f-brand">
-        <img src="assets/logo.png" alt="Vichitra Co">
+        <img src="assets/logo-192.png" alt="Vichitra Co">
         <p>Beautifully Strange. Creatively Precise.</p>
       </div>
       <div class="f-col">
@@ -1787,7 +1800,7 @@ body.static #ctSvg .ct-fly,body.static #ctSvg .ct-letter{display:none}
       </div>
     </div>
     <div class="f-base">
-      <span>© 2026 Vichitra Co · Mumbai</span>
+      <span>© 2026 Vichitra Co · Mumbai · <a href="privacy.html" style="color:inherit;border-bottom:1px solid rgba(255,255,255,.3)">Privacy</a></span>
       <span>Made with love, chai and a little strangeness</span>
     </div>
   </footer>
@@ -1868,16 +1881,15 @@ function inr(v){ return v >= 100000 ? '₹' + (v/100000).toFixed(v % 100000 ? 1 
 
 /* ───────── nav + menu (always on) ───────── */
 var menuBtn = $('#menuBtn'), menuTxt = $('#menuTxt');
-menuBtn.addEventListener('click', function(){
-  document.body.classList.toggle('menu-open');
-  menuTxt.textContent = document.body.classList.contains('menu-open') ? 'Close' : 'Menu';
-});
-$$('.overlay a').forEach(function(a){
-  a.addEventListener('click', function(){
-    document.body.classList.remove('menu-open');
-    menuTxt.textContent = 'Menu';
-  });
-});
+function setMenu(open){
+  document.body.classList.toggle('menu-open', open);
+  menuTxt.textContent = open ? 'Close' : 'Menu';
+  menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+}
+menuBtn.addEventListener('click', function(){ setMenu(!document.body.classList.contains('menu-open')); });
+$$('.overlay a').forEach(function(a){ a.addEventListener('click', function(){ setMenu(false); }); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && document.body.classList.contains('menu-open')) setMenu(false); });
 /* the floating WhatsApp button steps aside while an inline WhatsApp follow-up is on screen (same destination, and on
    phones they would sit on top of each other) */
 function updFloat(){
@@ -1898,10 +1910,50 @@ function updFloat(){
 }
 /* re-check a few times a second too: a scroll can end before the screen's fade has finished */
 setInterval(updFloat, 300);
-window.addEventListener('scroll', function(){
-  $('#nav').classList.toggle('scrolled', window.scrollY > 60);
-  updFloat();
-}, {passive:true});
+window.addEventListener('scroll', updFloat, {passive:true});
+
+/* ───────── nav colour + menu lock (shared logic, 2026-11-20) ───────── */
+(function(){
+  var nav = document.getElementById('nav'); if(!nav) return;
+  var SKIP = '.overlay,.thread,.wa-float,.soon-toast,.type-sheet,.rotate-msg';
+  function lum(c){
+    var m = (c || '').match(/[\d.]+/g); if(!m || m.length < 3) return -1;
+    if(m.length > 3 && +m[3] < .5) return -1;          /* see-through: look at what's behind */
+    return (.2126 * m[0] + .7152 * m[1] + .0722 * m[2]) / 255;
+  }
+  /* what's painted just under the bar decides its colour */
+  function dark(){
+    if(!document.elementsFromPoint) return false;
+    var els = document.elementsFromPoint(window.innerWidth / 2, nav.getBoundingClientRect().bottom + 2);
+    for(var i = 0; i < els.length; i++){
+      var el = els[i]; if(nav.contains(el) || (el.closest && el.closest(SKIP))) continue;
+      while(el && el !== document.documentElement){ var L = lum(getComputedStyle(el).backgroundColor); if(L >= 0) return L < .4; el = el.parentElement; }
+    }
+    return false;
+  }
+  var queued = 0;
+  function upd(){ queued = 0; nav.classList.toggle('scrolled', window.scrollY > 60); nav.classList.toggle('on-dark', dark()); }
+  function ask(){ if(!queued){ queued = 1; requestAnimationFrame(upd); } }
+  window.addEventListener('scroll', ask, {passive:true});
+  window.addEventListener('resize', ask);
+  setInterval(ask, 400);   /* pinned screens change colour while you scroll; this catches the last frame */
+  upd();
+
+  /* open menu: the page behind stays put (touch, wheel and keyboard scroll); the menu itself can still scroll */
+  var lockY = 0;
+  function isOpen(){ return document.body.classList.contains('menu-open'); }
+  new MutationObserver(function(){ if(isOpen()) lockY = window.scrollY; }).observe(document.body, {attributes:true, attributeFilter:['class']});
+  function block(e){
+    if(!isOpen()) return;
+    var ov = e.target.closest && e.target.closest('.overlay');
+    if(ov && ov.scrollHeight > ov.clientHeight + 1) return;
+    if(e.cancelable) e.preventDefault();
+  }
+  document.addEventListener('touchmove', block, {passive:false});
+  document.addEventListener('wheel', block, {passive:false});
+  window.addEventListener('scroll', function(){ if(isOpen() && Math.abs(window.scrollY - lockY) > 1) window.scrollTo(0, lockY); }, {passive:true});
+})();
+
 
 /* ───────── katha calendar cells (built before anything animates) ───────── */
 (function(){
@@ -2046,8 +2098,9 @@ var STRIP = [];
   var toast = $('#soonToast'), txt = $('span', toast), hideT = 0;
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href^="services/"]'); if(!a) return;
-    e.preventDefault();
     var slug = a.getAttribute('href').replace(/^services\/|\.html$/g, '');
+    if(['aarambh','katha','drishti','dwaar','yantra','khoj','vriddhi','sangam','setu'].indexOf(slug) > -1) return;   /* pages that are built open normally */
+    e.preventDefault();
     var name = slug.charAt(0).toUpperCase() + slug.slice(1);
     txt.innerHTML = 'The <b>' + name + '</b> page is coming soon';
     toast.classList.add('on');
@@ -3999,5 +4052,6 @@ chapters.forEach(function(c){
 
 })();
 </script>
+<script src="assets/track.js"></script>
 </body>
 </html>

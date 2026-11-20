@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (GTM-TBXZS9WX) -->
+<script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TBXZS9WX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="only light"><!-- stops Samsung Internet / Chrome auto-dark repainting the site -->
+<title>Drishti · Photography, Films &amp; AI Production | Vichitra Co, Mumbai</title>
+<meta name="description" content="Drishti is Vichitra Co's production service: product, food and brand photography, films and reels, drone shoots, podcasts, motion graphics and AI product imagery, from Mumbai.">
+<link rel="canonical" href="https://vichitraco.com/services/drishti.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Drishti · Photography, Films & AI Production | Vichitra Co">
+<meta property="og:description" content="Photography, films, reels, drone shoots, podcasts and AI imagery, planned around where people will see them.">
+<meta property="og:url" content="https://vichitraco.com/services/drishti.html">
+<meta property="og:image" content="https://vichitraco.com/assets/logo.png">
+<meta name="theme-color" content="#FDFBFE">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,400;1,9..144,560&family=Rozha+One&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[{"@type":"Service","name":"Drishti · Photography, Films & AI Production","serviceType":"Photography, video production and AI imagery","description":"Product, food and brand photography, films and reels, drone shoots, podcast production, motion graphics and AI films and imagery.","provider":{"@type":"Organization","name":"Vichitra Co","url":"https://vichitraco.com/","logo":"https://vichitraco.com/assets/logo.png","email":"namaste@vichitraco.com","address":{"@type":"PostalAddress","addressLocality":"Mumbai","addressCountry":"IN"}},"areaServed":"IN","url":"https://vichitraco.com/services/drishti.html"},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Where do you shoot?","acceptedAnswer":{"@type":"Answer","text":"At a studio, at your place or on location, whatever the brief needs. We plan it with you before the shoot day."}},{"@type":"Question","name":"Do you provide models, props and styling?","acceptedAnswer":{"@type":"Answer","text":"Yes, we can arrange them as part of the plan, or work with your team and products. Everything is agreed before the shoot."}},{"@type":"Question","name":"Are AI images realistic? Is it honest?","acceptedAnswer":{"@type":"Answer","text":"We start from real photos of your real product, so the label, shape and colours stay accurate. We always tell you which images used AI."}},{"@type":"Question","name":"Can you shoot for Amazon and quick-commerce apps?","acceptedAnswer":{"@type":"Answer","text":"Yes. We shoot to each platform’s image rules and deliver the sizes they ask for, along with your website and social crops."}},{"@type":"Question","name":"Can you fly a drone anywhere?","acceptedAnswer":{"@type":"Answer","text":"Not everywhere. Some areas need permission or are no-fly zones. We check the location and plan within the rules before we book anything."}},{"@type":"Question","name":"How much does it cost?","acceptedAnswer":{"@type":"Answer","text":"It depends on the number of shots, the location and the edit. We quote after a short chat. Message us on WhatsApp."}}]}]}
+</script>
+<style>
+/* hero */
+.dr-ap{transform-origin:300px 300px;animation:spin 24s linear infinite}
+.dr-focus{transform-origin:300px 260px;animation:drFocus 3s ease-in-out infinite}
+@keyframes drFocus{0%,100%{transform:scale(1)}45%{transform:scale(.8)}55%{transform:scale(.84)}}
+.dr-strip{animation:drStrip 14s linear infinite}
+@keyframes drStrip{from{transform:translateX(0)}to{transform:translateX(-368px)}}
+
+/* before / after */
+.ba-wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:stretch}
+.ba{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:8/5;background:#ddd;touch-action:pan-y;cursor:ew-resize;user-select:none;-webkit-user-select:none;box-shadow:0 30px 60px -36px rgba(26,17,36,.6)}
+.ba-scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;pointer-events:none}
+.ba-scene.on{opacity:1}
+.ba-raw,.ba-fin{position:absolute;inset:0}
+.ba-raw svg,.ba-fin svg{width:100%;height:100%;display:block}
+.ba-fin{clip-path:inset(0 0 0 var(--p,50%));-webkit-clip-path:inset(0 0 0 var(--p,50%))}
+.ba-tag{position:absolute;top:14px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:6px 11px;border-radius:99px}
+.ba-tag.l{left:14px;background:rgba(26,17,36,.6);color:#fff}
+.ba-tag.r{right:14px;background:var(--grad);color:#fff}
+.ba-line{position:absolute;top:0;bottom:0;left:var(--p,50%);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(26,17,36,.15);pointer-events:none}
+.ba-knob{position:absolute;top:50%;left:var(--p,50%);width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:#fff;box-shadow:0 10px 26px -6px rgba(26,17,36,.5);display:flex;align-items:center;justify-content:center;color:var(--plum);font-size:15px;font-weight:700;letter-spacing:-.05em;touch-action:none;cursor:ew-resize}
+.ba-knob:focus-visible{outline:3px solid var(--orchid);outline-offset:3px}
+.ba-side{display:flex;flex-direction:column;gap:14px}
+.ba-side .panel{flex:1}
+.ba-side h3{font-family:var(--f-display);font-size:24px;font-weight:560;line-height:1.15;margin-top:8px}
+.ba-side ul{list-style:none;margin-top:12px}
+.ba-side li{font-size:13.5px;color:var(--ink-soft);padding:6px 0 6px 20px;position:relative;border-bottom:1px solid var(--line)}
+.ba-side li:last-child{border-bottom:none}
+.ba-side li::before{content:'';position:absolute;left:0;top:13px;width:8px;height:8px;border-radius:50%;background:var(--grad)}
+@media(max-width:900px){
+  .ba-wrap{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .ba{border-radius:16px;aspect-ratio:4/3}
+  .ba-tag{top:10px;font-size:9px;padding:5px 9px}
+  .ba-tag.l{left:10px}.ba-tag.r{right:10px}
+  .ba-knob{width:44px;height:44px;margin:-22px 0 0 -22px}
+}
+</style>
+</head>
+<body>
+
+<div class="thread"></div>
+
+<nav id="nav">
+  <a class="nav-brand" href="../index.html" aria-label="Vichitra Co home">
+    <img src="../assets/logo-192.png" alt="Vichitra Co logo">
+    <span>Vichitra Co</span>
+  </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="overlay">
+    <span id="menuTxt">Menu</span>
+    <span class="lines"><i></i><i></i></span>
+  </button>
+</nav>
+
+<div class="overlay" id="overlay">
+  <p class="o-eyebrow">Vichitra Co · Mumbai</p>
+  <div class="o-links">
+    <a class="o-link" href="../index.html"><span class="num">01</span><h3>Aangan</h3><span class="ann">Home</span></a>
+    <a class="o-link" href="../index.html#b9"><span class="num">02</span><h3>Hamari Katha</h3><span class="ann">Our Story</span></a>
+    <a class="o-link" href="#charcha"><span class="num">03</span><h3>Charcha</h3><span class="ann">Contact</span></a>
+  </div>
+  <div class="o-sub">
+    <a class="o-chip" href="aarambh.html"><b>Aarambh</b><small>Brand &amp; Identity</small></a>
+    <a class="o-chip" href="katha.html"><b>Katha</b><small>Social Media</small></a>
+    <a class="o-chip here" href="drishti.html" aria-current="page"><b>Drishti</b><small>Photo, Film &amp; AI</small></a>
+    <a class="o-chip" href="dwaar.html"><b>Dwaar</b><small>Websites</small></a>
+    <a class="o-chip" href="yantra.html"><b>Yantra</b><small>Software &amp; AI</small></a>
+    <a class="o-chip" href="khoj.html"><b>Khoj</b><small>SEO</small></a>
+    <a class="o-chip" href="vriddhi.html"><b>Vriddhi</b><small>Performance</small></a>
+    <a class="o-chip" href="sangam.html"><b>Sangam</b><small>Creators</small></a>
+    <a class="o-chip" href="setu.html"><b>Setu</b><small>Sales &amp; BD</small></a>
+  </div>
+</div>
+
+<main>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero grain">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="svc-t rv"><span class="sn">03</span>Photography, Films &amp; AI Production</p>
+      <h1 class="rv d1">Drishti<span class="ann">The Vision</span></h1>
+      <p class="lead rv d2">Photos, films and reels planned around where people will actually see them. And when a set is too costly, we build the scene with AI, starting from your real product.</p>
+      <div class="btn-row rv d3">
+        <a class="btn primary" id="ctaHero" href="https://wa.me/918898490531?text=Hi%20Vichitra%20Co%2C%20I%27d%20like%20to%20plan%20a%20shoot%20for%20my%20brand." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
+          Let's plan a shoot
+        </a>
+        <a class="btn ghost" href="#demo">See the difference ↓</a>
+      </div>
+      <p class="scroll-cue rv d4">Light, camera, a little strangeness</p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+<svg viewBox="0 0 600 600">
+        <g fill="none" stroke="#842893" stroke-width="3" stroke-linecap="round">
+          <path class="draw" pathLength="1" d="M 60 120 V 70 H 110"/><path class="draw" pathLength="1" d="M 490 70 H 540 V 120" style="animation-delay:.1s"/>
+          <path class="draw" pathLength="1" d="M 540 400 V 450 H 490" style="animation-delay:.2s"/><path class="draw" pathLength="1" d="M 110 450 H 60 V 400" style="animation-delay:.3s"/>
+        </g>
+        <circle class="fade" cx="92" cy="100" r="7" fill="#EC69B9" style="animation-delay:.6s"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></circle>
+        <text class="fade" x="108" y="105" style="font:700 13px Sora,sans-serif;letter-spacing:.18em;fill:#842893;animation-delay:.6s">REC</text>
+        <text class="fade" x="508" y="105" text-anchor="end" style="font:600 12px Sora,sans-serif;letter-spacing:.14em;fill:#6B5C7E;animation-delay:.7s">4K · 24 FPS</text>
+        <text class="fade" x="300" y="432" text-anchor="middle" style="font:600 12px Sora,sans-serif;letter-spacing:.2em;fill:#6B5C7E;animation-delay:.8s">f/2.8   ·   1/125   ·   ISO 200</text>
+        <circle class="draw" pathLength="1" cx="300" cy="260" r="128" fill="none" stroke="#842893" stroke-width="1.4" opacity=".5" style="animation-delay:.3s"/>
+        <circle class="draw" pathLength="1" cx="300" cy="260" r="104" fill="none" stroke="#C24FB4" stroke-width="10" opacity=".25" style="animation-delay:.45s"/>
+        <g transform="translate(0,-40)"><g class="dr-ap"><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(0 300 300)" fill="#EC69B9" opacity=".9"/><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(60 300 300)" fill="#C24FB4" opacity=".9"/><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(120 300 300)" fill="#842893" opacity=".9"/><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(180 300 300)" fill="#D85BB0" opacity=".9"/><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(240 300 300)" fill="#A63BA4" opacity=".9"/><path d="M 300 300 L 300 214 A 86 86 0 0 1 374.5 257 Z" transform="rotate(300 300 300)" fill="#5B1E7A" opacity=".9"/><circle cx="300" cy="300" r="26" fill="#1A1124"/><circle cx="292" cy="292" r="7" fill="#fff" opacity=".7"/></g></g>
+        <g class="dr-focus"><path d="M 240 190 v -16 h 16 M 344 174 h 16 v 16 M 360 330 v 16 h -16 M 256 346 h -16 v -16" fill="none" stroke="#EC69B9" stroke-width="2.5"/></g>
+        <defs><clipPath id="drClip"><rect x="0" y="-18" width="600" height="90" rx="6"/></clipPath></defs><g transform="translate(0,486)"><rect x="0" y="-18" width="600" height="90" fill="#1A1124" rx="6"/><g clip-path="url(#drClip)"><g class="dr-strip"><rect x="0" y="0" width="80" height="54" rx="4" fill="#F6DDEE"/><rect x="92" y="0" width="80" height="54" rx="4" fill="#E9C7E3"/><rect x="184" y="0" width="80" height="54" rx="4" fill="#F2B8DA"/><rect x="276" y="0" width="80" height="54" rx="4" fill="#EBD3F2"/><rect x="368" y="0" width="80" height="54" rx="4" fill="#F6DDEE"/><rect x="460" y="0" width="80" height="54" rx="4" fill="#E9C7E3"/><rect x="552" y="0" width="80" height="54" rx="4" fill="#F2B8DA"/><rect x="644" y="0" width="80" height="54" rx="4" fill="#EBD3F2"/><rect x="736" y="0" width="80" height="54" rx="4" fill="#F6DDEE"/><rect x="6" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="6" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="36" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="36" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="66" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="66" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="96" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="96" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="126" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="126" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="156" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="156" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="186" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="186" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="216" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="216" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="246" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="246" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="276" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="276" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="306" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="306" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="336" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="336" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="366" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="366" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="396" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="396" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="426" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="426" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="456" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="456" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="486" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="486" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="516" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="516" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="546" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="546" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="576" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="576" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="606" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="606" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="636" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="636" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="666" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="666" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="696" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="696" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="726" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="726" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="756" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="756" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="786" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="786" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="816" y="-12" width="14" height="7" rx="2" fill="#fff" opacity=".7"/><rect x="816" y="59" width="14" height="7" rx="2" fill="#fff" opacity=".7"/></g></g></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ TRY IT ════════ -->
+<section class="sec demo-sec" id="demo">
+  <div class="wrap">
+<div class="demo-head">
+      <div>
+        <p class="eyebrow rv">Try it</p>
+        <h2 class="h-sec rv d1">Same product. <em class="grad-text">Different</em> story.</h2>
+        <p class="lead rv d2">Drag the slider to see the difference between a quick phone photo and a planned shoot. The third one is made with AI, from a plain packshot.</p>
+      </div>
+      <div class="demo-ctrl rv d2">
+        <span class="hint" aria-hidden="true">Drag the circle ↔</span>
+        <div class="seg" role="group" aria-label="Choose a shot" id="dScene">
+          <button type="button" data-k="product" class="on" aria-pressed="true">Product</button><button type="button" data-k="food" aria-pressed="false">Food</button><button type="button" data-k="ai" aria-pressed="false">AI scene</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-board ba-wrap rv">
+      <div class="ba" id="dBa" style="--p:50%">
+        <div class="ba-scene on" data-k="product">
+          <div class="ba-raw"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="800" height="500" fill="#B9B3A6"/><rect y="330" width="800" height="170" fill="#8E8778"/>
+  <path d="M 0 330 L 800 300" stroke="#7C7566" stroke-width="3"/>
+  <rect x="560" y="210" width="90" height="120" rx="10" fill="#D9D3C4"/><path d="M 650 240 q 34 4 30 40 q -4 26 -30 26" fill="none" stroke="#D9D3C4" stroke-width="12"/>
+  <path d="M 90 420 q 60 -60 120 -10 t 120 -20 t 80 30" fill="none" stroke="#3B3B3B" stroke-width="5"/>
+  <rect x="96" y="402" width="40" height="24" rx="4" fill="#E8E8E8"/>
+  <g transform="rotate(-7 400 300)"><rect x="352" y="200" width="96" height="190" rx="18" fill="#9C6A2C"/><rect x="380" y="160" width="40" height="44" rx="6" fill="#2A2A2A"/><rect x="372" y="128" width="56" height="36" rx="12" fill="#333"/>
+  <rect x="362" y="262" width="76" height="70" fill="#E5DED0"/><text x="400" y="303" text-anchor="middle" style="font:600 13px Sora,sans-serif;fill:#555">SERUM</text></g>
+  <ellipse cx="455" cy="245" rx="60" ry="42" fill="#fff" opacity=".55"/>
+  <path d="M 450 392 L 720 470 L 720 500 L 420 500 Z" fill="#000" opacity=".28"/>
+  <rect width="800" height="500" fill="#6B6B4A" opacity=".12"/></svg><span class="ba-tag l">Phone photo</span></div>
+          <div class="ba-fin"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="dpBg" cx=".5" cy=".38" r=".75"><stop offset="0" stop-color="#FFF4EC"/><stop offset=".6" stop-color="#F7D7DF"/><stop offset="1" stop-color="#E7B4CC"/></radialGradient>
+  <linearGradient id="dpGlass" x1="0" x2="1"><stop offset="0" stop-color="#7A3F10"/><stop offset=".35" stop-color="#C88433"/><stop offset=".6" stop-color="#E7A653"/><stop offset="1" stop-color="#6E3A0E"/></linearGradient></defs>
+  <rect width="800" height="500" fill="url(#dpBg)"/>
+  <ellipse cx="400" cy="402" rx="190" ry="20" fill="#B0708F" opacity=".25"/>
+  <circle cx="560" cy="378" r="34" fill="#EFD9D0"/><circle cx="548" cy="368" r="10" fill="#fff" opacity=".6"/>
+  <path d="M 214 396 c 10 -70 70 -110 120 -100 c -40 18 -78 50 -98 104 z" fill="#7FA37A"/><path d="M 224 396 c 22 -46 56 -76 100 -92" fill="none" stroke="#5F8A5A" stroke-width="2"/>
+  <rect x="352" y="204" width="96" height="196" rx="18" fill="url(#dpGlass)"/>
+  <rect x="362" y="214" width="10" height="170" rx="5" fill="#fff" opacity=".35"/>
+  <rect x="380" y="162" width="40" height="46" rx="6" fill="#1A1124"/><rect x="372" y="128" width="56" height="38" rx="12" fill="#2A1C34"/>
+  <rect x="362" y="268" width="76" height="76" fill="#FBF3EA"/><text x="400" y="300" text-anchor="middle" style="font:italic 560 15px Fraunces,Georgia,serif;fill:#7A3F10">Kesar</text>
+  <text x="400" y="320" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.24em;fill:#7A3F10">SERUM</text>
+  <path d="M 400 402 q 90 0 150 -12" stroke="#fff" stroke-width="2" opacity=".4" fill="none"/></svg><span class="ba-tag r">Drishti shoot</span></div>
+        </div>
+        <div class="ba-scene" data-k="food">
+          <div class="ba-raw"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="800" height="500" fill="#C9BE8E"/>
+  <g opacity=".5"><rect x="0" y="0" width="30" height="500" fill="#B54A3A"/><rect x="70" y="0" width="30" height="500" fill="#B54A3A"/><rect x="140" y="0" width="30" height="500" fill="#B54A3A"/><rect x="210" y="0" width="30" height="500" fill="#B54A3A"/><rect x="280" y="0" width="30" height="500" fill="#B54A3A"/><rect x="350" y="0" width="30" height="500" fill="#B54A3A"/><rect x="420" y="0" width="30" height="500" fill="#B54A3A"/><rect x="490" y="0" width="30" height="500" fill="#B54A3A"/><rect x="560" y="0" width="30" height="500" fill="#B54A3A"/><rect x="630" y="0" width="30" height="500" fill="#B54A3A"/><rect x="700" y="0" width="30" height="500" fill="#B54A3A"/><rect x="770" y="0" width="30" height="500" fill="#B54A3A"/><rect x="0" y="0" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="70" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="140" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="210" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="280" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="350" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="420" width="800" height="30" fill="#B54A3A" opacity=".6"/><rect x="0" y="490" width="800" height="30" fill="#B54A3A" opacity=".6"/></g>
+  <circle cx="400" cy="250" r="190" fill="#C8C8C8"/><circle cx="400" cy="250" r="160" fill="#DADADA"/>
+  <ellipse cx="370" cy="250" rx="110" ry="100" fill="#C9772E"/><circle cx="350" cy="230" r="14" fill="#B0652A"/><circle cx="400" cy="270" r="12" fill="#B0652A"/>
+  <rect x="470" y="190" width="90" height="70" rx="20" fill="#D9B27A"/><rect x="480" y="260" width="80" height="60" rx="20" fill="#D4AA70"/>
+  <ellipse cx="430" cy="200" rx="90" ry="55" fill="#fff" opacity=".5"/>
+  <circle cx="160" cy="420" r="5" fill="#8A7A50"/><circle cx="640" cy="90" r="4" fill="#8A7A50"/><circle cx="660" cy="410" r="6" fill="#8A7A50"/>
+  <rect width="800" height="500" fill="#D7C35A" opacity=".18"/></svg><span class="ba-tag l">Phone photo</span></div>
+          <div class="ba-fin"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><radialGradient id="dfL" cx=".55" cy=".4" r=".7"><stop offset="0" stop-color="#5A3A28"/><stop offset="1" stop-color="#1E120C"/></radialGradient>
+  <radialGradient id="dfC" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#F08A2E"/><stop offset="1" stop-color="#B4471A"/></radialGradient></defs>
+  <rect width="800" height="500" fill="url(#dfL)"/>
+  <g opacity=".18" stroke="#000" stroke-width="2"><path d="M 0 40 C 300 30 500 60 800 45"/><path d="M 0 110 C 300 100 500 130 800 115"/><path d="M 0 180 C 300 170 500 200 800 185"/><path d="M 0 250 C 300 240 500 270 800 255"/><path d="M 0 320 C 300 310 500 340 800 325"/><path d="M 0 390 C 300 380 500 410 800 395"/><path d="M 0 460 C 300 450 500 480 800 465"/></g>
+  <ellipse cx="380" cy="282" rx="170" ry="40" fill="#000" opacity=".35"/>
+  <path d="M 230 220 h 300 a 150 70 0 0 1 -300 0 z" fill="#2C2C30"/><ellipse cx="380" cy="220" rx="150" ry="44" fill="#3A3A40"/>
+  <ellipse cx="380" cy="222" rx="132" ry="36" fill="url(#dfC)"/>
+  <circle cx="352" cy="214" r="9" fill="#FFE2A8" opacity=".85"/><circle cx="410" cy="226" r="6" fill="#FFE2A8" opacity=".85"/>
+  <circle cx="330" cy="206" r="3.5" fill="#3E8E3A"/><circle cx="360" cy="230" r="3.5" fill="#3E8E3A"/><circle cx="396" cy="208" r="3.5" fill="#3E8E3A"/><circle cx="424" cy="218" r="3.5" fill="#3E8E3A"/><circle cx="372" cy="214" r="3.5" fill="#3E8E3A"/><circle cx="344" cy="226" r="3.5" fill="#3E8E3A"/><circle cx="408" cy="236" r="3.5" fill="#3E8E3A"/>
+  <path d="M 420 196 l 26 -8 l -4 14 z" fill="#F4F0E0"/>
+  <g fill="#E6B26E"><rect x="560" y="196" width="120" height="74" rx="30"/><rect x="580" y="250" width="120" height="70" rx="30" fill="#D99C55"/></g>
+  <path d="M 584 214 q 30 -12 70 0" stroke="#F6D29C" stroke-width="5" fill="none"/>
+  <rect x="120" y="300" width="70" height="44" rx="8" fill="#F4F0E0" opacity=".9"/><rect x="128" y="290" width="54" height="14" rx="6" fill="#F7E7A0"/>
+  <g fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".35"><path d="M 350 170 c -14 -24 14 -32 0 -60"/><path d="M 390 166 c -14 -26 16 -34 0 -66"/><path d="M 428 172 c -14 -22 12 -30 0 -54"/></g>
+  <ellipse cx="380" cy="120" rx="260" ry="90" fill="#FFB86B" opacity=".08"/></svg><span class="ba-tag r">Drishti shoot</span></div>
+        </div>
+        <div class="ba-scene" data-k="ai">
+          <div class="ba-raw"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="800" height="500" fill="#F4F4F4"/>
+  <ellipse cx="400" cy="398" rx="110" ry="14" fill="#000" opacity=".12"/>
+  <rect x="320" y="170" width="160" height="226" rx="14" fill="#2F6E62"/><ellipse cx="400" cy="170" rx="80" ry="16" fill="#3C8577"/><rect x="320" y="150" width="160" height="26" rx="10" fill="#C99A2E"/>
+  <rect x="340" y="230" width="120" height="100" rx="6" fill="#F3E9D2"/><text x="400" y="272" text-anchor="middle" style="font:italic 560 22px Fraunces,Georgia,serif;fill:#2F6E62">Pahadi</text>
+  <text x="400" y="296" text-anchor="middle" style="font:600 9px Sora,sans-serif;letter-spacing:.26em;fill:#2F6E62">FIRST FLUSH TEA</text>
+  <text x="40" y="470" style="font:600 12px Sora,sans-serif;letter-spacing:.14em;fill:#999">IMG_2041.JPG</text></svg><span class="ba-tag l">Plain packshot</span></div>
+          <div class="ba-fin"><svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="daSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F9C7A6"/><stop offset=".55" stop-color="#F6E3C6"/><stop offset="1" stop-color="#DDE8D6"/></linearGradient></defs>
+  <rect width="800" height="500" fill="url(#daSky)"/>
+  <circle cx="610" cy="150" r="54" fill="#FFE7B8"/><circle cx="610" cy="150" r="90" fill="#FFE7B8" opacity=".35"/>
+  <path d="M 0 300 L 120 210 L 230 270 L 360 170 L 470 260 L 600 190 L 800 290 V 500 H 0 Z" fill="#9DB7A6" opacity=".7"/>
+  <path d="M 0 350 C 140 300 260 330 380 300 C 520 270 640 320 800 300 V 500 H 0 Z" fill="#5F8F6C"/>
+  <path d="M -40 420 C 10 380 60 380 110 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 60 420 C 110 380 160 380 210 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 160 420 C 210 380 260 380 310 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 260 420 C 310 380 360 380 410 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 360 420 C 410 380 460 380 510 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 460 420 C 510 380 560 380 610 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 560 420 C 610 380 660 380 710 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 660 420 C 710 380 760 380 810 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/><path d="M 760 420 C 810 380 860 380 910 420" fill="none" stroke="#3F7350" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 0 440 C 200 400 600 420 800 400 V 500 H 0 Z" fill="#4C7F5A"/>
+  <rect x="0" y="240" width="800" height="40" fill="#fff" opacity=".25"/>
+  <ellipse cx="400" cy="404" rx="120" ry="14" fill="#1F3A28" opacity=".35"/>
+  <rect x="320" y="176" width="160" height="226" rx="14" fill="#2F6E62"/><ellipse cx="400" cy="176" rx="80" ry="16" fill="#3C8577"/><rect x="320" y="156" width="160" height="26" rx="10" fill="#C99A2E"/>
+  <rect x="330" y="186" width="10" height="200" rx="5" fill="#fff" opacity=".2"/>
+  <rect x="340" y="236" width="120" height="100" rx="6" fill="#F3E9D2"/><text x="400" y="278" text-anchor="middle" style="font:italic 560 22px Fraunces,Georgia,serif;fill:#2F6E62">Pahadi</text>
+  <text x="400" y="302" text-anchor="middle" style="font:600 9px Sora,sans-serif;letter-spacing:.26em;fill:#2F6E62">FIRST FLUSH TEA</text>
+  <path d="M 520 380 c 10 -30 40 -40 60 -30 c -26 4 -44 16 -60 30 z" fill="#3F7350"/></svg><span class="ba-tag r">AI scene</span></div>
+        </div>
+        <div class="ba-line"></div>
+        <div class="ba-knob" id="dKnob" role="slider" tabindex="0" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">‹ ›</div>
+      </div>
+      <div class="ba-side">
+        <div class="panel">
+          <span class="lbl" id="dWhatL">What changed</span>
+          <h3 id="dWhatH">Light, angle, backdrop.</h3>
+          <ul id="dWhat"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="demo-foot rv">
+      <p>Illustrations drawn by code to show the idea, not photographs. Our real work is shot with real cameras, lights and people.</p>
+      <a class="wa-cta" id="ctaDemo" href="https://wa.me/918898490531?text=Hi%20Vichitra%20Co%2C%20I%27d%20like%20a%20product%20shoot.%20(Found%20you%20on%20the%20Drishti%20page.)" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
+        <span>Shoot my product like this →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ IS THIS FOR YOU ════════ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow rv">Is this for you?</p>
+    <h2 class="h-sec rv d1">If one of these sounds <em>familiar</em>, we should talk.</h2>
+    <div class="who-grid">
+      <article class="who rv">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg></div>
+        <h3>A premium product, phone photos</h3>
+        <p>The product is beautiful in your hand. In the photo it looks like everything else on the shelf.</p>
+      </article>
+      <article class="who rv d1">
+        <div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.5 12h12L22 7H6.2"/></svg></div>
+        <h3>Selling on marketplaces</h3>
+        <p>Amazon, Flipkart and quick-commerce apps all want clean, consistent images, in their own sizes.</p>
+      </article>
+      <article class="who rv d2">
+        <div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg></div>
+        <h3>Reels every week</h3>
+        <p>Your social plan needs fresh video all the time, and shooting it yourself takes the whole weekend.</p>
+      </article>
+      <article class="who rv d3">
+        <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20L16 8"/><path d="M15 4v3M18 7h3M19 3l-2 2M13 9l2 2"/></svg></div>
+        <h3>A launch, but no budget for a set</h3>
+        <p>You need hero images for a new product, but not a location, a crew and three days of shooting.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ WHAT YOU GET ════════ -->
+<section class="sec dark grain">
+  <div class="wrap">
+    <p class="eyebrow rv">What you get</p>
+    <h2 class="h-sec rv d1">Everything a camera can do, <em class="grad-text">and then some.</em></h2>
+    <p class="lead rv d2">One team plans, shoots, edits and delivers, so the photos, films and reels all look like the same brand.</p>
+    <div class="get-grid rv">
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l2-3h4l2 3"/><circle cx="12" cy="13.5" r="3.5"/></svg></div><span class="no">01</span>
+        <h3>Photography</h3><ul><li>Product, food and lifestyle</li><li>People, teams and spaces</li><li>Marketplace-ready white backgrounds</li></ul></div>
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4"/></svg></div><span class="no">02</span>
+        <h3>Films & reels</h3><ul><li>Brand films and ad films</li><li>Reels and shorts, cut for each platform</li><li>Scripts, storyboards and shot lists</li></ul></div>
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><rect x="9" y="9.5" width="6" height="5" rx="1.5"/><path d="M7 8l2 2M17 8l-2 2M7 16l2-2M17 16l-2-2"/></svg></div><span class="no">03</span>
+        <h3>Drone shoots</h3><ul><li>Aerials for property, events and spaces</li><li>Planned around local flying rules</li><li>Stills and video from the same flight</li></ul></div>
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div><span class="no">04</span>
+        <h3>Podcasts</h3><ul><li>Set-up, recording and editing</li><li>Video podcast with multiple cameras</li><li>Clips cut for reels and shorts</li></ul></div>
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><path d="M4 20L16 8"/><path d="M15 4v3M18 7h3M19 3l-2 2M13 9l2 2"/></svg></div><span class="no">05</span>
+        <h3>AI films & imagery</h3><ul><li>Product scenes without a set</li><li>Made from your real product photos</li><li>Always labelled clearly as AI</li></ul></div>
+      <div class="get"><div class="gi"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></svg></div><span class="no">06</span>
+        <h3>Motion graphics</h3><ul><li>Animated logos and titles</li><li>Explainer videos</li><li>Product animations for ads</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ HOW WE WORK ════════ -->
+<section class="sec">
+  <div class="wrap">
+    <p class="eyebrow rv">How we work</p>
+    <h2 class="h-sec rv d1">Four steps, <em>zero</em> guesswork.</h2>
+    <div class="steps">
+      <div class="step rv"><div class="dot">1</div><h3>Chai pe charcha</h3><p>What are the photos and videos for? A website, ads, a menu, a launch? That decides everything else.</p></div>
+      <div class="step rv d1"><div class="dot">2</div><h3>Plan</h3><p>Moodboard, shot list, location, props and people. You approve the plan before the shoot day.</p></div>
+      <div class="step rv d2"><div class="dot">3</div><h3>Shoot or build</h3><p>A planned shoot day, or an AI build from your real product photos. Often a mix of both.</p></div>
+      <div class="step rv d3"><div class="dot">4</div><h3>Edit & deliver</h3><p>Colour, retouching and cuts for every platform, in the sizes each one needs.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ SAMPLE WORK ════════ -->
+<section class="sec tight" id="work">
+  <div class="wrap">
+    <p class="eyebrow rv">Sample work</p>
+    <h2 class="h-sec rv d1">How we <em>plan</em> a shoot, shown on three made-up briefs.</h2>
+    <span class="concept-note rv d2">Concepts made to show our process. These are not client projects.</span>
+    <div class="cases">
+
+      <article class="case rv">
+        <div class="art" style="background:#FFF4EC">
+<svg viewBox="0 0 480 360" aria-hidden="true">
+            <rect x="40" y="30" width="250" height="300" rx="10" fill="#F7D7DF"/>
+            <ellipse cx="165" cy="282" rx="80" ry="10" fill="#B0708F" opacity=".3"/>
+            <rect x="135" y="150" width="60" height="130" rx="12" fill="#C88433"/><rect x="149" y="122" width="32" height="32" rx="5" fill="#1A1124"/>
+            <rect x="141" y="192" width="48" height="48" fill="#FBF3EA"/><text x="165" y="221" text-anchor="middle" style="font:italic 560 11px Fraunces,Georgia,serif;fill:#7A3F10">Kesar</text>
+            <rect x="306" y="30" width="134" height="140" rx="10" fill="#fff" stroke="#E8DCEB"/><rect x="346" y="62" width="54" height="80" rx="9" fill="#C88433"/><rect x="358" y="46" width="30" height="20" rx="4" fill="#1A1124"/>
+            <text x="373" y="160" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#6B5C7E">WHITE · MARKETPLACE</text>
+            <rect x="306" y="186" width="134" height="144" rx="10" fill="#7A3F10"/><circle cx="373" cy="246" r="30" fill="#E7A653"/><path d="M 340 300 q 33 -20 66 0" stroke="#F7D7DF" stroke-width="3" fill="none"/>
+            <text x="373" y="322" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#F7D7DF">TEXTURE · CLOSE-UP</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="kind">Concept · Skincare launch</span>
+          <h3>Kesar Serum</h3>
+          <h4>The brief</h4><p>A new saffron face serum needs images for its website, Amazon listing and launch ads, all in one shoot.</p>
+          <h4>The idea</h4><p>One set, three looks: a warm hero shot, a clean white marketplace shot and macro textures. Planned so one day covers every channel.</p>
+          <div class="pal"><i style="background:#C88433"></i><i style="background:#F7D7DF"></i><i style="background:#7A3F10"></i><i style="background:#FBF3EA"></i><i style="background:#1A1124"></i></div>
+          <div class="made"><span>Shot list</span><span>Hero shots</span><span>Marketplace set</span><span>Texture close-ups</span><span>Ad crops</span></div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="art" style="background:#F0E4DA">
+<svg viewBox="0 0 480 360" aria-hidden="true">
+            <rect width="480" height="360" fill="#2A1A12"/>
+            <rect x="30" y="30" width="140" height="140" rx="8" fill="#3A251A"/><circle cx="100" cy="96" r="44" fill="#2C2C30"/><circle cx="100" cy="96" r="36" fill="#E07B2A"/><text x="100" y="160" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">PAV BHAJI</text><rect x="170" y="30" width="140" height="140" rx="8" fill="#4A2E1E"/><circle cx="240" cy="96" r="44" fill="#2C2C30"/><circle cx="240" cy="96" r="36" fill="#F2C14E"/><text x="240" y="160" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">KHICHDI</text><rect x="310" y="30" width="140" height="140" rx="8" fill="#3A251A"/><circle cx="380" cy="96" r="44" fill="#2C2C30"/><circle cx="380" cy="96" r="36" fill="#B4471A"/><text x="380" y="160" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">MISAL</text><rect x="30" y="190" width="140" height="140" rx="8" fill="#4A2E1E"/><circle cx="100" cy="256" r="44" fill="#2C2C30"/><circle cx="100" cy="256" r="36" fill="#E9D9B0"/><text x="100" y="320" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">FALOODA</text><rect x="170" y="190" width="140" height="140" rx="8" fill="#3A251A"/><circle cx="240" cy="256" r="44" fill="#2C2C30"/><circle cx="240" cy="256" r="36" fill="#7FA37A"/><text x="240" y="320" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">PANKI</text><rect x="310" y="190" width="140" height="140" rx="8" fill="#4A2E1E"/><circle cx="380" cy="256" r="44" fill="#2C2C30"/><circle cx="380" cy="256" r="36" fill="#C24F3A"/><text x="380" y="320" text-anchor="middle" style="font:600 8px Sora,sans-serif;letter-spacing:.16em;fill:#E9D9B0">TANDOOR</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="kind">Concept · Restaurant menu</span>
+          <h3>The Monsoon Menu</h3>
+          <h4>The brief</h4><p>A restaurant is launching a seasonal menu and needs photos for its printed menu, Zomato and Swiggy, and Instagram.</p>
+          <h4>The idea</h4><p>Dark, warm tables and steam you can almost smell. Every dish shot top-down for the apps and at 45° for the menu, on the same afternoon.</p>
+          <div class="pal"><i style="background:#2A1A12"></i><i style="background:#E07B2A"></i><i style="background:#F2C14E"></i><i style="background:#7FA37A"></i><i style="background:#E9D9B0"></i></div>
+          <div class="made"><span>Styling</span><span>Menu photos</span><span>Delivery-app set</span><span>Reels</span><span>Behind the scenes</span></div>
+        </div>
+      </article>
+
+      <article class="case rv">
+        <div class="art" style="background:#E6EFE8">
+<svg viewBox="0 0 480 360" aria-hidden="true">
+            <rect width="480" height="360" fill="#1A1124"/>
+            <rect x="30" y="60" width="96" height="170" rx="10" fill="#2F6E62"/><text x="78" y="250" text-anchor="middle" style="font:600 8.5px Sora,sans-serif;letter-spacing:.14em;fill:#fff;opacity:.7">0–3s HOOK</text><rect x="138" y="60" width="96" height="170" rx="10" fill="#5F8F6C"/><text x="186" y="250" text-anchor="middle" style="font:600 8.5px Sora,sans-serif;letter-spacing:.14em;fill:#fff;opacity:.7">3–8s PROCESS</text><rect x="246" y="60" width="96" height="170" rx="10" fill="#C99A2E"/><text x="294" y="250" text-anchor="middle" style="font:600 8.5px Sora,sans-serif;letter-spacing:.14em;fill:#fff;opacity:.7">8–12s PRODUCT</text><rect x="354" y="60" width="96" height="170" rx="10" fill="#842893"/><text x="402" y="250" text-anchor="middle" style="font:600 8.5px Sora,sans-serif;letter-spacing:.14em;fill:#fff;opacity:.7">12–15s CTA</text>
+            <rect x="72" y="118" width="12" height="40" rx="3" fill="#F3E9D2"/><circle cx="186" cy="140" r="22" fill="#9DB7A6"/><rect x="288" y="106" width="40" height="66" rx="6" fill="#2F6E62"/><text x="402" y="150" text-anchor="middle" style="font:italic 560 16px Fraunces,Georgia,serif;fill:#fff">Order</text>
+            <rect x="30" y="290" width="420" height="6" rx="3" fill="#3A2A4A"/><rect x="30" y="290" width="250" height="6" rx="3" fill="#EC69B9"/>
+            <text x="30" y="40" style="font:600 10px Sora,sans-serif;letter-spacing:.2em;fill:#EC69B9">STORYBOARD · 15s REEL</text>
+          </svg>
+        </div>
+        <div class="info">
+          <span class="kind">Concept · AI product film</span>
+          <h3>Pahadi Tea</h3>
+          <h4>The brief</h4><p>A small tea brand wants a launch reel showing its tea in the hills where it grows, without the cost of a trip.</p>
+          <h4>The idea</h4><p>Shoot the real tin in a studio, then build the hills, mist and sunrise around it with AI. A 15-second reel, storyboarded second by second.</p>
+          <div class="pal"><i style="background:#2F6E62"></i><i style="background:#C99A2E"></i><i style="background:#F3E9D2"></i><i style="background:#5F8F6C"></i><i style="background:#F9C7A6"></i></div>
+          <div class="made"><span>Storyboard</span><span>Studio packshots</span><span>AI scenes</span><span>15s reel</span><span>Labelled as AI</span></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FAQ ════════ -->
+<section class="sec tight">
+  <div class="wrap">
+    <p class="eyebrow rv">Questions</p>
+    <h2 class="h-sec rv d1">Things people <em>usually</em> ask.</h2>
+    <div class="faq rv">
+      <details><summary>Where do you shoot?</summary><p class="a">At a studio, at your place or on location, whatever the brief needs. We plan it with you before the shoot day.</p></details>
+      <details><summary>Do you provide models, props and styling?</summary><p class="a">Yes, we can arrange them as part of the plan, or work with your team and products. Everything is agreed before the shoot.</p></details>
+      <details><summary>Are AI images realistic? Is it honest?</summary><p class="a">We start from real photos of your real product, so the label, shape and colours stay accurate. We always tell you which images used AI.</p></details>
+      <details><summary>Can you shoot for Amazon and quick-commerce apps?</summary><p class="a">Yes. We shoot to each platform’s image rules and deliver the sizes they ask for, along with your website and social crops.</p></details>
+      <details><summary>Can you fly a drone anywhere?</summary><p class="a">Not everywhere. Some areas need permission or are no-fly zones. We check the location and plan within the rules before we book anything.</p></details>
+      <details><summary>How much does it cost?</summary><p class="a">It depends on the number of shots, the location and the edit. We quote after a short chat. Message us on WhatsApp.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ NEXT ════════ -->
+<section class="next-sec dark grain">
+  <div class="wrap">
+    <p class="eyebrow rv">Looking good? Next up</p>
+    <h2 class="h-sec rv d1">Now give it a <em class="grad-text">home.</em></h2>
+    <div class="next-grid">
+      <a class="next-card rv" href="dwaar.html"><span class="n">04</span><h3>Dwaar</h3><p>Websites &amp; e-commerce</p><span class="go">Explore →</span></a>
+      <a class="next-card rv d1" href="katha.html"><span class="n">02</span><h3>Katha</h3><p>Social media &amp; content</p><span class="go">Explore →</span></a>
+      <a class="next-card rv d2" href="vriddhi.html"><span class="n">07</span><h3>Vriddhi</h3><p>Performance marketing</p><span class="go">Explore →</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CHARCHA ════════ -->
+<section class="closer grain" id="charcha">
+  <div class="wrap">
+    <p class="eyebrow rv" style="justify-content:center">Say hello</p>
+    <h2 class="h-sec rv d1">Chai pe <span class="grad-text">charcha?</span></h2>
+    <p class="lead rv d2">Tell us what you want people to see. We’ll bring the chai and a shot list.</p>
+    <div class="btn-row rv d3">
+      <a class="btn primary" id="ctaEnd" href="https://wa.me/918898490531?text=Hi%20Vichitra%20Co%2C%20I%27d%20like%20to%20talk%20about%20a%20shoot%20(Drishti)." target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
+        WhatsApp us
+      </a>
+      <a class="btn ghost" href="mailto:namaste@vichitraco.com?subject=Drishti%20%C2%B7%20enquiry">Send an email</a>
+    </div>
+    <a class="mail rv" href="mailto:namaste@vichitraco.com">namaste@vichitraco.com</a>
+  </div>
+
+  <footer>
+    <div class="f-grid">
+      <div class="f-brand">
+        <img src="../assets/logo-192.png" alt="Vichitra Co">
+        <p>Beautifully Strange. Creatively Precise.</p>
+      </div>
+      <div class="f-col">
+        <h4>Pages</h4>
+        <a href="../index.html">Home</a>
+        <a href="../index.html#b9">Hamari Katha<small>Our Story</small></a>
+        <a href="#charcha">Charcha<small>Contact</small></a>
+      </div>
+      <div class="f-col">
+        <h4>Services</h4>
+        <div class="svc-grid">
+          <a href="aarambh.html">Aarambh<small>Brand</small></a>
+          <a href="katha.html">Katha<small>Social</small></a>
+          <a href="drishti.html">Drishti<small>Photo &amp; Film</small></a>
+          <a href="dwaar.html">Dwaar<small>Websites</small></a>
+          <a href="yantra.html">Yantra<small>Software &amp; AI</small></a>
+          <a href="khoj.html">Khoj<small>SEO</small></a>
+          <a href="vriddhi.html">Vriddhi<small>Ads</small></a>
+          <a href="sangam.html">Sangam<small>Creators</small></a>
+          <a href="setu.html">Setu<small>Sales &amp; BD</small></a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Reach Us</h4>
+        <a href="https://wa.me/918898490531?text=Namaste%20Vichitra%20Co!%20I%20found%20you%20through%20your%20website%20and%20would%20love%20to%20talk." target="_blank" rel="noopener">WhatsApp</a>
+        <a href="mailto:namaste@vichitraco.com">namaste@vichitraco.com</a>
+        <a href="https://www.instagram.com/vichitraco/" target="_blank" rel="noopener">Instagram<small>@vichitraco</small></a>
+      </div>
+    </div>
+    <div class="f-base">
+      <span>© 2026 Vichitra Co · Mumbai · <a href="../privacy.html" style="color:inherit;border-bottom:1px solid rgba(255,255,255,.3)">Privacy</a></span>
+      <span>Made with love, chai and a little strangeness</span>
+    </div>
+  </footer>
+</section>
+
+</main>
+
+<div class="soon-toast" id="soonToast" role="status" aria-live="polite"><i></i><span></span></div>
+<a class="wa-float" id="waFloat" aria-label="Chat on WhatsApp" href="https://wa.me/918898490531?text=Hi%20Vichitra%20Co%2C%20I%27d%20like%20to%20talk%20about%20a%20shoot%20(Drishti)." target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm5.1 13.7c-.2.6-1.2 1.1-1.7 1.2-.4 0-1 .2-3.4-.7-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.4.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.8 1.7.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3 0 .1 0 .8-.3 1.4z"/></svg>
+</a>
+
+<script src="../assets/site.js"></script>
+<script>
+/* ───────── Drishti: before / after slider ───────── */
+(function(){
+  'use strict';
+  var $ = VC.$, $$ = VC.$$;
+  var ba = $('#dBa'), knob = $('#dKnob'), pos = 50, scene = 'product', played = false, touched = false, sweepTok = 0;
+  /* any touch, click or key stops the intro sweep, so it never fights the visitor's hand */
+  var userHand = false;
+  function stopSweep(){ sweepTok++; played = true; userHand = true; }
+  var WHAT = {
+    product:{h:'Light, angle, backdrop.', li:['Soft light from one side, so the glass glows','Straight angle and a clean, seamless backdrop','Props that hint at what’s inside','Shot for the website, Amazon and Instagram in one go'], msg:'a product shoot'},
+    food:{h:'Warmth, steam, mood.', li:['No phone flash: warm light from a window side','A dark table so the colours pop','Garnish and steam, styled in the moment','Top-down and 45° angles for menus and delivery apps'], msg:'a food shoot for my menu'},
+    ai:{h:'A real product, an imagined place.', li:['Starts from a real photo of the real product','The label, shape and colours stay exactly right','A new scene without a location, crew or travel','We tell you which images used AI, every time'], msg:'AI product images'}
+  };
+  function set(p){
+    pos = Math.max(0, Math.min(100, p));
+    ba.style.setProperty('--p', pos + '%');
+    knob.setAttribute('aria-valuenow', Math.round(pos));
+  }
+  function fromX(x){ var r = ba.getBoundingClientRect(); set((x - r.left) / r.width * 100); }
+
+  /* drag anywhere on the picture; vertical swipes still scroll the page (touch-action: pan-y) */
+  var dragging = false;
+  ba.addEventListener('pointerdown', function(e){
+    dragging = true; touched = true; stopSweep();
+    /* a finger landing on the picture may be the start of a page scroll, so only jump on a mouse click or the knob */
+    if(e.pointerType === 'mouse' || e.target === knob) fromX(e.clientX);
+    if(e.target === knob && knob.setPointerCapture) knob.setPointerCapture(e.pointerId);
+    offerCta();
+  });
+  window.addEventListener('pointermove', function(e){ if(dragging) fromX(e.clientX); });
+  window.addEventListener('pointerup', function(){ dragging = false; });
+  window.addEventListener('pointercancel', function(){ dragging = false; });
+  knob.addEventListener('keydown', function(e){
+    var k = e.key;
+    if(k === 'ArrowLeft' || k === 'ArrowDown'){ set(pos - 5); e.preventDefault(); }
+    else if(k === 'ArrowRight' || k === 'ArrowUp'){ set(pos + 5); e.preventDefault(); }
+    else if(k === 'Home'){ set(0); e.preventDefault(); }
+    else if(k === 'End'){ set(100); e.preventDefault(); }
+    else return;
+    touched = true; stopSweep(); offerCta();
+  });
+
+  function paintWhat(){
+    var w = WHAT[scene], ul = $('#dWhat'); ul.textContent = '';
+    $('#dWhatH').textContent = w.h;
+    w.li.forEach(function(t){ var li = document.createElement('li'); li.textContent = t; ul.appendChild(li); });
+  }
+  $$('#dScene button').forEach(function(b){
+    b.addEventListener('click', function(){
+      scene = b.getAttribute('data-k');
+      $$('#dScene button').forEach(function(x){ var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+      $$('.ba-scene', ba).forEach(function(s){ s.classList.toggle('on', s.getAttribute('data-k') === scene); });
+      paintWhat(); touched = true; sweep(); offerCta();
+    });
+  });
+
+  /* a gentle sweep the first time the slider comes into view, so people see it moves */
+  function sweep(){
+    var keys = [[0,50],[700,22],[1500,78],[2200,50]], t0 = null, tok = ++sweepTok;
+    function step(t){
+      if(t0 === null) t0 = t;
+      var e = t - t0, i = 0;
+      while(i < keys.length - 1 && e > keys[i+1][0]) i++;
+      if(tok !== sweepTok) return;
+      if(i >= keys.length - 1){ set(50); return; }
+      var a = keys[i], b = keys[i+1], k = (e - a[0]) / (b[0] - a[0]);
+      k = k < .5 ? 2*k*k : 1 - Math.pow(-2*k + 2, 2) / 2;
+      set(a[1] + (b[1] - a[1]) * k);
+      if(!dragging) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ if(es[0].isIntersecting && !played){ played = true; io.disconnect(); setTimeout(function(){ if(!userHand) sweep(); }, 400); } }, {threshold:.6});
+    io.observe(ba);
+  }
+
+  var ctaT = 0;
+  function offerCta(){
+    clearTimeout(ctaT);
+    ctaT = setTimeout(function(){
+      var m = WHAT[scene].msg;
+      VC.setCta($('#ctaDemo'), scene === 'ai' ? 'Make AI images of my product →' : scene === 'food' ? 'Shoot my menu like this →' : 'Shoot my product like this →',
+        "Hi Vichitra Co, I'd like " + m + '. (Found you on the Drishti page.)', true);
+    }, 500);
+  }
+  paintWhat();
+})();
+</script>
+<script src="../assets/track.js"></script>
+</body>
+</html>
