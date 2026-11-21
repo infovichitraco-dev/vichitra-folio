@@ -15,7 +15,9 @@
 (function(){
   'use strict';
   var dl = window.dataLayer = window.dataLayer || [];
-  function send(name, params){ try { var o = {event:name}; for(var k in params) o[k] = params[k]; dl.push(o); } catch(e){} }
+  /* GTM keeps the last value of every key, so each event clears the ones it doesn't use (else a section_view would carry an old "method: whatsapp") */
+  var KEYS = ['method','service','placement','section','section_name','section_index','tab_name'];
+  function send(name, params){ try { var o = {event:name}; KEYS.forEach(function(k){ o[k] = undefined; }); for(var k in params) o[k] = params[k]; dl.push(o); } catch(e){} }
 
   var path = location.pathname;
   var pageService = (path.match(/\/services\/([a-z]+)\.html/) || [])[1] || '';
